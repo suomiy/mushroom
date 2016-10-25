@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
-import cz.fi.muni.pa165.dao.ForestDao;
 import cz.fi.muni.pa165.entity.Forest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
