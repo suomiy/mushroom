@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.Month;
 
 /**
- * Created by "Michal Kysilko" on 26.10.16.
+ * Created by Michal Kysilko on 26.10.16.
  */
 
 @Entity

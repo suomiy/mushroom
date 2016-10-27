@@ -14,7 +14,7 @@ import java.util.List;
 
 
 /**
- * Created by "Michal Kysilko" on 26.10.16.
+ * Created by Michal Kysilko on 26.10.16.
  */
 
 @Repository
