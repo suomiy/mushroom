@@ -13,18 +13,11 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne
     private Hunter hunter;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne
     private Forest forest;
-
-    @ElementCollection
-    @CollectionTable(name = "Visits",
-            joinColumns = @JoinColumn(name = "visit_id"))
-    @MapKeyJoinColumn(name = "mushroom_id")
-    @Column(name = "count")
-    private Map<Mushroom,Integer> mushroomCount;
 
     @Column(nullable = true, unique = false, length = 256)
     private String note;
@@ -32,8 +25,12 @@ public class Visit {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @OrderBy("mushroom.name")
+    private Set<MushroomCount> mushroomsCount = new TreeSet<>();
+
     public Visit(){
-        this.mushroomCount = new HashMap<Mushroom,Integer>();
+
     }
 
     public Long getId() {
@@ -64,14 +61,6 @@ public class Visit {
         this.date = date;
     }
 
-    public Map<Mushroom, Integer> getMushroomCount() {
-        return Collections.unmodifiableMap(mushroomCount);
-    }
-
-    public void setMushroomCount(Map<Mushroom, Integer> mushroomCount) {
-        this.mushroomCount = mushroomCount;
-    }
-
     public String getNote() {
         return note;
     }
@@ -80,35 +69,16 @@ public class Visit {
         this.note = note;
     }
 
-    public Map<Mushroom, Integer> getMushrooms() {
-        return mushroomCount;
+    public Set<MushroomCount> getMushroomsCount() {
+        return Collections.unmodifiableSet(mushroomsCount);
     }
 
-    public void setMushrooms(Map<Mushroom, Integer> map) {
-        mushroomCount = map;
+    public void addMushroomCount(MushroomCount mushroomCount){
+        this.mushroomsCount.add(mushroomCount);
     }
 
-    public void addMushroom(Mushroom mushroom) {
-        if(!this.mushroomCount.containsKey(mushroom)) {
-            this.mushroomCount.put(mushroom, 1);
-        } else {
-            this.mushroomCount.put(mushroom,
-                    this.mushroomCount.get(mushroom) + 1);
-        }
-
-        mushroom.addVisit(this);
-    }
-
-    public void removeMushroom(Mushroom mushroom) {
-        this.mushroomCount.remove(mushroom);
-        mushroom.removeVisit(this);
-    }
-
-    public void removeAllMushrooms() {
-        for (Mushroom key : this.mushroomCount.keySet()) {
-            key.removeVisit(this);
-        }
-        this.mushroomCount.clear();
+    public void removeMushroomCount(MushroomCount mushroomCount){
+        this.mushroomsCount.remove(mushroomCount);
     }
 
     @Override
@@ -121,6 +91,7 @@ public class Visit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (o == null) return false;
         if (!(o instanceof Visit)) return false;
 
         Visit other = (Visit) o;

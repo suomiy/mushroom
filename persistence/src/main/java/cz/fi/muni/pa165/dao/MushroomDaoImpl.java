@@ -18,7 +18,6 @@ import java.util.List;
  */
 
 @Repository
-@Transactional
 public class MushroomDaoImpl implements MushroomDao {
 
     @PersistenceContext
