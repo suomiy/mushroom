@@ -16,7 +16,6 @@ import java.util.List;
  */
 
 @Repository
-@Transactional
 public class ForestDaoImpl implements ForestDao {
 
     @PersistenceContext
