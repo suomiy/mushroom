@@ -1,7 +1,10 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * @author Jiří Šácha 409861
@@ -13,25 +16,21 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Hunter hunter;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Forest forest;
 
-    @Column(nullable = true, unique = false, length = 256)
     private String note;
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date date;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("mushroom.name")
-    private Set<MushroomCount> mushroomsCount = new TreeSet<>();
-
-    public Visit(){
-
-    }
+    private SortedSet<MushroomCount> mushroomsCount = new TreeSet<>();
 
     public Long getId() {
         return id;
@@ -69,36 +68,37 @@ public class Visit {
         this.note = note;
     }
 
-    public Set<MushroomCount> getMushroomsCount() {
-        return Collections.unmodifiableSet(mushroomsCount);
+    public SortedSet<MushroomCount> getMushroomsCount() {
+        return Collections.unmodifiableSortedSet(mushroomsCount);
     }
 
-    public void addMushroomCount(MushroomCount mushroomCount){
+    public void addMushroomCount(MushroomCount mushroomCount) {
+        mushroomCount.setVisit(this);
         this.mushroomsCount.add(mushroomCount);
     }
 
-    public void removeMushroomCount(MushroomCount mushroomCount){
+    public void removeMushroomCount(MushroomCount mushroomCount) {
         this.mushroomsCount.remove(mushroomCount);
     }
 
     @Override
-    public int hashCode() {
-        int result = getHunter().hashCode();
-        result = 31 * result + getForest().hashCode();
-        result = 31 * result + getDate().hashCode();
-        return result;
-    }
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
         if (!(o instanceof Visit)) return false;
 
-        Visit other = (Visit) o;
+        Visit visit = (Visit) o;
 
-        if (!getHunter().equals(other.getHunter())) return false;
-        if (!getForest().equals(other.getForest())) return false;
-        return getDate().equals(other.getDate());
+        if (hunter != null ? !hunter.equals(visit.hunter) : visit.hunter != null) return false;
+        if (forest != null ? !forest.equals(visit.forest) : visit.forest != null) return false;
+        return date != null ? date.equals(visit.date) : visit.date == null;
 
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hunter != null ? hunter.hashCode() : 0;
+        result = 31 * result + (forest != null ? forest.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
     }
 }
