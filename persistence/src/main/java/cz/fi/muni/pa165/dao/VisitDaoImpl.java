@@ -38,8 +38,7 @@ public class VisitDaoImpl implements VisitDao {
      * @param visit the visit to be put into DB
      */
     @Override
-    public void create(Visit visit)
-    {
+    public void create(Visit visit) {
         em.persist(visit);
     }
 
@@ -49,8 +48,7 @@ public class VisitDaoImpl implements VisitDao {
      * @param visit Visit in Dadatabase, which will be updated
      */
     @Override
-    public void update(Visit visit)
-    {
+    public void update(Visit visit) {
         em.merge(visit);
     }
 

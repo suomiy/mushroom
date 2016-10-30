@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Erik Macej 433744 , on 23.10.16.
@@ -16,8 +15,7 @@ public class Forest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(name = "locality_description")
@@ -49,14 +47,23 @@ public class Forest {
 
     @Override
     public boolean equals(Object o) {
-
-        if(this == o){ return true; }
-        if(o == null){ return false; }
-        if(!(o instanceof Forest)){ return false; }
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof Forest)) {
+            return false;
+        }
 
         Forest other = (Forest) o;
-        if(name == null && other.getName() != null){ return false; }
-        if(!name.equals(other.getName())){ return false; }
+        if (name == null && other.getName() != null) {
+            return false;
+        }
+        if (!name.equals(other.getName())) {
+            return false;
+        }
         return true;
 
     }

@@ -8,34 +8,47 @@ import javax.persistence.*;
  * @author Erik Macej 433744
  */
 @Entity
-public class MushroomCount {
+public class MushroomCount implements Comparable<MushroomCount> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Mushroom mushroom;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Visit visit;
 
-    @Column
     private int count;
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Mushroom getMushroom() { return mushroom; }
+    public Mushroom getMushroom() {
+        return mushroom;
+    }
 
-    public void setMushroom(Mushroom mushroom) { this.mushroom = mushroom; }
+    public void setMushroom(Mushroom mushroom) {
+        this.mushroom = mushroom;
+    }
 
-    public Visit getVisit() { return visit; }
+    public Visit getVisit() {
+        return visit;
+    }
 
-    public void setVisit(Visit visit) { this.visit = visit; }
+    public void setVisit(Visit visit) {
+        this.visit = visit;
+    }
 
-    public int getCount() { return count; }
+    public int getCount() {
+        return count;
+    }
 
-    public void setCount(int count) { this.count = count; }
+    public void setCount(int count) {
+        this.count = count;
+    }
 
 
     @Override
@@ -61,8 +74,19 @@ public class MushroomCount {
     }
 
     @Override
+    public int compareTo(MushroomCount mushroomCount) {
+        Mushroom otherShroom = mushroomCount.mushroom;
+
+        if (mushroom == null || otherShroom == null) {
+            return mushroom == null ? (otherShroom == null ? 0 : -1) : 1;
+        }
+
+        return mushroom.compareTo(otherShroom);
+    }
+
+    @Override
     public String toString() {
-        return "MushroomFound{" +
+        return "MushroomCount{" +
                 "id=" + id +
                 ", mushroom=" + mushroom +
                 ", visit=" + visit +
