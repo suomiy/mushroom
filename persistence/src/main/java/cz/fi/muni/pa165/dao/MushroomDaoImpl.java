@@ -1,9 +1,9 @@
 package cz.fi.muni.pa165.dao;
 
+import cz.fi.muni.pa165.entity.Mushroom;
+import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.enums.MushroomType;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import cz.fi.muni.pa165.entity.Mushroom;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,13 +29,13 @@ public class MushroomDaoImpl implements MushroomDao {
     }
 
     @Override
-    public void edit(Mushroom mushroom) {
-        em.merge(mushroom);
+    public Mushroom update(Mushroom mushroom) {
+        return em.merge(mushroom);
     }
 
     @Override
     public Mushroom findById(Long id) {
-        return em.find(Mushroom.class,id);
+        return em.find(Mushroom.class, id);
     }
 
     @Override
@@ -74,13 +74,13 @@ public class MushroomDaoImpl implements MushroomDao {
         List<Mushroom> allMushrooms = findAll();
         List<Mushroom> resultList = new ArrayList<>();
 
-        for(Mushroom oneMushroom : allMushrooms) {
-            if(oneMushroom.getFromDate().getValue() <= month.getValue()
+        for (Mushroom oneMushroom : allMushrooms) {
+            if (oneMushroom.getFromDate().getValue() <= month.getValue()
                     && oneMushroom.getToDate().getValue() >= month.getValue()) {
                 resultList.add(oneMushroom);
             }
         }
-        return  resultList;
+        return resultList;
     }
 
 

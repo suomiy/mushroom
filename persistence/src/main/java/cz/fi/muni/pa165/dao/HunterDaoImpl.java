@@ -27,8 +27,8 @@ public class HunterDaoImpl implements HunterDao {
     }
 
     @Override
-    public void update(Hunter hunter) {
-        em.merge(hunter);
+    public Hunter update(Hunter hunter) {
+        return em.merge(hunter);
     }
 
     @Override

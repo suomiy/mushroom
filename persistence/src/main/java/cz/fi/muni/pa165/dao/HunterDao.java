@@ -22,7 +22,7 @@ public interface HunterDao {
      *
      * @param hunter hunter
      */
-    void update(Hunter hunter);
+    Hunter update(Hunter hunter);
 
     /**
      * Deletes hunter from Database.
