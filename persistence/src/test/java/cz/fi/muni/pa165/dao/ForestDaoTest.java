@@ -120,7 +120,7 @@ public class ForestDaoTest extends AbstractTestNGSpringContextTests {
         editedForest.setName("Dark Forest");
         editedForest.setLocalityDescription("Dark locality");
 
-        forestDao.edit(editedForest);
+        forestDao.update(editedForest);
 
         Forest loadedForest = forestDao.findById(forest1.getId());
 

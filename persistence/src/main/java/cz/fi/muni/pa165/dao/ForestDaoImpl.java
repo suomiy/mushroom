@@ -27,8 +27,8 @@ public class ForestDaoImpl implements ForestDao {
     }
 
     @Override
-    public void edit(Forest forest) {
-        em.merge(forest);
+    public Forest update(Forest forest) {
+        return em.merge(forest);
     }
 
     @Override

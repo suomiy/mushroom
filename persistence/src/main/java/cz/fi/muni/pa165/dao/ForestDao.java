@@ -15,33 +15,33 @@ public interface ForestDao {
      * Creates entity forest
      * @param forest
      */
-    public void create(Forest forest);
+    void create(Forest forest);
 
     /**
      * Edit entity forest
      * @param forest
      */
-    public void edit(Forest forest);
+    Forest update(Forest forest);
 
     /**
      * Finds entity forest by given id
      * @param id
      * @return Searched entity or null if entity doesn't found
      */
-    public Forest findById(Long id);
+    Forest findById(Long id);
 
     /**
      * Remove entity from databbase
      * @param forest
      * @throws IllegalArgumentException - if the forest is not an entity or is a detached entity
      */
-    public void delete(Forest forest) throws IllegalArgumentException;
+    void delete(Forest forest) throws IllegalArgumentException;
 
     /**
      * Finds all entities
      * @return - list of all saved entities
      */
-    public List<Forest> findAll();
+    List<Forest> findAll();
 
     /**
      * Finds forest by given name
