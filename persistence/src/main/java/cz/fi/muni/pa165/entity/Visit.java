@@ -101,4 +101,16 @@ public class Visit {
         result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "id=" + id +
+                ", hunter=" + hunter.getNick() +
+                ", forest=" + forest.getName() +
+                ", note='" + note + '\'' +
+                ", date=" + date +
+                ", mushroomsCount=" + mushroomsCount +
+                '}';
+    }
 }

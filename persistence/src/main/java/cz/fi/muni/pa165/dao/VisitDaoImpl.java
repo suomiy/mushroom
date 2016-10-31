@@ -1,13 +1,12 @@
 package cz.fi.muni.pa165.dao;
 
-import cz.fi.muni.pa165.entity.Forest;
-import cz.fi.muni.pa165.entity.Hunter;
-import cz.fi.muni.pa165.entity.Mushroom;
-import cz.fi.muni.pa165.entity.Visit;
+import cz.fi.muni.pa165.entity.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class VisitDaoImpl implements VisitDao {
      */
     @Override
     public List<Visit> findAll() {
-        return em.createQuery("select vis from Visit vis",
+        return em.createQuery("select v from Visit v",
                 Visit.class).getResultList();
     }
 
@@ -80,10 +79,9 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given forest
      */
     public List<Visit> findByForest(Forest forest) {
-
-        throw new UnsupportedOperationException();
+            return em.createQuery("select v from Visit v where forest = :forest",
+                    Visit.class).setParameter("forest", forest).getResultList();
     }
-
 
     /**
      * Find all visits for given hunter.
@@ -92,10 +90,9 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given hunter
      */
     public List<Visit> findByHunter(Hunter hunter) {
-
-        throw new UnsupportedOperationException();
+            return em.createQuery("select v from Visit v where hunter = :hunter",
+                    Visit.class).setParameter("hunter", hunter).getResultList();
     }
-
 
     /**
      * Find all visits for given mushroom.
@@ -105,7 +102,17 @@ public class VisitDaoImpl implements VisitDao {
      */
     public List<Visit> findByMushroom(Mushroom mushroom) {
 
-        throw new UnsupportedOperationException();
+        List<Visit> visits = findAll();
+        List<Visit> resultList = new ArrayList<>();
+
+        for(Visit v : visits) {
+            for(MushroomCount mc : v.getMushroomsCount()) {
+                if(mc.getMushroom().equals(mushroom)) {
+                    resultList.add(v);
+                }
+            }
+        }
+        return resultList;
     }
 
     /**
@@ -115,8 +122,7 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given date
      */
     public List<Visit> findByDate(Date date) {
-
-        throw new UnsupportedOperationException();
+            return em.createQuery("select v from Visit v where date = :date",
+                    Visit.class).setParameter("date", date).getResultList();
     }
-
 }
