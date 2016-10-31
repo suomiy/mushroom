@@ -47,8 +47,8 @@ public class VisitDaoImpl implements VisitDao {
      * @param visit Visit in Dadatabase, which will be updated
      */
     @Override
-    public void update(Visit visit) {
-        em.merge(visit);
+    public Visit update(Visit visit) {
+        return em.merge(visit);
     }
 
     /**
