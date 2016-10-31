@@ -93,11 +93,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    @Transactional
     public void createVisitTest(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();
@@ -119,11 +119,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Transactional
     public void findByIdVisitTest(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();
@@ -142,11 +142,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    @Transactional
     public void deleteVisitTest(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();
@@ -163,11 +163,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Transactional
     public void updateVisitTest(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.persist(forest2);
@@ -192,11 +192,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Transactional
     public void findByHunter(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();
@@ -216,11 +216,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Transactional
     public void findByForest(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.persist(forest2);
@@ -233,11 +233,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Transactional
     public void findByMushroom(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();
@@ -257,11 +257,11 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    @Transactional
     public void findByDate(){
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
+        m.persist(mushroom);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();

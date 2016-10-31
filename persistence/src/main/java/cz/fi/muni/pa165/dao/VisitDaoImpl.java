@@ -6,11 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-<<<<<<< HEAD
-=======
-import javax.transaction.Transactional;
 import java.util.ArrayList;
->>>>>>> e8df2d7... VisitDaoImpl, VisitDaoTestImpl fix
 import java.util.Date;
 import java.util.List;
 
@@ -83,12 +79,8 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given forest
      */
     public List<Visit> findByForest(Forest forest) {
-        try {
             return em.createQuery("select v from Visit v where forest = :forest",
                     Visit.class).setParameter("forest", forest).getResultList();
-        } catch (NoResultException nrf) {
-            return null;
-        }
     }
 
     /**
@@ -98,12 +90,8 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given hunter
      */
     public List<Visit> findByHunter(Hunter hunter) {
-        try {
             return em.createQuery("select v from Visit v where hunter = :hunter",
                     Visit.class).setParameter("hunter", hunter).getResultList();
-        } catch (NoResultException nrf) {
-            return null;
-        }
     }
 
     /**
@@ -134,11 +122,7 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given date
      */
     public List<Visit> findByDate(Date date) {
-        try {
             return em.createQuery("select v from Visit v where date = :date",
                     Visit.class).setParameter("date", date).getResultList();
-        } catch (NoResultException nrf) {
-            return null;
-        }
     }
 }

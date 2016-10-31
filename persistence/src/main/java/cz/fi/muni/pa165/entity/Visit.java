@@ -106,8 +106,8 @@ public class Visit {
     public String toString() {
         return "Visit{" +
                 "id=" + id +
-                ", hunter=" + hunter +
-                ", forest=" + forest +
+                ", hunter=" + hunter.getNick() +
+                ", forest=" + forest.getName() +
                 ", note='" + note + '\'' +
                 ", date=" + date +
                 ", mushroomsCount=" + mushroomsCount +
