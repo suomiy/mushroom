@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.Mushroom;
-import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.enums.MushroomType;
 import org.springframework.stereotype.Repository;
 
@@ -82,6 +81,4 @@ public class MushroomDaoImpl implements MushroomDao {
         }
         return resultList;
     }
-
-
 }
