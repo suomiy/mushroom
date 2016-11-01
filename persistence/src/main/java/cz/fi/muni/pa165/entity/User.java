@@ -9,8 +9,8 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "\"User\"")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "PortalUser")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
 
     @Id

@@ -4,19 +4,15 @@ import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
@@ -24,13 +20,8 @@ import java.util.List;
 @org.springframework.transaction.annotation.Transactional
 public class HunterDaoTest extends AbstractTestNGSpringContextTests {
 
-
     @Inject
     private HunterDao hunterDao;
-
-    @PersistenceContext
-    private EntityManager em;
-
 
     private Hunter fullInfo;
     private Hunter neededInfo;
@@ -47,7 +38,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
         setData();
     }
 
-    private void createObjects(){
+    private void createObjects() {
         fullInfo = new Hunter();
         neededInfo = new Hunter();
 
@@ -58,7 +49,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
         missingRole = new Hunter();
     }
 
-    private void setData(){
+    private void setData() {
         fullInfo.setSurname("Dobrota");
         fullInfo.setFirstName("Arnost");
         fullInfo.setNick("dobrak_arnie");
@@ -111,12 +102,10 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(h.getPasswordHash(), "abcde");
         Assert.assertEquals(h.getRank(), Rank.BEGINNER);
         Assert.assertEquals(h.getType(), Role.USER);
-
-        em.flush();
     }
 
     @Test
-    public void createNeededInfo(){
+    public void createNeededInfo() {
         hunterDao.create(neededInfo);
 
         Hunter h = hunterDao.findById(neededInfo.getId());
@@ -153,7 +142,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void delete(){
+    public void delete() {
         hunterDao.create(fullInfo);
         hunterDao.create(neededInfo);
         hunterDao.delete(fullInfo);
@@ -162,7 +151,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void update(){
+    public void update() {
         hunterDao.create(neededInfo);
         fullInfo.setId(neededInfo.getId());
 
@@ -184,7 +173,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findById(){
+    public void findById() {
 
         hunterDao.create(fullInfo);
         hunterDao.create(neededInfo);
@@ -194,7 +183,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findByEmail(){
+    public void findByEmail() {
         //Assert.assertNull(hunterDao.findById(1L));
 
         hunterDao.create(fullInfo);
@@ -208,7 +197,7 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findAll(){
+    public void findAll() {
         List<Hunter> lh = hunterDao.findAll();
         Assert.assertEquals(lh.size(), 0);
 
@@ -223,6 +212,5 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
         hunterDao.delete(neededInfo);
         lh = hunterDao.findAll();
         Assert.assertEquals(lh.size(), 1);
-
     }
 }

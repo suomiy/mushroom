@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class ForestDaoImpl implements ForestDao {
 
     @Override
     public Forest findById(Long id) {
-        return em.find(Forest.class,id);
+        return em.find(Forest.class, id);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class ForestDaoImpl implements ForestDao {
     public Forest findByName(String name) {
         try {
             return em.createQuery("select f from Forest f where name = :name",
-                            Forest.class).setParameter("name", name).getSingleResult();
+                    Forest.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException nrf) {
             return null;
         }
