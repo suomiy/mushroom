@@ -3,7 +3,7 @@ package cz.fi.muni.pa165.entity;
 import cz.fi.muni.pa165.enums.MushroomType;
 
 import javax.persistence.*;
-import java.time.Month;
+import java.util.Date;
 
 /**
  * Created by "Michal Kysilko" on 26.10.16.
@@ -23,11 +23,11 @@ public class Mushroom implements Comparable<Mushroom> {
     @Column(nullable = false)
     private MushroomType type;
 
-    @Enumerated(EnumType.STRING)
-    private Month fromDate;
+    @Temporal(TemporalType.DATE)
+    private Date fromDate;
 
-    @Enumerated(EnumType.STRING)
-    private Month toDate;
+    @Temporal(TemporalType.DATE)
+    private Date toDate;
 
     private String description;
 
@@ -55,19 +55,19 @@ public class Mushroom implements Comparable<Mushroom> {
         this.type = type;
     }
 
-    public Month getFromDate() {
+    public Date getFromDate() {
         return this.fromDate;
     }
 
-    public void setFromDate(Month fromDate) {
+    public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
 
-    public Month getToDate() {
+    public Date getToDate() {
         return this.toDate;
     }
 
-    public void setToDate(Month toDate) {
+    public void setToDate(Date toDate) {
         this.toDate = toDate;
     }
 

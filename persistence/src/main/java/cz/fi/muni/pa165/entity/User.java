@@ -9,11 +9,12 @@ import javax.persistence.*;
  */
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "\"User\"")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -31,7 +32,7 @@ public abstract class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role type = Role.USER;
+    private Role type;
 
     public Long getId() {
         return id;

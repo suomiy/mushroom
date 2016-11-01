@@ -16,7 +16,7 @@ public class Hunter extends User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Rank rank = Rank.BEGINNER;
+    private Rank rank;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "hunter", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Visit> visits = new HashSet<>();
