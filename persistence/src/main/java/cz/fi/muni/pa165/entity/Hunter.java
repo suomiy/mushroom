@@ -3,9 +3,7 @@ package cz.fi.muni.pa165.entity;
 import cz.fi.muni.pa165.enums.Rank;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Filip Krepinsky (410022) on 10/29/16
@@ -19,7 +17,7 @@ public class Hunter extends User {
     private Rank rank;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "hunter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Visit> visits = new HashSet<>();
+    private List<Visit> visits = new ArrayList<>();
 
     public Rank getRank() {
         return rank;
@@ -29,8 +27,8 @@ public class Hunter extends User {
         this.rank = rank;
     }
 
-    public Set<Visit> getVisits() {
-        return Collections.unmodifiableSet(visits);
+    public List<Visit> getVisits() {
+        return Collections.unmodifiableList(visits);
     }
 
     public void removeVisit(Visit visit) {

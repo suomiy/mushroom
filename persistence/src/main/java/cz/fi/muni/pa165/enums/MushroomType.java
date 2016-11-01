@@ -6,5 +6,6 @@ package cz.fi.muni.pa165.enums;
 public enum MushroomType {
     EDIBLE,
     NONEDIBLE,
-    POISONOUS
+    POISONOUS,
+    PSYCHEDELIC
 }

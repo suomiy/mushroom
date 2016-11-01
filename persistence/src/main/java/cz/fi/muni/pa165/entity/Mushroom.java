@@ -1,9 +1,11 @@
 package cz.fi.muni.pa165.entity;
 
+import cz.fi.muni.pa165.dao.MushroomDaoImpl;
 import cz.fi.muni.pa165.enums.MushroomType;
 
 import javax.persistence.*;
-import java.time.Month;
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -24,11 +26,11 @@ public class Mushroom implements Comparable<Mushroom> {
     @Column(nullable = false)
     private MushroomType type;
 
-    @Enumerated(EnumType.STRING)
-    private Month fromDate;
+    @Temporal(TemporalType.DATE)
+    private Date fromDate;
 
-    @Enumerated(EnumType.STRING)
-    private Month toDate;
+    @Temporal(TemporalType.DATE)
+    private Date toDate;
 
     private String description;
 
@@ -56,20 +58,63 @@ public class Mushroom implements Comparable<Mushroom> {
         this.type = type;
     }
 
-    public Month getFromDate() {
-        return this.fromDate;
+    public Date getFromDate() {
+        return new Date(this.fromDate.getTime());
     }
 
-    public void setFromDate(Month fromDate) {
-        this.fromDate = fromDate;
+    /**
+     * Sets this date which is exclusive to the interval, doesn't use the Time of the object,
+     * <p>
+     * This method also recalculates toDate of this object
+     *
+     * @param fromDate date object (Month and Day are used only)
+     */
+    public void setFromDate(Date fromDate) {
+        Date result = null;
+
+        if (fromDate != null) {
+            Calendar fromCalendar = Calendar.getInstance();
+            fromCalendar.setTime(fromDate);
+            fromCalendar.set(Calendar.YEAR, MushroomDaoImpl.BASE_YEAR);
+
+            result = fromCalendar.getTime();
+        }
+
+        this.fromDate = result;
+
+        if (this.toDate != null) { // update
+            setToDate(this.toDate);
+        }
     }
 
-    public Month getToDate() {
-        return this.toDate;
+    public Date getToDate() {
+        return new Date(this.toDate.getTime());
     }
 
-    public void setToDate(Month toDate) {
-        this.toDate = toDate;
+    /**
+     * Sets this date which is exclusive to the interval, doesn't use the Time of the object,
+     *
+     * @param toDate date object (Month and Day are used only)
+     */
+    public void setToDate(Date toDate) {
+        Date result = null;
+
+        if (toDate != null) {
+            Calendar toCalendar = Calendar.getInstance();
+            toCalendar.setTime(toDate);
+            toCalendar.set(Calendar.YEAR, MushroomDaoImpl.BASE_YEAR);
+
+            if (this.fromDate != null) {
+                Calendar fromCalendar = Calendar.getInstance();
+                fromCalendar.setTime(this.fromDate);
+                if (toCalendar.compareTo(fromCalendar) < 0) {
+                    toCalendar.add(Calendar.YEAR, 1);
+                }
+            }
+            result = toCalendar.getTime();
+        }
+
+        this.toDate = result;
     }
 
     public String getDescription() {

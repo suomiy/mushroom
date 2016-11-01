@@ -14,7 +14,8 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.Month;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,8 +69,12 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
         dangerousFullInfoShroom.setName("Mochomurka");
         dangerousFullInfoShroom.setType(MushroomType.POISONOUS);
         dangerousFullInfoShroom.setDescription("This shroom is red and pretty.");
-        dangerousFullInfoShroom.setFromDate(Month.FEBRUARY);
-        dangerousFullInfoShroom.setToDate(Month.NOVEMBER);
+        Calendar from = Calendar.getInstance();
+        Calendar to = Calendar.getInstance();
+        from.set(2016, Calendar.FEBRUARY, 1);
+        to.set(2016, Calendar.NOVEMBER, 30);
+        dangerousFullInfoShroom.setFromDate(from.getTime());
+        dangerousFullInfoShroom.setToDate(to.getTime());
 
         unknownNameShroom.setType(MushroomType.NONEDIBLE);
 
@@ -95,8 +100,8 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(persisted.getName(), "Mochomurka");
         Assert.assertEquals(persisted.getType(), MushroomType.POISONOUS);
         Assert.assertEquals(persisted.getDescription(), "This shroom is red and pretty.");
-        Assert.assertEquals(persisted.getFromDate(), Month.FEBRUARY);
-        Assert.assertEquals(persisted.getToDate(), Month.NOVEMBER);
+        Assert.assertNotNull(persisted.getFromDate());
+        Assert.assertNotNull(persisted.getToDate());
     }
 
     @Test(expectedExceptions = Exception.class)
@@ -125,16 +130,22 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
         mushroomDao.create(edibleShroom);
 
         dangerousFullInfoShroom.setId(edibleShroom.getId());
-        mushroomDao.update(dangerousFullInfoShroom);
-        Mushroom persisted = mushroomDao.findById(dangerousFullInfoShroom.getId());
+        Mushroom persisted = mushroomDao.update(dangerousFullInfoShroom);
 
+        em.flush();
 
         Assert.assertEquals(persisted.getName(), "Mochomurka");
         Assert.assertEquals(persisted.getType(), MushroomType.POISONOUS);
         Assert.assertEquals(persisted.getDescription(), "This shroom is red and pretty.");
-        Assert.assertEquals(persisted.getFromDate(), Month.FEBRUARY);
-        Assert.assertEquals(persisted.getToDate(), Month.NOVEMBER);
+        Assert.assertNotNull(persisted.getFromDate());
+        Assert.assertNotNull(persisted.getToDate());
 
+        mushroomDao.create(duplicateEdibleShroom);
+        mushroomDao.update(dangerousFullInfoShroom);
+
+        Assert.assertEquals(duplicateEdibleShroom.getName(), "Hribek");
+        Assert.assertEquals(duplicateEdibleShroom.getType(), MushroomType.EDIBLE);
+        Assert.assertEquals(mushroomDao.findAll().size(), 2);
     }
 
     @Test
@@ -206,36 +217,127 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByDate() {
+        Calendar from = Calendar.getInstance();
+        Calendar to = Calendar.getInstance();
+        from.set(2016, Calendar.JUNE, 25);
+        to.set(2016, Calendar.AUGUST, 1);
+
         mushroomDao.create(dangerousFullInfoShroom);
 
-        edibleShroom.setFromDate(Month.JUNE);
-        edibleShroom.setToDate(Month.AUGUST);
+        edibleShroom.setFromDate(from.getTime());
+        edibleShroom.setToDate(to.getTime());
         mushroomDao.create(edibleShroom);
 
-        List<Mushroom> shrooms = mushroomDao.findByDate(Month.FEBRUARY);
+        Calendar fromSearch = Calendar.getInstance();
+        Calendar toSearch = Calendar.getInstance();
+
+        fromSearch.set(2016, Calendar.JANUARY, 31);
+        toSearch.set(2016, Calendar.NOVEMBER, 30);
+        List<Mushroom> shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 0);
+
+        fromSearch.set(2016, Calendar.FEBRUARY, 1);
+        toSearch.set(2016, Calendar.DECEMBER, 1);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 0);
+
+        fromSearch.set(2016, Calendar.FEBRUARY, 1);
+        toSearch.set(2016, Calendar.NOVEMBER, 30);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 1);
 
-        shrooms = mushroomDao.findByDate(Month.JUNE);
+        fromSearch.set(2016, Calendar.JUNE, 25);
+        toSearch.set(2016, Calendar.AUGUST, 1);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 2);
 
-        shrooms = mushroomDao.findByDate(Month.AUGUST);
+        fromSearch.set(2016, Calendar.JULY, 15);
+        toSearch.set(2016, Calendar.JULY, 15);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 2);
 
-        shrooms = mushroomDao.findByDate(Month.NOVEMBER);
+        fromSearch.set(2016, Calendar.AUGUST, 2);
+        toSearch.set(2016, Calendar.NOVEMBER, 30);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 1);
 
-        shrooms = mushroomDao.findByDate(Month.DECEMBER);
+        fromSearch.set(2016, Calendar.AUGUST, 2);
+        toSearch.set(2016, Calendar.NOVEMBER, 31);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 0);
 
         edibleShroom.setToDate(null);
-
-        shrooms = mushroomDao.findByDate(Month.JUNE);
+        fromSearch.set(2016, Calendar.JUNE, 25);
+        toSearch.set(2016, Calendar.AUGUST, 1);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 1);
 
         edibleShroom.setFromDate(null);
-
-        shrooms = mushroomDao.findByDate(Month.JUNE);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
         Assert.assertEquals(shrooms.size(), 1);
 
+        edibleShroom.setToDate(to.getTime());
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 1);
+
+        to.set(2016, Calendar.JULY, 20);
+        edibleShroom.setToDate(to.getTime());
+        from.set(2016, Calendar.NOVEMBER, 1);
+        edibleShroom.setFromDate(from.getTime());
+        fromSearch.set(2016, Calendar.NOVEMBER, 1);
+        toSearch.set(2016, Calendar.JULY, 20);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 1);
+
+        fromSearch.set(2016, Calendar.JANUARY, 1);
+        toSearch.set(2016, Calendar.JULY, 20);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 1);
+
+        shrooms = mushroomDao.findByDate(toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 2);
+
+        from.set(2016, Calendar.FEBRUARY, 29);
+        edibleShroom.setFromDate(from.getTime());
+        to.set(2016, Calendar.MARCH, 2);
+        edibleShroom.setToDate(to.getTime());
+        fromSearch.set(2016, Calendar.FEBRUARY, 29);
+        toSearch.set(2016, Calendar.MARCH, 2);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 2);
+
+        fromSearch.set(2016, Calendar.FEBRUARY, 28);
+        toSearch.set(2016, Calendar.MARCH, 2);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 1);
+
+        fromSearch.set(2016, Calendar.FEBRUARY, 29);
+        toSearch.set(2016, Calendar.MARCH, 3);
+        shrooms = mushroomDao.findByDate(fromSearch.getTime(), toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 1);
+
+        toSearch.set(2016, Calendar.MARCH, 2);
+        shrooms = mushroomDao.findByDate(toSearch.getTime());
+        Assert.assertEquals(shrooms.size(), 2);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsOne() {
+        mushroomDao.findByDate(null, new Date());
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsTwo() {
+        mushroomDao.findByDate(new Date(), null);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsThree() {
+        mushroomDao.findByDate(null, null);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsFour() {
+        mushroomDao.findByDate(null);
     }
 }

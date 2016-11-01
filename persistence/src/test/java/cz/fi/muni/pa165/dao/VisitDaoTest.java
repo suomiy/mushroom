@@ -10,17 +10,16 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 /**
@@ -33,17 +32,11 @@ import java.util.List;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class VisitDaoTest extends AbstractTestNGSpringContextTests {
 
-    @Autowired
-    private VisitDao VisitDao;
+    @Inject
+    private VisitDao visitDao;
 
-    @Autowired
-    private ForestDao ForestDao;
-
-    @Autowired
-    private MushroomDao MushroomDao;
-
-    @Autowired
-    private HunterDao HunterDao;
+    @Inject
+    private MushroomCountDao mushroomCountDao;
 
     @PersistenceContext
     private EntityManager em;
@@ -52,11 +45,13 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     private EntityManagerFactory emf;
 
     private Visit visit;
+    private Visit basicVisit;
     private Hunter hunter;
     private Forest forest;
     private Forest forest2;
     private MushroomCount mc;
     private Mushroom mushroom;
+    private Mushroom mushroom2;
 
     @BeforeMethod
     public void setup() {
@@ -65,7 +60,9 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         forest2 = new Forest();
         hunter = new Hunter();
         mushroom = new Mushroom();
+        mushroom2 = new Mushroom();
         visit = new Visit();
+        basicVisit = new Visit();
         mc = new MushroomCount();
 
         forest.setLocalityDescription("unknown");
@@ -76,6 +73,9 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
 
         mushroom.setName("champignon");
         mushroom.setType(MushroomType.EDIBLE);
+
+        mushroom2.setName("psilocybin");
+        mushroom2.setType(MushroomType.PSYCHEDELIC);
 
         mc.setMushroom(mushroom);
         mc.setVisit(visit);
@@ -93,6 +93,10 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         visit.setForest(forest);
         visit.addMushroomCount(mc);
         visit.setDate(new Date());
+
+        basicVisit.setHunter(hunter);
+        basicVisit.setForest(forest);
+        basicVisit.setDate(new Date());
     }
 
 
@@ -107,7 +111,7 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
+        visitDao.create(visit);
 
         List<Visit> listVisit = em.createQuery("select v from Visit v", Visit.class)
                 .getResultList();
@@ -133,8 +137,8 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
-        Visit dbVisit = VisitDao.findById(visit.getId());
+        visitDao.create(visit);
+        Visit dbVisit = visitDao.findById(visit.getId());
 
         Assert.assertEquals(dbVisit.getId(),visit.getId());
         Assert.assertEquals(dbVisit.getForest().getId(),forest.getId());
@@ -156,9 +160,9 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
-        Visit dbVisit = VisitDao.findById(visit.getId());
-        VisitDao.delete(dbVisit);
+        visitDao.create(visit);
+        Visit dbVisit = visitDao.findById(visit.getId());
+        visitDao.delete(dbVisit);
         List<Visit> list = em.createQuery("select v from Visit v", Visit.class)
                 .getResultList();
 
@@ -178,9 +182,9 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
+        visitDao.create(visit);
         visit.setForest(forest2);
-        VisitDao.update(visit);
+        visitDao.update(visit);
 
         List<Visit> listVisit = em.createQuery("select v from Visit v", Visit.class)
                 .getResultList();
@@ -206,8 +210,8 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
-        List <Visit> dbListVisit = VisitDao.findByHunter(hunter);
+        visitDao.create(visit);
+        List <Visit> dbListVisit = visitDao.findByHunter(hunter);
         if (dbListVisit.size() != 1) { Assert.fail();}
         Visit dbVisit = dbListVisit.get(0);
 
@@ -231,8 +235,8 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
-        List <Visit> dbListVisit = VisitDao.findByForest(forest2);
+        visitDao.create(visit);
+        List <Visit> dbListVisit = visitDao.findByForest(forest2);
         if (dbListVisit.size() != 0) {Assert.fail();}
     }
 
@@ -247,8 +251,8 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
-        List <Visit> dbListVisit = VisitDao.findByMushroom(mushroom);
+        visitDao.create(visit);
+        List <Visit> dbListVisit = visitDao.findByMushroom(mushroom);
         if (dbListVisit.size() != 1) {Assert.fail();}
         Visit dbVisit = dbListVisit.get(0);
 
@@ -271,8 +275,8 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.getTransaction().commit();
         m.close();
 
-        VisitDao.create(visit);
-        List <Visit> dbListVisit = VisitDao.findByDate(visit.getDate());
+        visitDao.create(visit);
+        List <Visit> dbListVisit = visitDao.findByDate(visit.getDate());
         if (dbListVisit.size() != 1) {Assert.fail();}
         Visit dbVisit = dbListVisit.get(0);
 
@@ -282,5 +286,52 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
         Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
                 new java.sql.Date(visit.getDate().getTime()).toString());
+    }
+
+    @Test
+    public void testMushroomCountCRUD() {
+        EntityManager m = emf.createEntityManager();
+        m.getTransaction().begin();
+        m.persist(mushroom);
+        m.persist(mushroom2);
+        m.persist(hunter);
+        m.persist(forest);
+        m.getTransaction().commit();
+        m.close();
+
+        MushroomCount mushroomCount = new MushroomCount();
+        mushroomCount.setMushroom(mushroom);
+        mushroomCount.setCount(1);
+
+        MushroomCount mushroomCount2 = new MushroomCount();
+        mushroomCount2.setMushroom(mushroom2);
+        mushroomCount2.setCount(2);
+
+        basicVisit.addMushroomCount(mushroomCount);
+        basicVisit.addMushroomCount(mushroomCount2);
+        visitDao.create(basicVisit);
+
+        List<MushroomCount> mushroomCountList = mushroomCountDao.findAll();
+
+        Assert.assertEquals(basicVisit.getMushroomsCount().size(), 2);
+        Assert.assertEquals(mushroomCountList.size(), 2);
+        Assert.assertTrue(mushroomCountList.contains(mushroomCount));
+        Assert.assertTrue(mushroomCountList.contains(mushroomCount2));
+
+        mushroomCount2.setCount(5);
+
+        mushroomCountList = mushroomCountDao.findAll();
+
+        MushroomCount updated = mushroomCountList.get(mushroomCountList.indexOf(mushroomCount2));
+        Assert.assertEquals(updated.getCount(), 5);
+
+        basicVisit.removeMushroomCount(mushroomCount2);
+
+        mushroomCountList = mushroomCountDao.findAll();
+
+        Assert.assertEquals(basicVisit.getMushroomsCount().size(), 1);
+        Assert.assertEquals(mushroomCountList.size(), 1);
+        Assert.assertTrue(mushroomCountList.contains(mushroomCount));
+        Assert.assertTrue(!mushroomCountList.contains(mushroomCount2));
     }
 }

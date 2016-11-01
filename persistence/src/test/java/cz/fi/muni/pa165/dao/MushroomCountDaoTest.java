@@ -17,7 +17,6 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.Month;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
     private MushroomCount mushroomCount2;
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         prepareForest();
         prepareHunter();
         prepareMushroom();
@@ -68,13 +67,13 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
         prepareVisit();
     }
 
-    private void prepareForest(){
+    private void prepareForest() {
         forest = new Forest();
         forest.setName("Forest");
         forestDao.create(forest);
     }
 
-    private void prepareHunter(){
+    private void prepareHunter() {
         hunter = new Hunter();
         hunter.setFirstName("Jozef");
         hunter.setSurname("Straka");
@@ -87,24 +86,24 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
         hunterDao.create(hunter);
     }
 
-    private void prepareMushroom(){
+    private void prepareMushroom() {
         mushroom1 = new Mushroom();
         mushroom1.setName("Dubak");
         mushroom1.setType(MushroomType.EDIBLE);
-        mushroom1.setFromDate(Month.JANUARY);
-        mushroom1.setToDate(Month.FEBRUARY);
+        mushroom1.setFromDate(new Date());
+        mushroom1.setToDate(new Date());
 
         mushroom2 = new Mushroom();
         mushroom2.setName("Kozak");
         mushroom2.setType(MushroomType.EDIBLE);
-        mushroom2.setFromDate(Month.JANUARY);
-        mushroom2.setToDate(Month.FEBRUARY);
+        mushroom2.setFromDate(new Date());
+        mushroom2.setToDate(new Date());
 
         mushroomDao.create(mushroom1);
         mushroomDao.create(mushroom2);
     }
 
-    private void prepareMushroomCount(){
+    private void prepareMushroomCount() {
         mushroomCount1 = new MushroomCount();
         mushroomCount1.setMushroom(mushroom1);
         mushroomCount1.setCount(6);
@@ -114,9 +113,9 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
         mushroomCount2.setCount(5);
     }
 
-    private void prepareVisit(){
+    private void prepareVisit() {
         visit = new Visit();
-        visit.setDate(new Date(1,1,1994));
+        visit.setDate(new Date(1, 1, 1994));
         visit.setForest(forest);
         visit.setHunter(hunter);
         visit.addMushroomCount(mushroomCount1);
@@ -126,18 +125,18 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findAllMushroomCountsTest(){
+    public void findAllMushroomCountsTest() {
         List<MushroomCount> found = mushroomCountDao.findAll();
 
-        Assert.assertEquals(found.size(),2);
+        Assert.assertEquals(found.size(), 2);
         Assert.assertTrue(found.contains(mushroomCount1));
         Assert.assertTrue(found.contains(mushroomCount2));
     }
 
     @Test
-    public void findMushroomCountTest(){
+    public void findMushroomCountTest() {
         MushroomCount found = mushroomCountDao.findById(mushroomCount1.getId());
-        Assert.assertEquals(mushroomCount1,found);
+        Assert.assertEquals(mushroomCount1, found);
     }
 
 

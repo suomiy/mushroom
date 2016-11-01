@@ -88,18 +88,12 @@ public class Visit {
 
         Visit visit = (Visit) o;
 
-        if (hunter != null ? !hunter.equals(visit.hunter) : visit.hunter != null) return false;
-        if (forest != null ? !forest.equals(visit.forest) : visit.forest != null) return false;
-        return date != null ? date.equals(visit.date) : visit.date == null;
-
+        return id != null ? id.equals(visit.id) : visit.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = hunter != null ? hunter.hashCode() : 0;
-        result = 31 * result + (forest != null ? forest.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

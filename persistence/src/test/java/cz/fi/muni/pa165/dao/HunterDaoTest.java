@@ -1,7 +1,9 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
+import cz.fi.muni.pa165.entity.Forest;
 import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
@@ -22,6 +25,12 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
 
     @Inject
     private HunterDao hunterDao;
+
+    @Inject
+    private ForestDao forestDao;
+
+    @Inject
+    private VisitDao visitDao;
 
     private Hunter fullInfo;
     private Hunter neededInfo;
@@ -102,6 +111,48 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(h.getPasswordHash(), "abcde");
         Assert.assertEquals(h.getRank(), Rank.BEGINNER);
         Assert.assertEquals(h.getType(), Role.USER);
+    }
+
+    @Test
+    public void testVisitsCRUD() {
+        Forest forest = new Forest();
+        forest.setName("Dark Forest");
+        forestDao.create(forest);
+
+        Visit visit = new Visit();
+        visit.setForest(forest);
+        visit.setDate(new Date());
+
+        Visit visit2 = new Visit();
+        visit2.setForest(forest);
+        visit2.setDate(new Date());
+
+        fullInfo.addVisit(visit);
+        fullInfo.addVisit(visit2);
+        hunterDao.create(fullInfo);
+
+        List<Visit> visits = visitDao.findAll();
+
+        Assert.assertEquals(fullInfo.getVisits().size(), 2);
+        Assert.assertEquals(visits.size(), 2);
+        Assert.assertTrue(visits.contains(visit));
+        Assert.assertTrue(visits.contains(visit2));
+
+        visit2.setNote("Nice Visit");
+
+        visits = visitDao.findAll();
+
+        Visit updated = visits.get(visits.indexOf(visit2));
+        Assert.assertEquals(updated.getNote(), "Nice Visit");
+
+        fullInfo.removeVisit(visit2);
+
+        visits = visitDao.findAll();
+
+        Assert.assertEquals(fullInfo.getVisits().size(), 1);
+        Assert.assertEquals(visits.size(), 1);
+        Assert.assertTrue(visits.contains(visit));
+        Assert.assertTrue(!visits.contains(visit2));
     }
 
     @Test
