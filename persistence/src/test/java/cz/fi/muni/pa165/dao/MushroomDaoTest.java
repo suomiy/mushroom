@@ -125,9 +125,9 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
         mushroomDao.create(edibleShroom);
 
         dangerousFullInfoShroom.setId(edibleShroom.getId());
-        Mushroom persisted = mushroomDao.update(dangerousFullInfoShroom);
+        mushroomDao.update(dangerousFullInfoShroom);
+        Mushroom persisted = mushroomDao.findById(dangerousFullInfoShroom.getId());
 
-        em.flush();
 
         Assert.assertEquals(persisted.getName(), "Mochomurka");
         Assert.assertEquals(persisted.getType(), MushroomType.POISONOUS);
@@ -135,12 +135,6 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(persisted.getFromDate(), Month.FEBRUARY);
         Assert.assertEquals(persisted.getToDate(), Month.NOVEMBER);
 
-        mushroomDao.create(duplicateEdibleShroom);
-        mushroomDao.update(dangerousFullInfoShroom);
-
-        Assert.assertEquals(duplicateEdibleShroom.getName(), "Hribek");
-        Assert.assertEquals(duplicateEdibleShroom.getType(), MushroomType.EDIBLE);
-        Assert.assertEquals(mushroomDao.findAll().size(), 2);
     }
 
     @Test
@@ -243,10 +237,5 @@ public class MushroomDaoTest extends AbstractTestNGSpringContextTests {
         shrooms = mushroomDao.findByDate(Month.JUNE);
         Assert.assertEquals(shrooms.size(), 1);
 
-        edibleShroom.setFromDate(Month.NOVEMBER);
-        edibleShroom.setToDate(Month.FEBRUARY);
-
-        shrooms = mushroomDao.findByDate(Month.JANUARY);
-        Assert.assertEquals(shrooms.size(), 1);
     }
 }

@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.dao;
 import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.enums.MushroomType;
 
+import java.time.Month;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface MushroomDao {
      * Edit entity mushroom
      * @param mushroom
      */
-    public void edit(Mushroom mushroom);
+    public void update(Mushroom mushroom);
 
     /**
      * Finds entity mushroom by given id
@@ -58,18 +59,11 @@ public interface MushroomDao {
     public List<Mushroom> findByType(MushroomType type);
 
     /**
-     * Finds all mushrooms that can be found on the stated date
-     * @param date
+     * Finds all mushrooms that can be found by date criteria
+     * @param month
      * @return list of found mushrooms
      */
-    public List<Mushroom> findByDate(Date date);
+    public List<Mushroom> findByDate(Month month);
 
-    /**
-     * Finds all mushrooms that can be found within the date range
-     * @param fromDate
-     * @param toDate
-     * @return list of found mushrooms
-     */
-    public List<Mushroom> findByDateRange(Date fromDate, Date toDate);
 
 }

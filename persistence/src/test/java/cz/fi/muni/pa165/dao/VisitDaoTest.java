@@ -3,6 +3,8 @@ package cz.fi.muni.pa165.dao;
 import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.entity.*;
 import cz.fi.muni.pa165.enums.MushroomType;
+import cz.fi.muni.pa165.enums.Rank;
+import cz.fi.muni.pa165.enums.Role;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
@@ -84,6 +86,8 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         hunter.setSurname("Novak");
         hunter.setEmail("jan@novak.cz");
         hunter.setPasswordHash("deadbeef");
+        hunter.setType(Role.USER);
+        hunter.setRank(Rank.BEGINNER);
 
         visit.setHunter(hunter);
         visit.setForest(forest);

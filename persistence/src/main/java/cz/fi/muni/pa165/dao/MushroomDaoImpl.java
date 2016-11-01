@@ -3,10 +3,12 @@ package cz.fi.muni.pa165.dao;
 import cz.fi.muni.pa165.enums.MushroomType;
 import org.springframework.stereotype.Repository;
 import cz.fi.muni.pa165.entity.Mushroom;
+import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +30,7 @@ public class MushroomDaoImpl implements MushroomDao {
     }
 
     @Override
-    public void edit(Mushroom mushroom) {
+    public void update(Mushroom mushroom) {
         em.merge(mushroom);
     }
 
@@ -69,27 +71,21 @@ public class MushroomDaoImpl implements MushroomDao {
     }
 
     @Override
-    public List<Mushroom> findByDate(Date date) {
-        try {
-            return em.createQuery("select m from Mushroom m where fromDate >= :date and toDate <= :date",
-                    Mushroom.class).setParameter("date", date).getResultList();
-        } catch (NoResultException nrf) {
-            return null;
+    public List<Mushroom> findByDate(Month month) {
+        List<Mushroom> allMushrooms = findAll();
+        List<Mushroom> resultList = new ArrayList<>();
+
+        for (Mushroom oneMushroom : allMushrooms) {
+            if(oneMushroom.getToDate() == null || oneMushroom.getFromDate() == null)
+                continue;
+            if (oneMushroom.getFromDate().getValue() <= month.getValue()
+                    && oneMushroom.getToDate().getValue() >= month.getValue()) {
+                resultList.add(oneMushroom);
+            }
         }
+        return resultList;
     }
 
-    @Override
-    public List<Mushroom> findByDateRange(Date fromDate, Date toDate) {
-        try {
-            return em.createQuery("select m from Mushroom m where fromDate <= :fromDate and toDate >= :toDate",
-                    Mushroom.class)
-                    .setParameter("fromDate", fromDate)
-                    .setParameter("toDate", toDate)
-                    .getResultList();
-        } catch (NoResultException nrf) {
-            return null;
-        }
-    }
 
 
 }

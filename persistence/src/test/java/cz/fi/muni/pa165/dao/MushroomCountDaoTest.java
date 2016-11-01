@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.entity.*;
 import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.enums.Rank;
+import cz.fi.muni.pa165.enums.Role;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -81,6 +82,7 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
         hunter.setEmail("straka@gmail.com");
         hunter.setPasswordHash("123456");
         hunter.setRank(Rank.GURU);
+        hunter.setType(Role.USER);
 
         hunterDao.create(hunter);
     }
