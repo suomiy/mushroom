@@ -51,7 +51,7 @@
 
     <modules>
         <module>persistence</module>
-        <module>api</module>
         <module>service</module>
+        <module>api</module>
     </modules>
 </project>
