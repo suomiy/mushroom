@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.facade.HunterFacade;
 import cz.fi.muni.pa165.service.BeanMapperService;
@@ -37,10 +38,10 @@ public class HunterFacadeImpl implements HunterFacade{
     }
 
     @Override
-    public boolean authenticate(HunterDTO hunter, String password) throws InvalidKeySpecException,
+    public boolean authenticate(UserAuthenticateDTO hunter) throws InvalidKeySpecException,
             NoSuchAlgorithmException {
 
-        return hunterService.authenticate(hunterService.findByEmail(hunter.getEmail()),password);
+        return hunterService.authenticate(hunterService.findByEmail(hunter.getEmail()),hunter.getPassword());
     }
 
     @Override
@@ -51,7 +52,7 @@ public class HunterFacadeImpl implements HunterFacade{
     @Override
     public HunterDTO update(HunterDTO hunter) {
         Hunter updatedHunter = hunterService.update(beanMapperService.mapTo(hunter,Hunter.class));
-        return beanMapperService.mapTo(updatedHunter,HunterDTO.class);
+        return (updatedHunter == null) ? null : beanMapperService.mapTo(updatedHunter,HunterDTO.class);
     }
 
     @Override

@@ -7,26 +7,26 @@ package cz.fi.muni.pa165.dto;
  */
 public class UserAuthenticateDTO {
 
-    private String passwordHash;
+    private String password;
 
-    private String nick;
+    private String email;
 
     public UserAuthenticateDTO() {
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPasswordHash(String password) {
+        this.password = password;
     }
 
-    public String getNick() {
-        return nick;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setEmail(String nick) {
+        this.email = email;
     }
 }

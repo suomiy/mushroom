@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -25,7 +26,7 @@ public interface HunterFacade {
      * Authenticates Hunter
      * @return - true only if hashed password is equal with hunter passwordHash
      */
-    boolean authenticate(HunterDTO hunter, String password) throws InvalidKeySpecException,
+    boolean authenticate(UserAuthenticateDTO hunter) throws InvalidKeySpecException,
             NoSuchAlgorithmException;
 
     /**

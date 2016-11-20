@@ -5,11 +5,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import cz.fi.muni.pa165.enums.Role;
 import cz.fi.muni.pa165.views.View;
 
-/**
- * Created by Erik Macej 433744 , on 19.11.16.
- *
- * @author Erik Macej 433744
- */
 public abstract class UserDTO {
 
     @JsonView(View.Summary.class)
@@ -26,8 +21,6 @@ public abstract class UserDTO {
 
     @JsonView(View.Summary.class)
     private String email;
-
-    private String passwordHash;
 
     @JsonView(View.Summary.class)
     private Role type;
@@ -54,10 +47,6 @@ public abstract class UserDTO {
     public String getEmail() { return email; }
 
     public void setEmail(String email) { this.email = email; }
-
-    public String getPasswordHash() { return passwordHash; }
-
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
     public Role getType() { return type; }
 
@@ -86,7 +75,6 @@ public abstract class UserDTO {
                 ", surname='" + surname + '\'' +
                 ", nick='" + nick + '\'' +
                 ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
                 ", type=" + type +
                 '}';
     }
