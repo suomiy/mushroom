@@ -17,7 +17,7 @@ public class HunterDTO extends UserDTO {
 
     @JsonView(View.Summary.class)
     private Rank rank;
-    
+
     private List<VisitDTO> visits = new ArrayList<>();
 
     public HunterDTO() {
