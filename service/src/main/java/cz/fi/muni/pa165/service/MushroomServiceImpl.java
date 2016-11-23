@@ -3,6 +3,8 @@ package cz.fi.muni.pa165.service;
 import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.dao.MushroomDao;
 import cz.fi.muni.pa165.enums.MushroomType;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -21,51 +23,96 @@ public class MushroomServiceImpl implements MushroomService {
     public static final int BASE_YEAR = 1970;
 
     @Inject
-    MushroomDao MushroomDao;
+    private MushroomDao MushroomDao;
 
     @Override
     public void create(Mushroom mushroom) {
-        MushroomDao.create(mushroom);
+
+        try {
+            MushroomDao.create(mushroom);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException(mushroom + "\n" + e);
+        }
     }
 
     @Override
     public Mushroom update(Mushroom mushroom) {
-        return MushroomDao.update(mushroom);
+
+        try {
+            return MushroomDao.update(mushroom);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException(mushroom + "\n" + e);
+        }
     }
 
     @Override
     public Mushroom findById(Long id) {
-        return MushroomDao.findById(id);
+
+        try {
+            return MushroomDao.findById(id);
+        } catch (Exception e) {
+            throw new DataRetrievalFailureException(id + "\n" + e);
+        }
     }
 
     @Override
-    public void delete(Mushroom mushroom) throws IllegalArgumentException {
-        MushroomDao.delete(mushroom);
+    public void delete(Mushroom mushroom) {
+
+        try {
+            MushroomDao.delete(mushroom);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException(mushroom + "\n" + e);
+        }
     }
 
     @Override
     public List<Mushroom> findAll() {
-        return MushroomDao.findAll();
+
+        try {
+            return MushroomDao.findAll();
+        } catch (Exception e) {
+            throw new DataRetrievalFailureException("" + e);
+        }
     }
 
     @Override
     public Mushroom findByName(String name) {
-        return MushroomDao.findByName(name);
+
+        try {
+            return MushroomDao.findByName(name);
+        } catch (Exception e) {
+            throw new DataRetrievalFailureException(name + "\n" + e);
+        }
     }
 
     @Override
     public List<Mushroom> findByType(MushroomType type) {
-        return MushroomDao.findByType(type);
+
+        try {
+            return MushroomDao.findByType(type);
+        } catch (Exception e) {
+            throw new DataRetrievalFailureException(type + "\n" + e);
+        }
     }
 
     @Override
     public List<Mushroom> findByDate(Date date) {
-        return MushroomDao.findByDate(date);
+
+        try {
+            return MushroomDao.findByDate(date);
+        } catch (Exception e) {
+            throw new DataRetrievalFailureException(date + "\n" + e);
+        }
     }
 
     @Override
     public List<Mushroom> findByDate(Date from, Date to) {
-        return MushroomDao.findByDate(from, to);
+
+        try {
+            return MushroomDao.findByDate(from, to);
+        } catch (Exception e) {
+            throw new DataRetrievalFailureException(from + " - " + to + "\n" + e);
+        }
     }
 
 
