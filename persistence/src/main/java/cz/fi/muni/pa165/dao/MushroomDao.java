@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Created by "Michal Kysilko" on 26.10.16.
+ *
+ * @author Michal Kysilko 436339
  */
 public interface MushroomDao {
 
