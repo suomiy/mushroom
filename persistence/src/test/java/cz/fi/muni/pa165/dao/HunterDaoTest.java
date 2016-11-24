@@ -18,6 +18,13 @@ import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * Created by "Michal Kysilko" on 26.10.16.
+ *
+ * @author Michal Kysilko 436339
+ */
+
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @org.springframework.transaction.annotation.Transactional

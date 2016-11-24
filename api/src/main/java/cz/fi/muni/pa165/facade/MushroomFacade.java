@@ -1,31 +1,33 @@
-package cz.fi.muni.pa165.dao;
+package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.entity.Mushroom;
+
 import cz.fi.muni.pa165.enums.MushroomType;
+
+import cz.fi.muni.pa165.dto.MushroomDTO;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by "Michal Kysilko" on 26.10.16.
+ * Created by Michal Kysilko 436339 on 11/23/16.
  *
  * @author Michal Kysilko 436339
  */
-public interface MushroomDao {
+public interface MushroomFacade {
 
     /**
      * Creates entity mushroom
      *
      * @param mushroom
      */
-    void create(Mushroom mushroom);
+    void create(MushroomDTO mushroom);
 
     /**
      * Edit entity mushroom
      *
      * @param mushroom
      */
-    Mushroom update(Mushroom mushroom);
+    MushroomDTO update(MushroomDTO mushroom);
 
     /**
      * Finds entity mushroom by given id
@@ -33,22 +35,22 @@ public interface MushroomDao {
      * @param id
      * @return Searched entity or null if entity was not found
      */
-    Mushroom findById(Long id);
+    MushroomDTO findById(Long id);
 
     /**
      * Remove entity from databbase
      *
-     * @param mushroom
+     * @param id
      * @throws IllegalArgumentException - if the mushroom is not an entity or is a detached entity
      */
-    void delete(Mushroom mushroom) throws IllegalArgumentException;
+    void delete(Long id) throws IllegalArgumentException;
 
     /**
      * Finds all entities
      *
      * @return list of all saved entities
      */
-    List<Mushroom> findAll();
+    List<MushroomDTO> findAll();
 
     /**
      * Finds mushroom by given name
@@ -56,7 +58,7 @@ public interface MushroomDao {
      * @param name
      * @return mushroom or null if mushroom with given name doesn't exists
      */
-    Mushroom findByName(String name);
+    MushroomDTO findByName(String name);
 
     /**
      * Finds all mushrooms of given type
@@ -64,7 +66,7 @@ public interface MushroomDao {
      * @param type
      * @return list of all mushrooms of given type
      */
-    List<Mushroom> findByType(MushroomType type);
+    List<MushroomDTO> findByType(MushroomType type);
 
     /**
      * Finds all mushrooms that can be found in this Date (year and time are ignored)
@@ -73,7 +75,7 @@ public interface MushroomDao {
      * @return list of found mushrooms
      * @throws IllegalArgumentException if date is null
      */
-    List<Mushroom> findByDate(Date date);
+    List<MushroomDTO> findByDate(Date date);
 
     /**
      * Finds all mushrooms that can be found within the date range (year and time are ignored)
@@ -83,6 +85,6 @@ public interface MushroomDao {
      * @return list of found mushrooms
      * @throws IllegalArgumentException if fromDate or toDate is null
      */
-    List<Mushroom> findByDate(Date fromDate, Date toDate);
+    List<MushroomDTO> findByDate(Date fromDate, Date toDate);
 
 }

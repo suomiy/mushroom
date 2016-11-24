@@ -10,6 +10,8 @@ import java.util.Date;
 
 /**
  * Created by "Michal Kysilko" on 26.10.16.
+ *
+ * @author Michal Kysilko 436339
  */
 
 @Entity
