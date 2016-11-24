@@ -58,8 +58,8 @@ public class MushroomFacadeImpl implements MushroomFacade {
     }
 
     @Override
-    public void delete(MushroomDTO mushroom) {
-        mushroomService.delete(beanMapperService.mapTo(mushroom,Mushroom.class));
+    public void delete(Long id) {
+        mushroomService.delete(mushroomService.findById(id));
     }
 
     @Override

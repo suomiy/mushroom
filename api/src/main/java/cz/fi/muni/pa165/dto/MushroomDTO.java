@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.enums.MushroomType;
 import java.util.Calendar;
 import java.util.Date;
 
+
 /**
  * Created by Michal Kysilko 436339 , on 23.11.16.
  *
@@ -11,8 +12,6 @@ import java.util.Date;
  */
 
 public class MushroomDTO implements Comparable<MushroomDTO> {
-
-    public static final int BASE_YEAR = 1970;
 
     private Long id;
 
@@ -56,59 +55,16 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
         return new Date(this.fromDate.getTime());
     }
 
-    /**
-     * Sets this date which is exclusive to the interval, doesn't use the Time of the object,
-     * <p>
-     * This method also recalculates toDate of this object
-     *
-     * @param fromDate date object (Month and Day are used only)
-     */
     public void setFromDate(Date fromDate) {
-        Date result = null;
-
-        if (fromDate != null) {
-            Calendar fromCalendar = Calendar.getInstance();
-            fromCalendar.setTime(fromDate);
-            fromCalendar.set(Calendar.YEAR, BASE_YEAR);
-
-            result = fromCalendar.getTime();
-        }
-
-        this.fromDate = result;
-
-        if (this.toDate != null) { // update
-            setToDate(this.toDate);
-        }
+        this.fromDate = fromDate;
     }
 
     public Date getToDate() {
         return new Date(this.toDate.getTime());
     }
 
-    /**
-     * Sets this date which is exclusive to the interval, doesn't use the Time of the object,
-     *
-     * @param toDate date object (Month and Day are used only)
-     */
     public void setToDate(Date toDate) {
-        Date result = null;
-
-        if (toDate != null) {
-            Calendar toCalendar = Calendar.getInstance();
-            toCalendar.setTime(toDate);
-            toCalendar.set(Calendar.YEAR, BASE_YEAR);
-
-            if (this.fromDate != null) {
-                Calendar fromCalendar = Calendar.getInstance();
-                fromCalendar.setTime(this.fromDate);
-                if (toCalendar.compareTo(fromCalendar) < 0) {
-                    toCalendar.add(Calendar.YEAR, 1);
-                }
-            }
-            result = toCalendar.getTime();
-        }
-
-        this.toDate = result;
+        this.toDate = toDate;
     }
 
     public String getDescription() {

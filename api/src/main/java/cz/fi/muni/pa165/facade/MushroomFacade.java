@@ -40,10 +40,10 @@ public interface MushroomFacade {
     /**
      * Remove entity from databbase
      *
-     * @param mushroom
+     * @param id
      * @throws IllegalArgumentException - if the mushroom is not an entity or is a detached entity
      */
-    void delete(MushroomDTO mushroom) throws IllegalArgumentException;
+    void delete(Long id) throws IllegalArgumentException;
 
     /**
      * Finds all entities
