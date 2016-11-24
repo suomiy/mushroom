@@ -1,65 +1,46 @@
-package cz.fi.muni.pa165.entity;
-
-import javax.persistence.*;
+package cz.fi.muni.pa165.dto;
 
 /**
- * Created by Erik Macej 433744 , on 29.10.16.
+ * Created by Erik Macej 433744 , on 20.11.16.
  *
  * @author Erik Macej 433744
  */
-@Entity
-public class MushroomCount implements Comparable<MushroomCount> {
+public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    private Mushroom mushroom;
+    private MushroomDTO mushroom;
 
-    @ManyToOne(optional = false)
-    private Visit visit;
+    private VisitDTO visit;
 
     private int count;
 
+    public MushroomCountDTO() {
+    }
+
+    public Long getId() { return id; }
+
     public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public MushroomDTO getMushroom() { return mushroom; }
 
-    public Mushroom getMushroom() {
-        return mushroom;
-    }
+    public void setMushroom(MushroomDTO mushroom) { this.mushroom = mushroom; }
 
-    public void setMushroom(Mushroom mushroom) {
-        this.mushroom = mushroom;
-    }
+    public VisitDTO getVisit() { return visit; }
 
-    public Visit getVisit() {
-        return visit;
-    }
+    public void setVisit(VisitDTO visit) { this.visit = visit; }
 
-    public void setVisit(Visit visit) {
-        this.visit = visit;
-    }
+    public int getCount() { return count; }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
+    public void setCount(int count) { this.count = count; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        if (!(o instanceof MushroomCount)) return false;
+        if (!(o instanceof MushroomCountDTO)) return false;
 
-        MushroomCount that = (MushroomCount) o;
+        MushroomCountDTO that = (MushroomCountDTO) o;
 
         if (count != that.count) return false;
         if (mushroom != null ? !mushroom.equals(that.mushroom) : that.mushroom != null) return false;
@@ -76,8 +57,8 @@ public class MushroomCount implements Comparable<MushroomCount> {
     }
 
     @Override
-    public int compareTo(MushroomCount mushroomCount) {
-        Mushroom otherShroom = mushroomCount.mushroom;
+    public int compareTo(MushroomCountDTO mushroomCount) {
+        MushroomDTO otherShroom = mushroomCount.mushroom;
 
         if (mushroom == null || otherShroom == null) {
             return mushroom == null ? (otherShroom == null ? 0 : -1) : 1;
@@ -95,4 +76,5 @@ public class MushroomCount implements Comparable<MushroomCount> {
                 ", count=" + count +
                 '}';
     }
+
 }

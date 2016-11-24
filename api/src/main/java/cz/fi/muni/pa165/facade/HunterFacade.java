@@ -1,43 +1,45 @@
-package cz.fi.muni.pa165.service;
+package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
-import java.util.List;
+
+import java.util.Collection;
 
 /**
- * Created by Erik Macej 433744 , on 19.11.16.
+ * Created by Erik Macej 433744 , on 20.11.16.
  *
  * @author Erik Macej 433744
  */
-public interface HunterService {
+public interface HunterFacade {
 
     /**
      * Register given hunter with his password
      * @param hunter - hunter to register
      * @param unencryptedPassword - hunter's password
      */
-    void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException;
+    void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter
      * @return - true only if hashed password is equal with hunter passwordHash
      */
-    boolean authenticate(Hunter hunter, String password) throws HunterAuthenticationException;
+    boolean authenticate(UserAuthenticateDTO hunter) throws HunterAuthenticationException;
 
     /**
      * Updates hunter
      * @param hunter
      * @return - updated hunter
      */
-    Hunter update(Hunter hunter);
+    HunterDTO update(HunterDTO hunter);
 
     /**
      * Deletes hunter from Database.
      *
      * @param hunter hunter
      */
-    void delete(Hunter hunter);
+    void delete(HunterDTO hunter);
 
     /**
      * Finds Hunter by id.
@@ -45,7 +47,7 @@ public interface HunterService {
      * @param id identifier of Hunter
      * @return Hunter
      */
-    Hunter findById(Long id);
+    HunterDTO findById(Long id);
 
     /**
      * Finds Hunter by email.
@@ -53,18 +55,19 @@ public interface HunterService {
      * @param email email of Hunter
      * @return Hunter
      */
-    Hunter findByEmail(String email);
+    HunterDTO findByEmail(String email);
 
     /**
      * Finds all Hunters from Database
      *
      * @return list of Hunters
      */
-    List<Hunter> findAll();
+    Collection<HunterDTO> findAll();
 
     /**
      * Changes user password
      */
-    void changePassword(Hunter hunter,String oldUnencryptedPassword, String newUnencryptedPassword)
+    void changePassword(HunterDTO hunter,String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException;
+
 }
