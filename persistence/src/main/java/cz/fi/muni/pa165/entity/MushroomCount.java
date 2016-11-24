@@ -1,6 +1,8 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Erik Macej 433744 , on 29.10.16.
@@ -14,12 +16,15 @@ public class MushroomCount implements Comparable<MushroomCount> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(optional = false)
     private Mushroom mushroom;
 
+    @NotNull
     @ManyToOne(optional = false)
     private Visit visit;
 
+    @Min(1)
     private int count;
 
     public void setId(Long id) { this.id = id; }

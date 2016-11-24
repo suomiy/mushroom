@@ -2,15 +2,15 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.enums.MushroomType;
+import cz.fi.muni.pa165.utils.DateIntervalUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 
 /**
  * Created by "Michal Kysilko" on 26.10.16.
@@ -20,8 +20,6 @@ import java.util.List;
 
 @Repository
 public class MushroomDaoImpl implements MushroomDao {
-
-    public static final int BASE_YEAR = 1970;// 1970 or 1971 are not leap years
 
     @PersistenceContext
     private EntityManager em;
@@ -42,7 +40,7 @@ public class MushroomDaoImpl implements MushroomDao {
     }
 
     @Override
-    public void delete(Mushroom mushroom) throws IllegalArgumentException {
+    public void delete(Mushroom mushroom) {
         em.remove(mushroom);
     }
 
@@ -79,39 +77,18 @@ public class MushroomDaoImpl implements MushroomDao {
 
     @Override
     public List<Mushroom> findByDate(Date from, Date to) {
-        if (from == null) {
-            throw new IllegalArgumentException("from date can't be null");
-        }
+        Assert.notNull(from, "from date can't be null");
+        Assert.notNull(from, "to date can't be null");
 
-        if (to == null) {
-            throw new IllegalArgumentException("to date can't be null");
-        }
+        DateIntervalUtils.FromToQueryDates params = DateIntervalUtils.getDateQueryParameters(from, to);
 
-        Calendar fromCalendar = Calendar.getInstance();
-
-        fromCalendar.setTime(from);
-        fromCalendar.set(Calendar.YEAR, MushroomDaoImpl.BASE_YEAR);
-        Calendar newYearFromCalendar = (Calendar) fromCalendar.clone();
-
-        Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTime(to);
-        toCalendar.set(Calendar.YEAR, MushroomDaoImpl.BASE_YEAR);
-        Calendar newYearToCalendar = (Calendar) toCalendar.clone();
-
-        if (toCalendar.compareTo(fromCalendar) < 0) {
-            toCalendar.add(Calendar.YEAR, 1);
-        } else {
-            newYearFromCalendar.add(Calendar.YEAR, 1);
-        }
-        newYearToCalendar.add(Calendar.YEAR, 1);
-
-        return em.createQuery("select m from Mushroom m where (fromDate <= :searchFrom and toDate >= :searchTo) " + // for 1970 - 1970 or  1970 - 1971
-                        "or (fromDate <= :searchNewYearFrom and toDate >= :searchNewYearTo)", // for 1971 - 1971
+        return em.createQuery("select m from Mushroom m where (fromDate <= :searchFrom and toDate >= :searchTo) " +
+                        "or (fromDate <= :searchNewYearFrom and toDate >= :searchNewYearTo)",
                 Mushroom.class)
-                .setParameter("searchFrom", fromCalendar.getTime())
-                .setParameter("searchTo", toCalendar.getTime())
-                .setParameter("searchNewYearFrom", newYearFromCalendar.getTime())
-                .setParameter("searchNewYearTo", newYearToCalendar.getTime())
+                .setParameter("searchFrom", params.getSearchFrom1970())
+                .setParameter("searchTo", params.getSearchTo1970())
+                .setParameter("searchNewYearFrom", params.getSearchFrom1971())
+                .setParameter("searchNewYearTo", params.getSearchTo1971())
                 .getResultList();
     }
 }

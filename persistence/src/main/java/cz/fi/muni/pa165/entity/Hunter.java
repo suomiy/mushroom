@@ -16,7 +16,7 @@ public class Hunter extends User {
     @Column(nullable = false)
     private Rank rank;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "hunter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hunter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
 
     public Rank getRank() {

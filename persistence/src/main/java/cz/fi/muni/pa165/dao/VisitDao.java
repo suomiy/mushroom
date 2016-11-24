@@ -77,10 +77,21 @@ public interface VisitDao {
     List<Visit> findByMushroom(Mushroom mushroom);
 
     /**
-     * Find visits for given date.
+     * Finds all visits that can be found in this Date (year and time are ignored)
      *
-     * @param date Date entity
-     * @return list of all visits for given date
+     * @param date date
+     * @return list of found visits
+     * @throws IllegalArgumentException if date is null
      */
     List<Visit> findByDate(Date date);
+
+    /**
+     * Finds all visits that can be found within the date range (year and time are ignored)
+     *
+     * @param fromDate
+     * @param toDate
+     * @return list of found visits
+     * @throws IllegalArgumentException if fromDate or toDate is null
+     */
+    List<Visit> findByDate(Date fromDate, Date toDate);
 }

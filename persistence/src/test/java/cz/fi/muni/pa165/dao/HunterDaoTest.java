@@ -128,11 +128,13 @@ public class HunterDaoTest extends AbstractTestNGSpringContextTests {
 
         Visit visit = new Visit();
         visit.setForest(forest);
-        visit.setDate(new Date());
+        visit.setFromDate(new Date());
+        visit.setToDate(new Date());
 
         Visit visit2 = new Visit();
         visit2.setForest(forest);
-        visit2.setDate(new Date());
+        visit2.setFromDate(new Date());
+        visit2.setToDate(new Date());
 
         fullInfo.addVisit(visit);
         fullInfo.addVisit(visit2);

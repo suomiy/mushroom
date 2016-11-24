@@ -1,12 +1,10 @@
 package cz.fi.muni.pa165.entity;
 
-import cz.fi.muni.pa165.dao.MushroomDaoImpl;
 import cz.fi.muni.pa165.enums.MushroomType;
+import cz.fi.muni.pa165.utils.DateIntervalUtils;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
-
 
 /**
  * Created by "Michal Kysilko" on 26.10.16.
@@ -72,17 +70,7 @@ public class Mushroom implements Comparable<Mushroom> {
      * @param fromDate date object (Month and Day are used only)
      */
     public void setFromDate(Date fromDate) {
-        Date result = null;
-
-        if (fromDate != null) {
-            Calendar fromCalendar = Calendar.getInstance();
-            fromCalendar.setTime(fromDate);
-            fromCalendar.set(Calendar.YEAR, MushroomDaoImpl.BASE_YEAR);
-
-            result = fromCalendar.getTime();
-        }
-
-        this.fromDate = result;
+        this.fromDate = DateIntervalUtils.makeIntervalFromDate(fromDate);
 
         if (this.toDate != null) { // update
             setToDate(this.toDate);
@@ -99,24 +87,7 @@ public class Mushroom implements Comparable<Mushroom> {
      * @param toDate date object (Month and Day are used only)
      */
     public void setToDate(Date toDate) {
-        Date result = null;
-
-        if (toDate != null) {
-            Calendar toCalendar = Calendar.getInstance();
-            toCalendar.setTime(toDate);
-            toCalendar.set(Calendar.YEAR, MushroomDaoImpl.BASE_YEAR);
-
-            if (this.fromDate != null) {
-                Calendar fromCalendar = Calendar.getInstance();
-                fromCalendar.setTime(this.fromDate);
-                if (toCalendar.compareTo(fromCalendar) < 0) {
-                    toCalendar.add(Calendar.YEAR, 1);
-                }
-            }
-            result = toCalendar.getTime();
-        }
-
-        this.toDate = result;
+        this.toDate = DateIntervalUtils.makeIntervalToDate(fromDate, toDate);
     }
 
     public String getDescription() {
@@ -151,7 +122,6 @@ public class Mushroom implements Comparable<Mushroom> {
             return false;
         }
         return true;
-
     }
 
     @Override
@@ -181,6 +151,4 @@ public class Mushroom implements Comparable<Mushroom> {
                 ", description='" + this.description + '\'' +
                 '}';
     }
-
-
 }

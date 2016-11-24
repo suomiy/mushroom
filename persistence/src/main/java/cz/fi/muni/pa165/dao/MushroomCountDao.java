@@ -13,17 +13,37 @@ import java.util.List;
 public interface MushroomCountDao {
 
     /**
+     * Creates mushroomCount
+     *
+     * @param mushroomCount mushroomCount
+     */
+    void create(MushroomCount mushroomCount);
+
+    /**
+     * Updates mushroomCount entity.
+     *
+     * @param mushroomCount mushroomCount
+     */
+    MushroomCount update(MushroomCount mushroomCount);
+
+    /**
+     * Deletes mushroomCount from Database.
+     *
+     * @param mushroomCount mushroomCount
+     */
+    void delete(MushroomCount mushroomCount);
+
+    /**
      * Finds mushroomCount by given id
      *
-     * @param id
+     * @param id id
      */
     MushroomCount findById(Long id);
 
     /**
      * Finds all entities mushroomCount
      *
-     * @return
+     * @return list of mushroomCount
      */
     List<MushroomCount> findAll();
-
 }
