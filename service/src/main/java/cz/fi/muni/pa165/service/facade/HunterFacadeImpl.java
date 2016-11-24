@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.service.facade;
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
 import cz.fi.muni.pa165.service.BeanMapperService;
 import cz.fi.muni.pa165.service.HunterService;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Collection;
 
 /**
@@ -30,23 +29,16 @@ public class HunterFacadeImpl implements HunterFacade{
     BeanMapperService beanMapperService;
 
     @Override
-    public void registerHunter(HunterDTO hunter, String unencryptedPassword) throws InvalidKeySpecException,
-            NoSuchAlgorithmException {
+    public void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException {
 
         Hunter hunterEntity = beanMapperService.mapTo(hunter,Hunter.class);
         hunterService.registerHunter(hunterEntity,unencryptedPassword);
     }
 
     @Override
-    public boolean authenticate(UserAuthenticateDTO hunter) throws InvalidKeySpecException,
-            NoSuchAlgorithmException {
+    public boolean authenticate(UserAuthenticateDTO hunter) throws HunterAuthenticationException {
 
         return hunterService.authenticate(hunterService.findByEmail(hunter.getEmail()),hunter.getPassword());
-    }
-
-    @Override
-    public boolean isAdmin(HunterDTO hunter) {
-        return hunterService.isAdmin(beanMapperService.mapTo(hunter,Hunter.class));
     }
 
     @Override
@@ -79,7 +71,7 @@ public class HunterFacadeImpl implements HunterFacade{
 
     @Override
     public void changePassword(HunterDTO hunter, String oldUnencryptedPassword, String newUnencryptedPassword)
-            throws InvalidKeySpecException, NoSuchAlgorithmException {
+            throws HunterAuthenticationException {
 
         hunterService.changePassword(beanMapperService.mapTo(hunter,Hunter.class),
                 oldUnencryptedPassword,newUnencryptedPassword);

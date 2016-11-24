@@ -9,6 +9,8 @@ import cz.fi.muni.pa165.service.config.ServiceConfig;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import javax.inject.Inject;
 
@@ -27,51 +29,50 @@ public class BeanMapperServiceTest extends AbstractTestNGSpringContextTests {
     private Visit visit2;
     private Hunter hunter1;
     private Hunter hunter2;
-    private Mushroom mushroom;
-    private MushroomCount mushroomCount;
     private Forest forest;
 
     private VisitDTO visitDto1;
     private VisitDTO visitDto2;
     private HunterDTO hunterDto1;
     private HunterDTO hunterDto2;
-    private MushroomDTO mushroomDto;
-    private MushroomCountDTO mushroomCountDto;
     private ForestDTO forestDto;
 
     @BeforeClass
     public void prepareData(){
         createVisits();
         createHunters();
-        createMushroom();
-        createMushroomCount();
         createForest();
 
         createVisitDtos();
         createHunterDtos();
-        createMushroomDtos();
-        createMushroomCountDtos();
         createForestDtos();
 
     }
 
-    private void createForest(){
-        forest = new Forest();
-        forest.setId(1L);
-        forest.setName("Dark forest");
-        forest.setLocalityDescription("very dark forest");
+    /**
+    @Test
+    public void mapHunterToDtoTest() {
+        HunterDTO mappedDto = beanMapperService.mapTo(hunter1,HunterDTO.class);
+        assertThat(mappedDto).isEqualToComparingFieldByField(hunterDto1);
     }
 
-    private void createMushroomCount() {
-        mushroomCount = new MushroomCount();
-        mushroomCount.setId(1L);
-        mushroomCount.setVisit(visit1);
-        mushroomCount.setMushroom(mushroom);
-        mushroomCount.setCount(5);
+    @Test(expectedExceptions = NullPointerException.class)
+    public void mapNullHunterToDtoTest() {
+        HunterDTO mappedDto = beanMapperService.mapTo(hunter1,HunterDTO.class);
     }
 
-    private void createMushroom() {
-        mushroom = new Mushroom();
+    @Test
+    public void mapDtoToHunterTest(){
+        Hunter mappedHunter = beanMapperService.mapTo(hunterDto1,Hunter.class);
+        hunter1.setPasswordHash(null);
+        assertThat(mappedHunter).isEqualToComparingFieldByField(hunter1);
+    }
+    */
+
+    @Test
+    public void mapForestToDtoTest() {
+        ForestDTO mappedDto = beanMapperService.mapTo(forest,ForestDTO.class);
+        assertThat(mappedDto).isEqualToComparingFieldByField(forestDto);
     }
 
     private void createHunters() {
@@ -133,19 +134,6 @@ public class BeanMapperServiceTest extends AbstractTestNGSpringContextTests {
         hunterDto2.setRank(hunter2.getRank());
     }
 
-    private void createMushroomDtos(){
-        mushroomDto = new MushroomDTO();
-    }
-
-    private void createMushroomCountDtos(){
-        mushroomCountDto = new MushroomCountDTO();
-        mushroomCountDto.setId(mushroom.getId());
-        mushroomCountDto.setVisit(visitDto1);
-        mushroomCountDto.setMushroom(mushroomDto);
-        mushroomCountDto.setCount(mushroomCount.getCount());
-
-    }
-
     private void createForestDtos() {
         forestDto = new ForestDTO();
         forestDto.setId(forest.getId());
@@ -153,4 +141,10 @@ public class BeanMapperServiceTest extends AbstractTestNGSpringContextTests {
         forestDto.setName(forest.getName());
     }
 
+    private void createForest(){
+        forest = new Forest();
+        forest.setId(1L);
+        forest.setName("Dark forest");
+        forest.setLocalityDescription("very dark forest");
+    }
 }

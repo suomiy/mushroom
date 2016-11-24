@@ -17,6 +17,15 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>cz.fi.muni.pa165</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>

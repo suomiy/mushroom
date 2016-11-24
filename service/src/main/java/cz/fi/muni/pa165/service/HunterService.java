@@ -1,9 +1,8 @@
 package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
@@ -18,18 +17,13 @@ public interface HunterService {
      * @param hunter - hunter to register
      * @param unencryptedPassword - hunter's password
      */
-    void registerHunter(Hunter hunter, String unencryptedPassword) throws InvalidKeySpecException, NoSuchAlgorithmException;
+    void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter
      * @return - true only if hashed password is equal with hunter passwordHash
      */
-    boolean authenticate(Hunter hunter, String password) throws InvalidKeySpecException, NoSuchAlgorithmException;
-
-    /**
-     * @return - true if hunter is admin
-     */
-    boolean isAdmin(Hunter hunter);
+    boolean authenticate(Hunter hunter, String password) throws HunterAuthenticationException;
 
     /**
      * Updates hunter
@@ -72,5 +66,5 @@ public interface HunterService {
      * Changes user password
      */
     void changePassword(Hunter hunter,String oldUnencryptedPassword, String newUnencryptedPassword)
-            throws InvalidKeySpecException, NoSuchAlgorithmException;
+            throws HunterAuthenticationException;
 }

@@ -2,9 +2,9 @@ package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
+import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+
 import java.util.Collection;
 
 /**
@@ -19,20 +19,13 @@ public interface HunterFacade {
      * @param hunter - hunter to register
      * @param unencryptedPassword - hunter's password
      */
-    void registerHunter(HunterDTO hunter, String unencryptedPassword) throws InvalidKeySpecException,
-            NoSuchAlgorithmException;
+    void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter
      * @return - true only if hashed password is equal with hunter passwordHash
      */
-    boolean authenticate(UserAuthenticateDTO hunter) throws InvalidKeySpecException,
-            NoSuchAlgorithmException;
-
-    /**
-     * @return - true if hunter is admin
-     */
-    boolean isAdmin(HunterDTO hunter);
+    boolean authenticate(UserAuthenticateDTO hunter) throws HunterAuthenticationException;
 
     /**
      * Updates hunter
@@ -75,6 +68,6 @@ public interface HunterFacade {
      * Changes user password
      */
     void changePassword(HunterDTO hunter,String oldUnencryptedPassword, String newUnencryptedPassword)
-            throws InvalidKeySpecException, NoSuchAlgorithmException;
+            throws HunterAuthenticationException;
 
 }

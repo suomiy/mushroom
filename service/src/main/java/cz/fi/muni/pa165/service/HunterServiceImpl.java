@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.service;
 import cz.fi.muni.pa165.dao.HunterDao;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.enums.Role;
+import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
-import java.security.NoSuchAlgorithmException;
+import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-
-
 import java.util.List;
 
 /**
@@ -30,23 +27,17 @@ public class HunterServiceImpl implements HunterService {
     HunterDao hunterDao;
 
     @Override
-    public void registerHunter(Hunter hunter, String unencryptedPassword) throws InvalidKeySpecException,
-            NoSuchAlgorithmException {
+    public void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException {
 
         hunter.setPasswordHash(createHash(unencryptedPassword));
         hunterDao.create(hunter);
     }
 
     @Override
-    public boolean authenticate(Hunter hunter, String password) throws InvalidKeySpecException,
-            NoSuchAlgorithmException {
+    public boolean authenticate(Hunter hunter, String password) throws HunterAuthenticationException {
 
+        if(hunter == null) return false;
         return verifyPassword(password, hunter.getPasswordHash());
-    }
-
-    @Override
-    public boolean isAdmin(Hunter hunter) {
-        return findById(hunter.getId()).getType().equals(Role.ADMIN);
     }
 
     @Override
@@ -54,7 +45,9 @@ public class HunterServiceImpl implements HunterService {
 
     @Override
     public void changePassword(Hunter hunter,String oldUnencryptedPassword, String newUnencryptedPassword)
-            throws InvalidKeySpecException, NoSuchAlgorithmException {
+            throws HunterAuthenticationException {
+
+        if(hunter == null) throw new IllegalArgumentException("Hunter id null");
 
         if(verifyPassword(oldUnencryptedPassword,hunter.getPasswordHash())){
             hunter.setPasswordHash(createHash(newUnencryptedPassword));
@@ -74,8 +67,7 @@ public class HunterServiceImpl implements HunterService {
     @Override
     public List<Hunter> findAll() { return hunterDao.findAll(); }
 
-    private static String createHash(String unencryptedPassword) throws InvalidKeySpecException,
-            NoSuchAlgorithmException {
+    private static String createHash(String unencryptedPassword) throws HunterAuthenticationException {
 
         final int SALT_BYTE_SIZE = 24;
         final int HASH_BYTE_SIZE = 18;
@@ -90,22 +82,20 @@ public class HunterServiceImpl implements HunterService {
         byte[] hash = pbkdf2(unencryptedPassword.toCharArray(), salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
         int hashSize = hash.length;
 
-        return PBKDF2_ITERATIONS + ":" + hashSize + ":" + toBase64(salt) + ":" + toBase64(hash);
+        return PBKDF2_ITERATIONS + ":" + toBase64(salt) + ":" + toBase64(hash);
     }
 
     private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+            throws HunterAuthenticationException {
 
         try {
             PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             return skf.generateSecret(spec).getEncoded();
 
-        } catch (NoSuchAlgorithmException ex) {
-            throw new NoSuchAlgorithmException("Hash algorithm not supported.");
+        } catch (GeneralSecurityException ex) {
+            throw new HunterAuthenticationException("Authentication error",ex);
 
-        } catch (InvalidKeySpecException ex) {
-            throw new InvalidKeySpecException("Invalid key spec.");
         }
     }
 
@@ -119,7 +109,7 @@ public class HunterServiceImpl implements HunterService {
         return DatatypeConverter.printBase64Binary(array);
     }
 
-    public static boolean verifyPassword(String password, String correctHash) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public static boolean verifyPassword(String password, String correctHash) throws HunterAuthenticationException {
         if(password==null) return false;
         if(correctHash==null) throw new IllegalArgumentException("password hash is null");
 
