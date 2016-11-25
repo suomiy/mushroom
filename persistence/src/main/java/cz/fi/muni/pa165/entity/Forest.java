@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Erik Macej 433744 , on 23.10.16.
@@ -15,6 +16,7 @@ public class Forest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String name;
 

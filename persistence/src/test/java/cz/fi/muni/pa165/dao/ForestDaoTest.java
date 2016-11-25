@@ -3,7 +3,6 @@ package cz.fi.muni.pa165.dao;
 import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.entity.Forest;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +10,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 
@@ -67,7 +66,7 @@ public class ForestDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(found.getName(),forestForCreate.getName());
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void createForestWithNullName(){
         Forest forest = new Forest();
         forest.setName(null);
