@@ -1,9 +1,9 @@
 package cz.fi.muni.pa165.facade;
 
-
-import cz.fi.muni.pa165.enums.MushroomType;
-
+import cz.fi.muni.pa165.dto.DateDTO;
+import cz.fi.muni.pa165.dto.DateIntervalDTO;
 import cz.fi.muni.pa165.dto.MushroomDTO;
+import cz.fi.muni.pa165.enums.MushroomType;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +41,7 @@ public interface MushroomFacade {
      * Remove entity from databbase
      *
      * @param id
-     * @throws IllegalArgumentException - if the mushroom is not an entity or is a detached entity
+     * @throws IllegalArgumentException
      */
     void delete(Long id) throws IllegalArgumentException;
 
@@ -75,16 +75,14 @@ public interface MushroomFacade {
      * @return list of found mushrooms
      * @throws IllegalArgumentException if date is null
      */
-    List<MushroomDTO> findByDate(Date date);
+    List<MushroomDTO> findByDate(DateDTO date);
 
     /**
      * Finds all mushrooms that can be found within the date range (year and time are ignored)
      *
-     * @param fromDate
-     * @param toDate
+     * @param interval
      * @return list of found mushrooms
      * @throws IllegalArgumentException if fromDate or toDate is null
      */
-    List<MushroomDTO> findByDate(Date fromDate, Date toDate);
-
+    List<MushroomDTO> findByDate(DateIntervalDTO interval);
 }

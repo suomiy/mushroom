@@ -20,23 +20,21 @@ public class BeanMapperServiceImpl implements BeanMapperService {
     private Mapper dozer;
 
     @Override
-    public  <T> List<T> mapTo(Collection<?> objects, Class<T> targetClass) {
+    public <T> List<T> mapTo(Collection<?> objects, Class<T> targetClass) {
         List<T> mappedCollection = new ArrayList<>();
         for (Object object : objects) {
-            mappedCollection.add(dozer.map(object, targetClass));
+            mappedCollection.add(mapTo(object, targetClass));
         }
         return mappedCollection;
     }
 
     @Override
-    public  <T> T mapTo(Object object, Class<T> targetClass)
-    {
-        return dozer.map(object,targetClass);
+    public <T> T mapTo(Object object, Class<T> targetClass) {
+        return object == null ? null : dozer.map(object, targetClass);
     }
 
     @Override
-    public Mapper getMapper(){
+    public Mapper getMapper() {
         return dozer;
     }
-
 }

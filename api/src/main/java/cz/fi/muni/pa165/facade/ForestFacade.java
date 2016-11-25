@@ -13,18 +13,21 @@ public interface ForestFacade {
 
     /**
      * Creates forest
+     *
      * @param forest
      */
     void create(ForestDTO forest);
 
     /**
      * Edit entity forest
+     *
      * @param forest
      */
     ForestDTO update(ForestDTO forest);
 
     /**
      * Finds forest by given id
+     *
      * @param id
      * @return Searched entity or null if entity doesn't found
      */
@@ -32,22 +35,24 @@ public interface ForestFacade {
 
     /**
      * Remove forest from databbase
-     * @param forest
+     *
+     * @param id
      * @throws IllegalArgumentException - if the forest is not an entity or is a detached entity
      */
-    void delete(ForestDTO forest);
+    void delete(Long id);
 
     /**
      * Finds all forests
+     *
      * @return - list of all saved entities
      */
     List<ForestDTO> findAll();
 
     /**
      * Finds forest by given name
+     *
      * @param name
      * @return forest or null if forest with given name doesn't exists
      */
     ForestDTO findByName(String name);
-
 }
