@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.entity;
 import cz.fi.muni.pa165.enums.Role;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Filip Krepinsky (410022) on 10/29/16
@@ -21,15 +22,19 @@ public abstract class User {
 
     private String surname;
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String nick;
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull
     @Column(nullable = false)
     private String passwordHash;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role type;

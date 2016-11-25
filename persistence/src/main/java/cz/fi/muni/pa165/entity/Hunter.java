@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.entity;
 import cz.fi.muni.pa165.enums.Rank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
@@ -12,6 +13,7 @@ import java.util.*;
 @Entity
 public class Hunter extends User {
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rank rank;

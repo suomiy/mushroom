@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.utils.DateIntervalUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -19,9 +20,11 @@ public class Mushroom implements Comparable<Mushroom> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String name;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MushroomType type;

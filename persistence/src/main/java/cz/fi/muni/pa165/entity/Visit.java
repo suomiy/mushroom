@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.entity;
 import cz.fi.muni.pa165.utils.DateIntervalUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Date;
 import java.util.SortedSet;
@@ -18,18 +19,22 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(optional = false)
     private Hunter hunter;
 
+    @NotNull
     @ManyToOne(optional = false)
     private Forest forest;
 
     private String note;
 
+    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date fromDate;
 
+    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date toDate;
