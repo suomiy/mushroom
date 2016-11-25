@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.dao.HunterDao;
 import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.enums.Role;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ public class HunterServiceImpl implements HunterService {
 
     @Override
     public void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException {
-
         hunter.setPasswordHash(createHash(unencryptedPassword));
         hunterDao.create(hunter);
     }
@@ -41,19 +41,39 @@ public class HunterServiceImpl implements HunterService {
     }
 
     @Override
-    public Hunter update(Hunter hunter) { return hunterDao.update(hunter); }
+    public Hunter update(Hunter hunter) {
+        Hunter h = hunterDao.findById(hunter.getId());
+        h.setEmail(hunter.getEmail());
+        h.setRank(hunter.getRank());
+        h.setType(hunter.getType());
+        h.setFirstName(hunter.getFirstName());
+        h.setNick(hunter.getNick());
+        h.setSurname(hunter.getSurname());
+
+        return hunterDao.update(h);
+    }
 
     @Override
-    public void changePassword(Hunter hunter,String oldUnencryptedPassword, String newUnencryptedPassword)
+    public void changePassword(Long hunterId,String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException {
 
-        if(hunter == null) throw new IllegalArgumentException("Hunter id null");
+        Hunter hunter = hunterDao.findById(hunterId);
+
+        if(hunter == null){
+            throw new IllegalArgumentException("Hunter id null");
+        }
 
         if(verifyPassword(oldUnencryptedPassword,hunter.getPasswordHash())){
             hunter.setPasswordHash(createHash(newUnencryptedPassword));
             hunterDao.update(hunter);
         }
     }
+
+    @Override
+    public void addVisit(Hunter hunter, Visit visit) { hunter.addVisit(visit); }
+
+    @Override
+    public void removeVisit(Hunter hunter, Visit visit) { hunter.removeVisit(visit); }
 
     @Override
     public void delete(Hunter hunter) { hunterDao.delete(hunter); }

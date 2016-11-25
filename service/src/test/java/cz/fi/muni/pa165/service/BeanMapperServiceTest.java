@@ -30,21 +30,29 @@ public class BeanMapperServiceTest extends AbstractTestNGSpringContextTests {
     private Hunter hunter1;
     private Hunter hunter2;
     private Forest forest;
+    private Mushroom mushroom;
+    private MushroomCount mushroomCount;
 
     private VisitDTO visitDto1;
     private VisitDTO visitDto2;
     private HunterDTO hunterDto1;
     private HunterDTO hunterDto2;
     private ForestDTO forestDto;
+    private MushroomDTO mushroomDto;
+    private MushroomCountDTO mushroomCountDto;
 
     @BeforeClass
     public void prepareData(){
+        createMushroom();
         createForest();
         createVisits();
+        createMushroomCount();
         createHunters();
 
+        createMushroomDtos();
         createForestDtos();
         createVisitDtos();
+        createMushroomCountDtos();
         createHunterDtos();
 
     }
@@ -75,6 +83,12 @@ public class BeanMapperServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void mapForestToDtoTest() {
+        ForestDTO mappedDto = beanMapperService.mapTo(forest,ForestDTO.class);
+        assertThat(mappedDto).isEqualToComparingFieldByField(forestDto);
+    }
+
+    @Test
+    public void mapDtoToForestTest() {
         ForestDTO mappedDto = beanMapperService.mapTo(forest,ForestDTO.class);
         assertThat(mappedDto).isEqualToComparingFieldByField(forestDto);
     }
@@ -171,5 +185,30 @@ public class BeanMapperServiceTest extends AbstractTestNGSpringContextTests {
         forest.setId(1L);
         forest.setName("Dark forest");
         forest.setLocalityDescription("very dark forest");
+    }
+
+    private void createMushroomCount() {
+           mushroomCount = new MushroomCount();
+           mushroomCount.setId(1L);
+           mushroomCount.setVisit(visit1);
+           mushroomCount.setMushroom(mushroom);
+           mushroomCount.setCount(5);
+    }
+
+    private void createMushroom() {
+        mushroom = new Mushroom();
+    }
+
+    private void createMushroomDtos(){
+        mushroomDto = new MushroomDTO();
+    }
+
+    private void createMushroomCountDtos(){
+        mushroomCountDto = new MushroomCountDTO();
+        mushroomCountDto.setId(mushroomCount.getId());
+        mushroomCountDto.setVisit(visitDto1);
+        mushroomCountDto.setMushroom(mushroomDto);
+        mushroomCountDto.setCount(mushroomCount.getCount());
+
     }
 }

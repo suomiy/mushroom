@@ -18,7 +18,7 @@ public class Hunter extends User {
     @Column(nullable = false)
     private Rank rank;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hunter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hunter", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
 
     public Rank getRank() {
@@ -29,9 +29,9 @@ public class Hunter extends User {
         this.rank = rank;
     }
 
-    public List<Visit> getVisits() {
-        return Collections.unmodifiableList(visits);
-    }
+    public void setVisits(List<Visit> visits) { this.visits = visits; }
+
+    public List<Visit> getVisits() { return Collections.unmodifiableList(visits); }
 
     public void removeVisit(Visit visit) {
         this.visits.remove(visit);

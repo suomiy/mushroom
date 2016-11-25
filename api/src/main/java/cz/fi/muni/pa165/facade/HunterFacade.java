@@ -1,7 +1,9 @@
 package cz.fi.muni.pa165.facade;
 
+import cz.fi.muni.pa165.dto.HunterCreateDTO;
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
+import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
 import java.util.Collection;
@@ -19,7 +21,7 @@ public interface HunterFacade {
      * @param hunter              - hunter to register
      * @param unencryptedPassword - hunter's password
      */
-    void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
+    void registerHunter(HunterCreateDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter
@@ -34,7 +36,7 @@ public interface HunterFacade {
      * @param hunter
      * @return - updated hunter
      */
-    HunterDTO update(HunterDTO hunter);
+    HunterDTO update(HunterCreateDTO hunter);
 
     /**
      * Deletes hunter from Database.
@@ -69,6 +71,16 @@ public interface HunterFacade {
     /**
      * Changes user password
      */
-    void changePassword(HunterDTO hunter, String oldUnencryptedPassword, String newUnencryptedPassword)
+    void changePassword(Long hunterId, String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException;
+
+    /**
+     * Add visit to hunter
+     */
+    void addVisit(Long hunterId, VisitDTO visitDto);
+
+    /**
+     * Remove visit from hunter
+     */
+    void removeVisit(Long hunterId, VisitDTO visitDto);
 }

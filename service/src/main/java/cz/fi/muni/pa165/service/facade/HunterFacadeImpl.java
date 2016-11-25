@@ -1,8 +1,11 @@
 package cz.fi.muni.pa165.service.facade;
 
+import cz.fi.muni.pa165.dto.HunterCreateDTO;
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
+import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
 import cz.fi.muni.pa165.service.BeanMapperService;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Erik Macej 433744 , on 20.11.16.
@@ -29,7 +33,7 @@ public class HunterFacadeImpl implements HunterFacade {
     BeanMapperService beanMapperService;
 
     @Override
-    public void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException {
+    public void registerHunter(HunterCreateDTO hunter, String unencryptedPassword) throws HunterAuthenticationException {
         Hunter hunterEntity = beanMapperService.mapTo(hunter, Hunter.class);
         hunterService.registerHunter(hunterEntity, unencryptedPassword);
     }
@@ -41,7 +45,7 @@ public class HunterFacadeImpl implements HunterFacade {
     }
 
     @Override
-    public HunterDTO update(HunterDTO hunter) {
+    public HunterDTO update(HunterCreateDTO hunter) {
         Hunter hunterEntity = hunterService.update(beanMapperService.mapTo(hunter, Hunter.class));
         return beanMapperService.mapTo(hunterEntity, HunterDTO.class);
     }
@@ -65,14 +69,26 @@ public class HunterFacadeImpl implements HunterFacade {
     }
 
     @Override
-    public Collection<HunterDTO> findAll() {
+    public List<HunterDTO> findAll() {
         return beanMapperService.mapTo(hunterService.findAll(), HunterDTO.class);
     }
 
     @Override
-    public void changePassword(HunterDTO hunter, String oldUnencryptedPassword, String newUnencryptedPassword)
+    public void changePassword(Long hunterId, String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException {
-        Hunter hunterEntity = beanMapperService.mapTo(hunter, Hunter.class);
-        hunterService.changePassword(hunterEntity, oldUnencryptedPassword, newUnencryptedPassword);
+
+        hunterService.changePassword(hunterId, oldUnencryptedPassword, newUnencryptedPassword);
+    }
+
+    @Override
+    public void addVisit(Long hunterId, VisitDTO visitDto) {
+        hunterService.addVisit(hunterService.findById(hunterId),
+                beanMapperService.mapTo(visitDto,Visit.class));
+    }
+
+    @Override
+    public void removeVisit(Long hunterId, VisitDTO visitDto) {
+        hunterService.removeVisit(hunterService.findById(hunterId),
+                beanMapperService.mapTo(visitDto,Visit.class));
     }
 }
