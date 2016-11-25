@@ -1,53 +1,53 @@
-package cz.fi.muni.pa165.service;
+package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.entity.MushroomCount;
+import cz.fi.muni.pa165.dto.MushroomCountDTO;
 
 import java.util.List;
 
 /**
  * @author Filip Krepinsky (410022) on 11/23/16
  */
-public interface MushroomCountService {
+public interface MushroomCountFacade {
 
     /**
      * Creates mushroomCount
      *
      * @param mushroomCount mushroom count to be created
      */
-    void create(MushroomCount mushroomCount);
+    void create(MushroomCountDTO mushroomCount);
 
     /**
      * Updates mushroomCount
      *
      * @param mushroomCount mushroom count to be created updated
      */
-    MushroomCount update(MushroomCount mushroomCount);
+    MushroomCountDTO update(MushroomCountDTO mushroomCount);
 
     /**
      * Deletes mushroomCount
      *
-     * @param mushroomCount mushroom count to be deleted
+     * @param id of mushroom count to be deleted
      */
-    void delete(MushroomCount mushroomCount);
+    void delete(Long id);
 
     /**
      * Finds mushroomCount by given id
      *
      * @param id id
      */
-    MushroomCount findById(Long id);
+    MushroomCountDTO findById(Long id);
 
     /**
      * Finds all entities mushroomCount
      *
      * @return all mushroom count
      */
-    List<MushroomCount> findAll();
+    List<MushroomCountDTO> findAll();
 
     /**
      * Finds all mushrooms and their respective count found by all visitors last week
      *
      * @return mushroom count
      */
-    List<MushroomCount> findRecentlyFoundPickableMushrooms();
+    List<MushroomCountDTO> findRecentlyFoundPickableMushrooms();
 }
