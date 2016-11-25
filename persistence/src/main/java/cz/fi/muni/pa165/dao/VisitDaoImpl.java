@@ -1,12 +1,15 @@
 package cz.fi.muni.pa165.dao;
 
-import cz.fi.muni.pa165.entity.*;
+import cz.fi.muni.pa165.entity.Forest;
+import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.entity.Mushroom;
+import cz.fi.muni.pa165.entity.Visit;
+import cz.fi.muni.pa165.utils.DateIntervalUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,8 +82,8 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given forest
      */
     public List<Visit> findByForest(Forest forest) {
-            return em.createQuery("select v from Visit v where forest = :forest",
-                    Visit.class).setParameter("forest", forest).getResultList();
+        return em.createQuery("select v from Visit v where forest = :forest",
+                Visit.class).setParameter("forest", forest).getResultList();
     }
 
     /**
@@ -90,8 +93,8 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given hunter
      */
     public List<Visit> findByHunter(Hunter hunter) {
-            return em.createQuery("select v from Visit v where hunter = :hunter",
-                    Visit.class).setParameter("hunter", hunter).getResultList();
+        return em.createQuery("select v from Visit v where hunter = :hunter",
+                Visit.class).setParameter("hunter", hunter).getResultList();
     }
 
     /**
@@ -101,28 +104,25 @@ public class VisitDaoImpl implements VisitDao {
      * @return list of all visits for given mushroom
      */
     public List<Visit> findByMushroom(Mushroom mushroom) {
-
-        List<Visit> visits = findAll();
-        List<Visit> resultList = new ArrayList<>();
-
-        for(Visit v : visits) {
-            for(MushroomCount mc : v.getMushroomsCount()) {
-                if(mc.getMushroom().equals(mushroom)) {
-                    resultList.add(v);
-                }
-            }
-        }
-        return resultList;
+        return em.createQuery("select v from Visit as v inner join v.mushroomsCount as c inner join c.mushroom as m " +
+                        "where m = :mushroom",
+                Visit.class).setParameter("mushroom", mushroom).getResultList();
     }
 
-    /**
-     * Find visits for given date.
-     *
-     * @param date Date entity
-     * @return list of all visits for given date
-     */
+    @Override
     public List<Visit> findByDate(Date date) {
-            return em.createQuery("select v from Visit v where date = :date",
-                    Visit.class).setParameter("date", date).getResultList();
+        return findByDate(date, date);
+    }
+
+    @Override
+    public List<Visit> findByDate(Date from, Date to) {
+        Assert.notNull(from, "from date can't be null");
+        Assert.notNull(to, "to date can't be null");
+
+        return em.createQuery("select m from Visit m where (fromDate <= :searchFrom and toDate >= :searchTo) ",
+                Visit.class)
+                .setParameter("searchFrom", from)
+                .setParameter("searchTo", to)
+                .getResultList();
     }
 }

@@ -6,12 +6,11 @@ import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
-
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -20,8 +19,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 /**
  * @author Jiri Sacha 409861
  */
@@ -50,6 +52,7 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     private Forest forest;
     private Forest forest2;
     private MushroomCount mc;
+    private MushroomCount mc2;
     private Mushroom mushroom;
     private Mushroom mushroom2;
 
@@ -64,6 +67,7 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         visit = new Visit();
         basicVisit = new Visit();
         mc = new MushroomCount();
+        mc2 = new MushroomCount();
 
         forest.setLocalityDescription("unknown");
         forest.setName("Birch forest");
@@ -81,6 +85,10 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         mc.setVisit(visit);
         mc.setCount(10);
 
+        mc2.setMushroom(mushroom2);
+        mc2.setVisit(visit);
+        mc2.setCount(3);
+
         hunter.setNick("Fury");
         hunter.setFirstName("Jan");
         hunter.setSurname("Novak");
@@ -92,16 +100,22 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         visit.setHunter(hunter);
         visit.setForest(forest);
         visit.addMushroomCount(mc);
-        visit.setDate(new Date());
+        
+        Calendar from = Calendar.getInstance();
+        Calendar to = Calendar.getInstance();
+        from.set(2016, Calendar.FEBRUARY, 1);
+        to.set(2016, Calendar.NOVEMBER, 30);
+        visit.setFromDate(from.getTime());
+        visit.setToDate(to.getTime());
 
         basicVisit.setHunter(hunter);
         basicVisit.setForest(forest);
-        basicVisit.setDate(new Date());
+        basicVisit.setFromDate(new Date());
+        basicVisit.setToDate(new Date());
     }
 
-
     @Test
-    public void createVisitTest(){
+    public void createVisitTest() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
@@ -115,19 +129,54 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
 
         List<Visit> listVisit = em.createQuery("select v from Visit v", Visit.class)
                 .getResultList();
-        if (listVisit.size() != 1) { Assert.fail();}
+        if (listVisit.size() != 1) {
+            Assert.fail();
+        }
         Visit dbVisit = listVisit.get(0);
 
-        Assert.assertEquals(dbVisit.getId(),visit.getId());
-        Assert.assertEquals(dbVisit.getForest().getId(),forest.getId());
-        Assert.assertEquals(dbVisit.getHunter().getId(),hunter.getId());
-        Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
-        Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
-                new java.sql.Date(visit.getDate().getTime()).toString());
+        Assert.assertEquals(dbVisit.getId(), visit.getId());
+        Assert.assertEquals(dbVisit.getForest().getId(), forest.getId());
+        Assert.assertEquals(dbVisit.getHunter().getId(), hunter.getId());
+        Assert.assertEquals(dbVisit.getMushroomsCount(), visit.getMushroomsCount());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getFromDate().getTime()).toString(),
+                new java.sql.Date(visit.getFromDate().getTime()).toString());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getToDate().getTime()).toString(),
+                new java.sql.Date(visit.getToDate().getTime()).toString());
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void createVisitTestNullDate() {
+        EntityManager m = emf.createEntityManager();
+        m.getTransaction().begin();
+        m.persist(mushroom);
+        m.persist(hunter);
+        m.persist(forest);
+        m.getTransaction().commit();
+        m.close();
+
+        visit.setFromDate(null);
+        visit.setToDate(null);
+        visitDao.create(visit);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void createVisitTestAfterDate() {
+        EntityManager m = emf.createEntityManager();
+        m.getTransaction().begin();
+        m.persist(mushroom);
+        m.persist(hunter);
+        m.persist(forest);
+        m.getTransaction().commit();
+        m.close();
+
+        Date date = new Date();
+        visit.setFromDate(new Date(date.getTime() + 10));
+        visit.setToDate(date);
+        visitDao.create(visit);
     }
 
     @Test
-    public void findByIdVisitTest(){
+    public void findByIdVisitTest() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
@@ -140,17 +189,18 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         visitDao.create(visit);
         Visit dbVisit = visitDao.findById(visit.getId());
 
-        Assert.assertEquals(dbVisit.getId(),visit.getId());
-        Assert.assertEquals(dbVisit.getForest().getId(),forest.getId());
-        Assert.assertEquals(dbVisit.getHunter().getId(),hunter.getId());
-        Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
-        Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
-                new java.sql.Date(visit.getDate().getTime()).toString());
+        Assert.assertEquals(dbVisit.getId(), visit.getId());
+        Assert.assertEquals(dbVisit.getForest().getId(), forest.getId());
+        Assert.assertEquals(dbVisit.getHunter().getId(), hunter.getId());
+        Assert.assertEquals(dbVisit.getMushroomsCount(), visit.getMushroomsCount());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getFromDate().getTime()).toString(),
+                new java.sql.Date(visit.getFromDate().getTime()).toString());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getToDate().getTime()).toString(),
+                new java.sql.Date(visit.getToDate().getTime()).toString());
     }
 
-
     @Test
-    public void deleteVisitTest(){
+    public void deleteVisitTest() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
@@ -171,7 +221,7 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void updateVisitTest(){
+    public void updateVisitTest() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
@@ -188,19 +238,23 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
 
         List<Visit> listVisit = em.createQuery("select v from Visit v", Visit.class)
                 .getResultList();
-        if (listVisit.size() != 1) { Assert.fail();}
+        if (listVisit.size() != 1) {
+            Assert.fail();
+        }
         Visit dbVisit = listVisit.get(0);
 
-        Assert.assertEquals(dbVisit.getId(),visit.getId());
-        Assert.assertEquals(dbVisit.getForest().getId(),forest2.getId());
-        Assert.assertEquals(dbVisit.getHunter().getId(),hunter.getId());
-        Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
-        Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
-                new java.sql.Date(visit.getDate().getTime()).toString());
+        Assert.assertEquals(dbVisit.getId(), visit.getId());
+        Assert.assertEquals(dbVisit.getForest().getId(), forest2.getId());
+        Assert.assertEquals(dbVisit.getHunter().getId(), hunter.getId());
+        Assert.assertEquals(dbVisit.getMushroomsCount(), visit.getMushroomsCount());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getFromDate().getTime()).toString(),
+                new java.sql.Date(visit.getFromDate().getTime()).toString());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getToDate().getTime()).toString(),
+                new java.sql.Date(visit.getToDate().getTime()).toString());
     }
 
     @Test
-    public void findByHunter(){
+    public void findByHunter() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
@@ -211,20 +265,24 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.close();
 
         visitDao.create(visit);
-        List <Visit> dbListVisit = visitDao.findByHunter(hunter);
-        if (dbListVisit.size() != 1) { Assert.fail();}
+        List<Visit> dbListVisit = visitDao.findByHunter(hunter);
+        if (dbListVisit.size() != 1) {
+            Assert.fail();
+        }
         Visit dbVisit = dbListVisit.get(0);
 
-        Assert.assertEquals(dbVisit.getId(),visit.getId());
-        Assert.assertEquals(dbVisit.getForest().getId(),forest.getId());
-        Assert.assertEquals(dbVisit.getHunter().getId(),hunter.getId());
-        Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
-        Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
-                new java.sql.Date(visit.getDate().getTime()).toString());
+        Assert.assertEquals(dbVisit.getId(), visit.getId());
+        Assert.assertEquals(dbVisit.getForest().getId(), forest.getId());
+        Assert.assertEquals(dbVisit.getHunter().getId(), hunter.getId());
+        Assert.assertEquals(dbVisit.getMushroomsCount(), visit.getMushroomsCount());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getFromDate().getTime()).toString(),
+                new java.sql.Date(visit.getFromDate().getTime()).toString());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getToDate().getTime()).toString(),
+                new java.sql.Date(visit.getToDate().getTime()).toString());
     }
 
     @Test
-    public void findByForest(){
+    public void findByForest() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
@@ -236,56 +294,43 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         m.close();
 
         visitDao.create(visit);
-        List <Visit> dbListVisit = visitDao.findByForest(forest2);
-        if (dbListVisit.size() != 0) {Assert.fail();}
+        List<Visit> dbListVisit = visitDao.findByForest(forest2);
+        if (dbListVisit.size() != 0) {
+            Assert.fail();
+        }
     }
 
     @Test
-    public void findByMushroom(){
+    public void findByMushroom() {
 
         EntityManager m = emf.createEntityManager();
         m.getTransaction().begin();
         m.persist(mushroom);
+        m.persist(mushroom2);
         m.persist(hunter);
         m.persist(forest);
         m.getTransaction().commit();
         m.close();
 
+        visit.addMushroomCount(mc2);
+        basicVisit.addMushroomCount(mc2);
+        visitDao.create(basicVisit);
         visitDao.create(visit);
-        List <Visit> dbListVisit = visitDao.findByMushroom(mushroom);
-        if (dbListVisit.size() != 1) {Assert.fail();}
+
+        List<Visit> dbListVisit = visitDao.findByMushroom(mushroom);
+        if (dbListVisit.size() != 1) {
+            Assert.fail();
+        }
         Visit dbVisit = dbListVisit.get(0);
 
-        Assert.assertEquals(dbVisit.getId(),visit.getId());
-        Assert.assertEquals(dbVisit.getForest().getId(),forest.getId());
-        Assert.assertEquals(dbVisit.getHunter().getId(),hunter.getId());
-        Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
-        Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
-                new java.sql.Date(visit.getDate().getTime()).toString());
-    }
-
-    @Test
-    public void findByDate(){
-
-        EntityManager m = emf.createEntityManager();
-        m.getTransaction().begin();
-        m.persist(mushroom);
-        m.persist(hunter);
-        m.persist(forest);
-        m.getTransaction().commit();
-        m.close();
-
-        visitDao.create(visit);
-        List <Visit> dbListVisit = visitDao.findByDate(visit.getDate());
-        if (dbListVisit.size() != 1) {Assert.fail();}
-        Visit dbVisit = dbListVisit.get(0);
-
-        Assert.assertEquals(dbVisit.getId(),visit.getId());
-        Assert.assertEquals(dbVisit.getForest().getId(),forest.getId());
-        Assert.assertEquals(dbVisit.getHunter().getId(),hunter.getId());
-        Assert.assertEquals(dbVisit.getMushroomsCount(),visit.getMushroomsCount());
-        Assert.assertEquals(new java.sql.Date(dbVisit.getDate().getTime()).toString(),
-                new java.sql.Date(visit.getDate().getTime()).toString());
+        Assert.assertEquals(dbVisit.getId(), visit.getId());
+        Assert.assertEquals(dbVisit.getForest().getId(), forest.getId());
+        Assert.assertEquals(dbVisit.getHunter().getId(), hunter.getId());
+        Assert.assertEquals(dbVisit.getMushroomsCount(), visit.getMushroomsCount());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getFromDate().getTime()).toString(),
+                new java.sql.Date(visit.getFromDate().getTime()).toString());
+        Assert.assertEquals(new java.sql.Date(dbVisit.getToDate().getTime()).toString(),
+                new java.sql.Date(visit.getToDate().getTime()).toString());
     }
 
     @Test
@@ -333,5 +378,57 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(mushroomCountList.size(), 1);
         Assert.assertTrue(mushroomCountList.contains(mushroomCount));
         Assert.assertTrue(!mushroomCountList.contains(mushroomCount2));
+    }
+
+    @Test
+    public void findByDate() {
+        EntityManager m = emf.createEntityManager();
+        m.getTransaction().begin();
+        m.persist(mushroom);
+        m.persist(hunter);
+        m.persist(forest);
+        m.getTransaction().commit();
+        m.close();
+
+        Calendar from = Calendar.getInstance();
+        Calendar to = Calendar.getInstance();
+        from.set(2016, Calendar.JUNE, 25);
+        to.set(2016, Calendar.AUGUST, 1);
+
+        visitDao.create(visit);
+
+        basicVisit.setFromDate(from.getTime());
+        basicVisit.setToDate(to.getTime());
+        visitDao.create(basicVisit);
+
+
+        visitDao.findByDate(from.getTime(),to.getTime());
+
+        List<Visit> visits = visitDao.findByDate(from.getTime(),to.getTime());
+        Assert.assertEquals(visits.size(), 2);
+
+        to.set(2016, Calendar.NOVEMBER, 1);
+        visits = visitDao.findByDate(from.getTime(),to.getTime());
+        Assert.assertEquals(visits.size(), 1);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsOne() {
+        visitDao.findByDate(null, new Date());
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsTwo() {
+        visitDao.findByDate(new Date(), null);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsThree() {
+        visitDao.findByDate(null, null);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void findByDateThrowsFour() {
+        visitDao.findByDate(null);
     }
 }

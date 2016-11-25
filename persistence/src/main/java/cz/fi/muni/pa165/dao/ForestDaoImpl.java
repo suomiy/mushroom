@@ -36,7 +36,7 @@ public class ForestDaoImpl implements ForestDao {
     }
 
     @Override
-    public void delete(Forest forest) throws IllegalArgumentException {
+    public void delete(Forest forest) {
         em.remove(forest);
     }
 

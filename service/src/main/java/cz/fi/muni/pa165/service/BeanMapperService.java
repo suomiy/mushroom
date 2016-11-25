@@ -21,6 +21,6 @@ public interface BeanMapperService {
      * Map object to targetClass
      */
     <T> T mapTo(Object u, Class<T> targetClass);
-    Mapper getMapper();
 
+    Mapper getMapper();
 }

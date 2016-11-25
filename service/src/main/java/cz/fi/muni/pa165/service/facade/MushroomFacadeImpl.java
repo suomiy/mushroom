@@ -1,5 +1,7 @@
 package cz.fi.muni.pa165.service.facade;
 
+import cz.fi.muni.pa165.dto.DateDTO;
+import cz.fi.muni.pa165.dto.DateIntervalDTO;
 import cz.fi.muni.pa165.dto.MushroomDTO;
 import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.enums.MushroomType;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,31 +31,19 @@ public class MushroomFacadeImpl implements MushroomFacade {
 
     @Override
     public void create(MushroomDTO mushroom) {
-        mushroomService.create(beanMapperService.mapTo(mushroom,Mushroom.class));
+        mushroomService.create(beanMapperService.mapTo(mushroom, Mushroom.class));
     }
 
     @Override
     public MushroomDTO update(MushroomDTO mushroom) {
-        MushroomDTO result = null;
         Mushroom m = mushroomService.update(beanMapperService.mapTo(mushroom, Mushroom.class));
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
 
     @Override
     public MushroomDTO findById(Long id) {
-        MushroomDTO result = null;
         Mushroom m = mushroomService.findById(id);
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
 
     @Override
@@ -64,62 +53,31 @@ public class MushroomFacadeImpl implements MushroomFacade {
 
     @Override
     public List<MushroomDTO> findAll() {
-        List<MushroomDTO> result = null;
         List<Mushroom> m = mushroomService.findAll();
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
 
     @Override
     public MushroomDTO findByName(String name) {
-        MushroomDTO result = null;
         Mushroom m = mushroomService.findByName(name);
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
 
     @Override
     public List<MushroomDTO> findByType(MushroomType type) {
-        List<MushroomDTO> result = null;
         List<Mushroom> m = mushroomService.findByType(type);
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
 
     @Override
-    public List<MushroomDTO> findByDate(Date date) {
-        List<MushroomDTO> result = null;
-        List<Mushroom> m = mushroomService.findByDate(date);
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+    public List<MushroomDTO> findByDate(DateDTO date) {
+        List<Mushroom> m = mushroomService.findByDate(date.getDate());
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
 
     @Override
-    public List<MushroomDTO> findByDate(Date from, Date to) {
-        List<MushroomDTO> result = null;
-        List<Mushroom> m = mushroomService.findByDate(from, to);
-
-        if(m != null){
-            result = beanMapperService.mapTo(m, MushroomDTO.class);
-        }
-
-        return result;
+    public List<MushroomDTO> findByDate(DateIntervalDTO interval) {
+        List<Mushroom> m = mushroomService.findByDate(interval.getFrom(), interval.getTo());
+        return beanMapperService.mapTo(m, MushroomDTO.class);
     }
-
 }

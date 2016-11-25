@@ -19,6 +19,21 @@ public class MushroomCountDaoImpl implements MushroomCountDao {
     private EntityManager em;
 
     @Override
+    public void create(MushroomCount mushroomCount) {
+        em.persist(mushroomCount);
+    }
+
+    @Override
+    public MushroomCount update(MushroomCount mushroomCount) {
+        return em.merge(mushroomCount);
+    }
+
+    @Override
+    public void delete(MushroomCount mushroomCount) {
+        em.remove(mushroomCount);
+    }
+
+    @Override
     public MushroomCount findById(Long id) {
         return em.find(MushroomCount.class, id);
     }

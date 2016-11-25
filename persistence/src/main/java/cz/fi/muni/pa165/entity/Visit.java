@@ -1,5 +1,7 @@
 package cz.fi.muni.pa165.entity;
 
+import cz.fi.muni.pa165.utils.DateIntervalUtils;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Date;
@@ -26,9 +28,13 @@ public class Visit {
 
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date date;
+    private Date fromDate;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date toDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("mushroom.name")
     private SortedSet<MushroomCount> mushroomsCount = new TreeSet<>();
 
@@ -49,15 +55,40 @@ public class Visit {
     }
 
     public void setForest(Forest forest) {
+
         this.forest = forest;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getFromDate() {
+        return new Date(this.fromDate.getTime());
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    /**
+     * Sets this date which is exclusive to the interval, doesn't use the Time of the object,
+     * <p>
+     * This method also recalculates toDate of this object
+     *
+     * @param fromDate date object (Month and Day are used only)
+     */
+    public void setFromDate(Date fromDate) {
+        DateIntervalUtils.checkIsNotAfter(fromDate, toDate);
+
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return new Date(this.toDate.getTime());
+    }
+
+    /**
+     * Sets this date which is exclusive to the interval, doesn't use the Time of the object,
+     *
+     * @param toDate date object (Month and Day are used only)
+     */
+    public void setToDate(Date toDate) {
+        DateIntervalUtils.checkIsNotAfter(fromDate, toDate);
+
+        this.toDate = toDate;
     }
 
     public String getNote() {
@@ -100,10 +131,11 @@ public class Visit {
     public String toString() {
         return "Visit{" +
                 "id=" + id +
-                ", hunter=" + hunter.getNick() +
-                ", forest=" + forest.getName() +
+                ", hunter=" + hunter +
+                ", forest=" + forest +
                 ", note='" + note + '\'' +
-                ", date=" + date +
+                ", fromDate=" + fromDate +
+                ", toDate=" + toDate +
                 ", mushroomsCount=" + mushroomsCount +
                 '}';
     }

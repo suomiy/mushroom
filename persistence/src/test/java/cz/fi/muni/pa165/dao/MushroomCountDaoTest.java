@@ -115,7 +115,8 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
 
     private void prepareVisit() {
         visit = new Visit();
-        visit.setDate(new Date(1, 1, 1994));
+        visit.setFromDate(new Date(1, 1, 1994));
+        visit.setToDate(new Date(1, 1, 1994));
         visit.setForest(forest);
         visit.setHunter(hunter);
         visit.addMushroomCount(mushroomCount1);
@@ -138,6 +139,4 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
         MushroomCount found = mushroomCountDao.findById(mushroomCount1.getId());
         Assert.assertEquals(mushroomCount1, found);
     }
-
-
 }

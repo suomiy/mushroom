@@ -20,7 +20,7 @@ import java.util.Collection;
  */
 @Service
 @Transactional
-public class HunterFacadeImpl implements HunterFacade{
+public class HunterFacadeImpl implements HunterFacade {
 
     @Inject
     HunterService hunterService;
@@ -30,50 +30,49 @@ public class HunterFacadeImpl implements HunterFacade{
 
     @Override
     public void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException {
-
-        Hunter hunterEntity = beanMapperService.mapTo(hunter,Hunter.class);
-        hunterService.registerHunter(hunterEntity,unencryptedPassword);
+        Hunter hunterEntity = beanMapperService.mapTo(hunter, Hunter.class);
+        hunterService.registerHunter(hunterEntity, unencryptedPassword);
     }
 
     @Override
     public boolean authenticate(UserAuthenticateDTO hunter) throws HunterAuthenticationException {
-
-        return hunterService.authenticate(hunterService.findByEmail(hunter.getEmail()),hunter.getPassword());
+        Hunter hunterEntity = hunterService.findByEmail(hunter.getEmail());
+        return hunterService.authenticate(hunterEntity, hunter.getPassword());
     }
 
     @Override
     public HunterDTO update(HunterDTO hunter) {
-        Hunter updatedHunter = hunterService.update(beanMapperService.mapTo(hunter,Hunter.class));
-        return (updatedHunter == null) ? null : beanMapperService.mapTo(updatedHunter,HunterDTO.class);
+        Hunter hunterEntity = hunterService.update(beanMapperService.mapTo(hunter, Hunter.class));
+        return beanMapperService.mapTo(hunterEntity, HunterDTO.class);
     }
 
     @Override
-    public void delete(HunterDTO hunter) {
-        hunterService.delete(beanMapperService.mapTo(hunter,Hunter.class));
+    public void delete(Long id) {
+        Hunter hunter = hunterService.findById(id);
+        hunterService.delete(hunter);
     }
 
     @Override
     public HunterDTO findById(Long id) {
         Hunter hunter = hunterService.findById(id);
-        return (hunter == null) ? null : beanMapperService.mapTo(hunter,HunterDTO.class);
+        return beanMapperService.mapTo(hunter, HunterDTO.class);
     }
 
     @Override
     public HunterDTO findByEmail(String email) {
         Hunter hunter = hunterService.findByEmail(email);
-        return (hunter == null) ? null : beanMapperService.mapTo(hunter,HunterDTO.class);
+        return beanMapperService.mapTo(hunter, HunterDTO.class);
     }
 
     @Override
     public Collection<HunterDTO> findAll() {
-        return beanMapperService.mapTo(hunterService.findAll(),HunterDTO.class);
+        return beanMapperService.mapTo(hunterService.findAll(), HunterDTO.class);
     }
 
     @Override
     public void changePassword(HunterDTO hunter, String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException {
-
-        hunterService.changePassword(beanMapperService.mapTo(hunter,Hunter.class),
-                oldUnencryptedPassword,newUnencryptedPassword);
+        Hunter hunterEntity = beanMapperService.mapTo(hunter, Hunter.class);
+        hunterService.changePassword(hunterEntity, oldUnencryptedPassword, newUnencryptedPassword);
     }
 }

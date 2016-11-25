@@ -28,30 +28,35 @@ public class ForestFaceadeImpl implements ForestFacade {
 
     @Override
     public void create(ForestDTO forest) {
-        forestService.create(beanMapperService.mapTo(forest,Forest.class));
+        forestService.create(beanMapperService.mapTo(forest, Forest.class));
     }
 
     @Override
     public ForestDTO update(ForestDTO forest) {
-        Forest updatedForest = forestService.update(beanMapperService.mapTo(forest,Forest.class));
-        return (updatedForest == null) ? null : beanMapperService.mapTo(updatedForest,ForestDTO.class);
+        Forest forestEntity = forestService.update(beanMapperService.mapTo(forest, Forest.class));
+        return beanMapperService.mapTo(forestEntity, ForestDTO.class);
     }
 
     @Override
     public ForestDTO findById(Long id) {
         Forest forest = forestService.findById(id);
-        return (forest == null) ? null : beanMapperService.mapTo(forest,ForestDTO.class);
+        return beanMapperService.mapTo(forest, ForestDTO.class);
     }
 
     @Override
-    public void delete(ForestDTO forest) { forestService.delete(beanMapperService.mapTo(forest,Forest.class)); }
+    public void delete(Long id) {
+        Forest forest = forestService.findById(id);
+        forestService.delete(forest);
+    }
 
     @Override
-    public List<ForestDTO> findAll() { return beanMapperService.mapTo(forestService.findAll(),ForestDTO.class); }
+    public List<ForestDTO> findAll() {
+        return beanMapperService.mapTo(forestService.findAll(), ForestDTO.class);
+    }
 
     @Override
     public ForestDTO findByName(String name) {
         Forest forest = forestService.findByName(name);
-        return (forest == null) ? null : beanMapperService.mapTo(forest,ForestDTO.class);
+        return beanMapperService.mapTo(forest, ForestDTO.class);
     }
 }

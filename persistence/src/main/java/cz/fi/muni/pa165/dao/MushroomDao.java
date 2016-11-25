@@ -39,9 +39,8 @@ public interface MushroomDao {
      * Remove entity from databbase
      *
      * @param mushroom
-     * @throws IllegalArgumentException - if the mushroom is not an entity or is a detached entity
      */
-    void delete(Mushroom mushroom) throws IllegalArgumentException;
+    void delete(Mushroom mushroom);
 
     /**
      * Finds all entities
@@ -84,5 +83,4 @@ public interface MushroomDao {
      * @throws IllegalArgumentException if fromDate or toDate is null
      */
     List<Mushroom> findByDate(Date fromDate, Date toDate);
-
 }
