@@ -32,7 +32,7 @@ public class HunterDTO extends UserDTO {
     }
 
     public List<VisitDTO> getVisits() {
-        return Collections.unmodifiableList(visits);
+        return visits;
     }
 
     public void setVisits(List<VisitDTO> visits) { this.visits = visits; }

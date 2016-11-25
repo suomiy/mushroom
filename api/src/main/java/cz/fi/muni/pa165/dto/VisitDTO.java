@@ -26,6 +26,10 @@ public class VisitDTO {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public HunterDTO getHunter() {
         return hunter;
     }
