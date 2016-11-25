@@ -51,6 +51,10 @@ public class Visit {
         return hunter;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setHunter(Hunter hunter) {
         this.hunter = hunter;
     }
