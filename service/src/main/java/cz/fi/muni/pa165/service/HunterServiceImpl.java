@@ -2,11 +2,9 @@ package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.dao.HunterDao;
 import cz.fi.muni.pa165.entity.Hunter;
-import cz.fi.muni.pa165.entity.Visit;
-import cz.fi.muni.pa165.enums.Role;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -29,63 +27,74 @@ public class HunterServiceImpl implements HunterService {
 
     @Override
     public void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException {
+        if (hunter == null) {
+            throw new IllegalArgumentException("Hunter is null");
+        }
+
+        if (StringUtils.isEmpty(unencryptedPassword)) {
+            throw new IllegalArgumentException("Password is empty");
+        }
+
         hunter.setPasswordHash(createHash(unencryptedPassword));
         hunterDao.create(hunter);
     }
 
     @Override
     public boolean authenticate(Hunter hunter, String password) throws HunterAuthenticationException {
+        if (hunter == null || StringUtils.isEmpty(password)) {
+            return false;
+        }
 
-        if(hunter == null) return false;
         return verifyPassword(password, hunter.getPasswordHash());
     }
 
     @Override
     public Hunter update(Hunter hunter) {
-        Hunter h = hunterDao.findById(hunter.getId());
-        h.setEmail(hunter.getEmail());
-        h.setRank(hunter.getRank());
-        h.setType(hunter.getType());
-        h.setFirstName(hunter.getFirstName());
-        h.setNick(hunter.getNick());
-        h.setSurname(hunter.getSurname());
-
-        return hunterDao.update(h);
+        return hunterDao.update(hunter);
     }
 
     @Override
-    public void changePassword(Long hunterId,String oldUnencryptedPassword, String newUnencryptedPassword)
+    public void changePassword(Long hunterId, String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException {
+        if (StringUtils.isEmpty(oldUnencryptedPassword)) {
+            throw new IllegalArgumentException("old Password is empty");
+        }
+
+        if (StringUtils.isEmpty(newUnencryptedPassword)) {
+            throw new IllegalArgumentException("new Password is empty");
+        }
 
         Hunter hunter = hunterDao.findById(hunterId);
 
-        if(hunter == null){
+        if (hunter == null) {
             throw new IllegalArgumentException("Hunter id null");
         }
 
-        if(verifyPassword(oldUnencryptedPassword,hunter.getPasswordHash())){
+        if (verifyPassword(oldUnencryptedPassword, hunter.getPasswordHash())) {
             hunter.setPasswordHash(createHash(newUnencryptedPassword));
             hunterDao.update(hunter);
         }
     }
 
     @Override
-    public void addVisit(Hunter hunter, Visit visit) { hunter.addVisit(visit); }
+    public void delete(Hunter hunter) {
+        hunterDao.delete(hunter);
+    }
 
     @Override
-    public void removeVisit(Hunter hunter, Visit visit) { hunter.removeVisit(visit); }
+    public Hunter findById(Long id) {
+        return hunterDao.findById(id);
+    }
 
     @Override
-    public void delete(Hunter hunter) { hunterDao.delete(hunter); }
+    public Hunter findByEmail(String email) {
+        return hunterDao.findByEmail(email);
+    }
 
     @Override
-    public Hunter findById(Long id) { return hunterDao.findById(id); }
-
-    @Override
-    public Hunter findByEmail(String email) { return hunterDao.findByEmail(email); }
-
-    @Override
-    public List<Hunter> findAll() { return hunterDao.findAll(); }
+    public List<Hunter> findAll() {
+        return hunterDao.findAll();
+    }
 
     private static String createHash(String unencryptedPassword) throws HunterAuthenticationException {
 
@@ -112,10 +121,8 @@ public class HunterServiceImpl implements HunterService {
             PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             return skf.generateSecret(spec).getEncoded();
-
         } catch (GeneralSecurityException ex) {
-            throw new HunterAuthenticationException("Authentication error",ex);
-
+            throw new HunterAuthenticationException("Authentication error", ex);
         }
     }
 
@@ -129,9 +136,13 @@ public class HunterServiceImpl implements HunterService {
         return DatatypeConverter.printBase64Binary(array);
     }
 
-    public static boolean verifyPassword(String password, String correctHash) throws HunterAuthenticationException {
-        if(password==null) return false;
-        if(correctHash==null) throw new IllegalArgumentException("password hash is null");
+    private static boolean verifyPassword(String password, String correctHash) throws HunterAuthenticationException {
+        if (StringUtils.isEmpty(password)) {
+            return false;
+        }
+        if (correctHash == null) {
+            throw new IllegalArgumentException("password hash is null");
+        }
 
         String[] params = correctHash.split(":");
 
@@ -140,15 +151,12 @@ public class HunterServiceImpl implements HunterService {
         byte[] hash = fromBase64(params[2]);
         byte[] testHash = pbkdf2(password.toCharArray(), salt, iterations, hash.length);
         return slowEquals(hash, testHash);
-
     }
 
     private static boolean slowEquals(byte[] a, byte[] b) {
         int diff = a.length ^ b.length;
-        for(int i = 0; i < a.length && i < b.length; i++)
+        for (int i = 0; i < a.length && i < b.length; i++)
             diff |= a[i] ^ b[i];
         return diff == 0;
     }
-
-
 }

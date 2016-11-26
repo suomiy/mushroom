@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.entity.Hunter;
-import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
 import java.util.List;
@@ -15,19 +14,22 @@ public interface HunterService {
 
     /**
      * Register given hunter with his password
-     * @param hunter - hunter to register
+     *
+     * @param hunter              - hunter to register
      * @param unencryptedPassword - hunter's password
      */
     void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter
+     *
      * @return - true only if hashed password is equal with hunter passwordHash
      */
     boolean authenticate(Hunter hunter, String password) throws HunterAuthenticationException;
 
     /**
      * Updates hunter
+     *
      * @param hunter
      * @return - updated hunter
      */
@@ -66,18 +68,6 @@ public interface HunterService {
     /**
      * Changes user password
      */
-    void changePassword(Long hunterId,String oldUnencryptedPassword, String newUnencryptedPassword)
+    void changePassword(Long hunterId, String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException;
-
-    /**
-     * Add visit to hunter
-     */
-    void addVisit(Hunter hunter, Visit visit);
-
-    /**
-     * Remove visit from hunter
-     */
-    void removeVisit(Hunter hunter, Visit visit);
-
-
 }
