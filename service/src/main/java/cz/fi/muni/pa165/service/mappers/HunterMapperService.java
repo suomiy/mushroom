@@ -12,7 +12,7 @@ import javax.inject.Inject;
  */
 @Service
 public class HunterMapperService extends EntityDTOServiceImpl<Hunter, HunterDTO> {
-    HunterMapper mapper = Selma.builder(HunterMapper.class).build();
+    private HunterMapper mapper = Selma.builder(HunterMapper.class).build();
 
     @Inject
     private VisitMapperService visitMapperService;

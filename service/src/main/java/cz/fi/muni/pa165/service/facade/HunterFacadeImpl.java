@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
-import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
@@ -46,8 +45,18 @@ public class HunterFacadeImpl implements HunterFacade {
     }
 
     @Override
-    public HunterDTO update(HunterDTO hunter) {
-        Hunter hunterEntity = hunterService.update(mapperService.asEntity(hunter));
+    public HunterDTO update(HunterDTO hunterDTO) {
+        Hunter hunter = mapperService.asEntity(hunterDTO);
+
+        Hunter hunterEntity = hunterService.findById(hunter.getId());
+        hunterEntity.setEmail(hunter.getEmail());
+        hunterEntity.setRank(hunter.getRank());
+        hunterEntity.setType(hunter.getType());
+        hunterEntity.setFirstName(hunter.getFirstName());
+        hunterEntity.setNick(hunter.getNick());
+        hunterEntity.setSurname(hunter.getSurname());
+        hunterEntity = hunterService.update(hunterEntity);
+
         return mapperService.asDto(hunterEntity);
     }
 
@@ -79,17 +88,5 @@ public class HunterFacadeImpl implements HunterFacade {
             throws HunterAuthenticationException {
 
         hunterService.changePassword(hunterId, oldUnencryptedPassword, newUnencryptedPassword);
-    }
-
-    @Override
-    public void addVisit(Long hunterId, VisitDTO visitDto) {
-        hunterService.addVisit(hunterService.findById(hunterId),
-                visitMapperService.asEntity(visitDto));
-    }
-
-    @Override
-    public void removeVisit(Long hunterId, VisitDTO visitDto) {
-        hunterService.removeVisit(hunterService.findById(hunterId),
-                visitMapperService.asEntity(visitDto));
     }
 }

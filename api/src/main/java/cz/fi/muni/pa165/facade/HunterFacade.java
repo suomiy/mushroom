@@ -73,14 +73,4 @@ public interface HunterFacade {
      */
     void changePassword(Long hunterId, String oldUnencryptedPassword, String newUnencryptedPassword)
             throws HunterAuthenticationException;
-
-    /**
-     * Add visit to hunter
-     */
-    void addVisit(Long hunterId, VisitDTO visitDto);
-
-    /**
-     * Remove visit from hunter
-     */
-    void removeVisit(Long hunterId, VisitDTO visitDto);
 }

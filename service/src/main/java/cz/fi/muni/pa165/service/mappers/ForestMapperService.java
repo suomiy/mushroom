@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ForestMapperService extends EntityDTOServiceImpl<Forest, ForestDTO> {
-    ForestMapper mapper = Selma.builder(ForestMapper.class).build();
+    private ForestMapper mapper = Selma.builder(ForestMapper.class).build();
 
     @SuppressWarnings("unchecked")
     @Override
