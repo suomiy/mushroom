@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,11 +37,11 @@ import java.util.List;
 public class MushroomServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
-    MushroomDao mushroomDao;
+    private MushroomDao mushroomDao;
 
     @Autowired
     @InjectMocks
-    MushroomService mushroomService;
+    private MushroomService mushroomService;
 
     private Mushroom mushroom1;
     private Mushroom mushroom2;
@@ -136,22 +137,30 @@ public class MushroomServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findMushroomsByDateTest() {
-        when(mushroomDao.findByDate(new Date(16,5,2016))).thenReturn(Arrays.asList(mushroom2));
 
-        List<Mushroom> loadedMushrooms = mushroomService.findByDate(new Date(16,5,2016));
+        Date date = buildDate(16,5,2016);
+
+        when(mushroomDao.findByDate(date)).thenReturn(Arrays.asList(mushroom2));
+
+        List<Mushroom> loadedMushrooms = mushroomService.findByDate(date);
         assertThat(loadedMushrooms).isNotNull().isNotEmpty()
                 .hasSize(1).containsOnly(mushroom2);
     }
 
     @Test
     public void findMushroomsByDatesTest() {
+
         mushroom1.setId(1L);
 
-        when(mushroomDao.findByDate(new Date(16,5,2016),new Date(18,5,2016)))
+        Date fromDate = buildDate(12,5,2016);
+        Date dateTo = buildDate(18,5,2016);
+
+        when(mushroomDao.findByDate(fromDate,dateTo))
                 .thenReturn(Arrays.asList(mushroom1,mushroom2));
 
         List<Mushroom> loadedMushrooms = mushroomService.
-                findByDate(new Date(16,5,2016),new Date(18,5,2016));
+                findByDate(fromDate,dateTo);
+
         assertThat(loadedMushrooms).isNotNull().isNotEmpty()
                 .hasSize(2).containsOnly(mushroom1,mushroom2);
     }
@@ -164,21 +173,29 @@ public class MushroomServiceTest extends AbstractTestNGSpringContextTests {
         mushroom1.setType(MushroomType.EDIBLE);
         mushroom1.setName("Kozak");
         mushroom1.setDescription("Velky Kozak");
-        mushroom1.setToDate(new Date(10,5,2116));
-        mushroom1.setToDate(new Date(12,5,2016));
+        mushroom1.setToDate(buildDate(10,5,2016));
+        mushroom1.setToDate(buildDate(12,5,2016));
 
         mushroom2.setType(MushroomType.PSYCHEDELIC);
         mushroom2.setId(2L);
         mushroom2.setName("Hubicky");
         mushroom2.setDescription("Dobre hubicky");
-        mushroom2.setToDate(new Date(16,5,2116));
-        mushroom2.setToDate(new Date(17,5,2016));
+        mushroom2.setToDate(buildDate(16,5,2016));
+        mushroom2.setToDate(buildDate(17,5,2016));
 
         mushroom3.setType(MushroomType.NONEDIBLE);
         mushroom3.setName("Muchtravka");
         mushroom3.setDescription("zla muchtravka");
-        mushroom3.setToDate(new Date(23,6,2116));
-        mushroom3.setToDate(new Date(24,6,2016));
+        mushroom3.setToDate(buildDate(23,5,2016));
+        mushroom3.setToDate(buildDate(24,5,2016));
+    }
+
+    private Date buildDate(int day, int month, int year) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.YEAR, year);
+        return c.getTime();
     }
 
 

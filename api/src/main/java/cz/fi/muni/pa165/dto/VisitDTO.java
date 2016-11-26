@@ -22,6 +22,10 @@ public class VisitDTO {
 
     private List<MushroomCountDTO> mushroomsCount;
 
+    public VisitDTO(){
+
+    }
+
     public Long getId() {
         return id;
     }

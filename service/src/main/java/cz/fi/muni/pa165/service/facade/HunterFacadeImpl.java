@@ -24,13 +24,13 @@ import java.util.List;
 public class HunterFacadeImpl implements HunterFacade {
 
     @Inject
-    HunterService hunterService;
+    private HunterService hunterService;
 
     @Inject
-    HunterMapperService mapperService;
+    private HunterMapperService mapperService;
 
     @Inject
-    VisitMapperService visitMapperService;
+    private VisitMapperService visitMapperService;
 
     @Override
     public void registerHunter(HunterDTO hunterDTO, String unencryptedPassword) throws HunterAuthenticationException {

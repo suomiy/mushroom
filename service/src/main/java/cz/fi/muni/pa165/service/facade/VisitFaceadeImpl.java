@@ -22,16 +22,16 @@ import java.util.List;
 public class VisitFaceadeImpl implements VisitFacade {
 
     @Inject
-    VisitService visitService;
+    private VisitService visitService;
 
     @Inject
-    VisitMapperService mapperService;
+    private VisitMapperService mapperService;
 
     @Inject
-    HunterMapperService hunterMapperService;
+    private HunterMapperService hunterMapperService;
 
     @Inject
-    ForestMapperService forestMapperService;
+    private ForestMapperService forestMapperService;
 
     @Inject
     private MushroomMapperService mushroomMapperService;

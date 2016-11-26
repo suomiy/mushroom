@@ -31,11 +31,11 @@ import static org.mockito.Mockito.when;
 public class ForestServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
-    ForestDao forestDao;
+    private ForestDao forestDao;
 
     @Autowired
     @InjectMocks
-    ForestService forestService;
+    private ForestService forestService;
 
     private Forest forest1;
     private Forest forest2;

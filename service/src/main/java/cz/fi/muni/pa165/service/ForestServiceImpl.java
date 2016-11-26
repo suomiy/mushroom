@@ -16,7 +16,7 @@ import java.util.List;
 public class ForestServiceImpl implements ForestService {
 
     @Inject
-    ForestDao forestDao;
+    private ForestDao forestDao;
 
     @Override
     public void create(Forest forest) { forestDao.create(forest); }

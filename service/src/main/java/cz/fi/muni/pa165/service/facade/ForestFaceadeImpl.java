@@ -21,10 +21,10 @@ import java.util.List;
 public class ForestFaceadeImpl implements ForestFacade {
 
     @Inject
-    ForestService forestService;
+    private ForestService forestService;
 
     @Inject
-    ForestMapperService mapperService;
+    private ForestMapperService mapperService;
 
     @Override
     public void create(ForestDTO forest) {
