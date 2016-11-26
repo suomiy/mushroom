@@ -12,38 +12,38 @@ import java.util.*;
  * @author Filip Krepinsky (410022) on 11/25/16
  */
 
-class ObjectsHelper {
+public class ObjectsHelper {
     private static Calendar someTime = Calendar.getInstance();
 
-    static Hunter getEmptyHunterEntity() {
+    public static Hunter getEmptyHunterEntity() {
         Hunter hunter = new Hunter();
         hunter.setId(10L);
 
         return hunter;
     }
 
-    static HunterDTO getEmptyHunterEntityDTO() {
+    public static HunterDTO getEmptyHunterEntityDTO() {
         HunterDTO hunter = new HunterDTO();
         hunter.setId(10L);
 
         return hunter;
     }
 
-    static Visit getEmptyVisitEntity() {
+    public static Visit getEmptyVisitEntity() {
         Visit visit = new Visit();
         visit.setId(5L);
 
         return visit;
     }
 
-    static VisitDTO getEmptyVisitEntityDTO() {
+    public static VisitDTO getEmptyVisitEntityDTO() {
         VisitDTO visit = new VisitDTO();
         visit.setId(5L);
 
         return visit;
     }
 
-    static Hunter getHunterEntity() {
+    public static Hunter getHunterEntity() {
         Hunter hunter = getEmptyHunterEntity();
         hunter.setId(1L);
         hunter.setFirstName("Samuel");
@@ -58,7 +58,7 @@ class ObjectsHelper {
         return hunter;
     }
 
-    static HunterDTO getHunterEntityDTO() {
+    public static HunterDTO getHunterEntityDTO() {
         HunterDTO hunter = getEmptyHunterEntityDTO();
         hunter.setId(1L);
         hunter.setFirstName("Samuel");
@@ -75,7 +75,7 @@ class ObjectsHelper {
         return hunter;
     }
 
-    static Visit getVisitEntity() {
+    public static Visit getVisitEntity() {
         Visit visit = getEmptyVisitEntity();
         visit.setHunter(getEmptyHunterEntity());
         visit.setForest(getForestEntity());
@@ -89,7 +89,7 @@ class ObjectsHelper {
         return visit;
     }
 
-    static VisitDTO getVisitEntityDTO() {
+    public static VisitDTO getVisitEntityDTO() {
         VisitDTO visit = getEmptyVisitEntityDTO();
         visit.setHunterId(getEmptyHunterEntityDTO().getId());
         visit.setForest(getForestDTO());
@@ -103,7 +103,7 @@ class ObjectsHelper {
         return visit;
     }
 
-    static ForestDTO getForestDTO() {
+    public static ForestDTO getForestDTO() {
         ForestDTO forest = new ForestDTO();
         forest.setId(1L);
         forest.setName("Dark forest");
@@ -112,7 +112,7 @@ class ObjectsHelper {
         return forest;
     }
 
-    static Forest getForestEntity() {
+    public static Forest getForestEntity() {
         Forest forest = new Forest();
         forest.setId(1L);
         forest.setName("Dark forest");
@@ -121,7 +121,7 @@ class ObjectsHelper {
         return forest;
     }
 
-    static MushroomCount getMushroomCountEntity() {
+    public static MushroomCount getMushroomCountEntity() {
         MushroomCount entity = new MushroomCount();
         entity.setId(1L);
         entity.setCount(5);
@@ -135,7 +135,7 @@ class ObjectsHelper {
         return entity;
     }
 
-    static MushroomCountDTO getMushroomCountDTO() {
+    public static MushroomCountDTO getMushroomCountDTO() {
         MushroomCountDTO dto = new MushroomCountDTO();
         dto.setId(1L);
         dto.setCount(5);
@@ -149,7 +149,7 @@ class ObjectsHelper {
         return dto;
     }
 
-    static Mushroom getMushroomEntity() {
+    public static Mushroom getMushroomEntity() {
         Mushroom entity = new Mushroom();
         entity.setId(4L);
         entity.setName("Mochomurka");
@@ -161,7 +161,7 @@ class ObjectsHelper {
         return entity;
     }
 
-    static MushroomDTO getMushroomDTO() {
+    public static MushroomDTO getMushroomDTO() {
         MushroomDTO dto = new MushroomDTO();
         dto.setName("Mochomurka");
         dto.setId(4L);
@@ -173,15 +173,23 @@ class ObjectsHelper {
         return dto;
     }
 
-    static Date getFrom() {
+    public static Date getFrom() {
         Calendar from = (Calendar) someTime.clone();
         from.set(2016, Calendar.FEBRUARY, 1);
         return from.getTime();
     }
 
-    static Date getTo() {
+    public static Date getTo() {
         Calendar to = (Calendar) someTime.clone();
         to.set(2016, Calendar.NOVEMBER, 30);
         return to.getTime();
+    }
+
+    public static Date buildDate(int day, int month, int year) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.YEAR, year);
+        return c.getTime();
     }
 }

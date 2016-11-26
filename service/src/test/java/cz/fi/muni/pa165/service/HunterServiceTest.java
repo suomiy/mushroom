@@ -35,11 +35,11 @@ public class HunterServiceTest extends AbstractTestNGSpringContextTests {
     private static final String BAD_PASSWORD = "blablabla";
 
     @Mock
-    HunterDao hunterDao;
+    private HunterDao hunterDao;
 
     @Inject
     @InjectMocks
-    HunterService hunterService;
+    private HunterService hunterService;
 
     private Hunter hunter;
 

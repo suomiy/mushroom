@@ -7,7 +7,6 @@ import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
 import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.mappers.HunterMapperService;
-import cz.fi.muni.pa165.service.mappers.VisitMapperService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +27,6 @@ public class HunterFacadeImpl implements HunterFacade {
 
     @Inject
     private HunterMapperService mapperService;
-
-    @Inject
-    private VisitMapperService visitMapperService;
 
     @Override
     public void registerHunter(HunterDTO hunterDTO, String unencryptedPassword) throws HunterAuthenticationException {

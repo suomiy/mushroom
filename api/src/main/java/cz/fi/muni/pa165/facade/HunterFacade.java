@@ -1,9 +1,7 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.HunterCreateDTO;
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
-import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
 import java.util.Collection;

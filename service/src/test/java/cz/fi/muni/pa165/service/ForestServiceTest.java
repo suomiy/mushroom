@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
@@ -105,11 +105,11 @@ public class ForestServiceTest extends AbstractTestNGSpringContextTests {
         forest2.setId(2L);
         forest3.setId(3L);
 
-        when(forestDao.findAll()).thenReturn(Arrays.asList(forest1,forest2,forest3));
+        when(forestDao.findAll()).thenReturn(Arrays.asList(forest1, forest2, forest3));
 
         List<Forest> loadedList = forestService.findAll();
         assertThat(loadedList).isNotNull().
-                isNotEmpty().hasSize(3).containsOnly(forest1,forest2,forest3);
+                isNotEmpty().hasSize(3).containsOnly(forest1, forest2, forest3);
     }
 
     @Test
@@ -135,5 +135,4 @@ public class ForestServiceTest extends AbstractTestNGSpringContextTests {
         forest3.setName("Green forest");
         forest3.setLocalityDescription("Very green forest");
     }
-
 }
