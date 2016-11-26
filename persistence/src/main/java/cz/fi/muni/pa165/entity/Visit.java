@@ -69,7 +69,7 @@ public class Visit {
     }
 
     public Date getFromDate() {
-        return new Date(this.fromDate.getTime());
+        return fromDate == null ? null : new Date(this.fromDate.getTime());
     }
 
     /**
@@ -86,7 +86,7 @@ public class Visit {
     }
 
     public Date getToDate() {
-        return new Date(this.toDate.getTime());
+        return toDate == null ? null : new Date(toDate.getTime());
     }
 
     /**
@@ -106,6 +106,10 @@ public class Visit {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public void setMushroomsCount(SortedSet<MushroomCount> mushroomsCount) {
+        this.mushroomsCount = mushroomsCount;
     }
 
     public SortedSet<MushroomCount> getMushroomsCount() {

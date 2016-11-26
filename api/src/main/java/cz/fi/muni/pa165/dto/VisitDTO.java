@@ -1,9 +1,7 @@
 package cz.fi.muni.pa165.dto;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * @author Filip Krepinsky (410022) on 11/25/16
@@ -12,15 +10,17 @@ public class VisitDTO {
 
     private Long id;
 
-    private HunterDTO hunter;
+    private Long hunterId;
 
     private ForestDTO forest;
 
     private String note;
 
-    private Date date;
+    private Date fromDate;
 
-    private SortedSet<MushroomCountDTO> mushroomsCount = new TreeSet<>();
+    private Date toDate;
+
+    private List<MushroomCountDTO> mushroomsCount;
 
     public Long getId() {
         return id;
@@ -30,12 +30,12 @@ public class VisitDTO {
         this.id = id;
     }
 
-    public HunterDTO getHunter() {
-        return hunter;
+    public Long getHunterId() {
+        return hunterId;
     }
 
-    public void setHunter(HunterDTO hunter) {
-        this.hunter = hunter;
+    public void setHunterId(Long hunterId) {
+        this.hunterId = hunterId;
     }
 
     public ForestDTO getForest() {
@@ -46,12 +46,20 @@ public class VisitDTO {
         this.forest = forest;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     public String getNote() {
@@ -62,17 +70,12 @@ public class VisitDTO {
         this.note = note;
     }
 
-    public SortedSet<MushroomCountDTO> getMushroomsCount() {
-        return Collections.unmodifiableSortedSet(mushroomsCount);
+    public List<MushroomCountDTO> getMushroomsCount() {
+        return mushroomsCount;
     }
 
-    public void addMushroomCount(MushroomCountDTO mushroomCount) {
-        mushroomCount.setVisit(this);
-        this.mushroomsCount.add(mushroomCount);
-    }
-
-    public void removeMushroomCount(MushroomCountDTO mushroomCount) {
-        this.mushroomsCount.remove(mushroomCount);
+    public void setMushroomsCount(List<MushroomCountDTO> mushroomsCount) {
+        this.mushroomsCount = mushroomsCount;
     }
 
     @Override
@@ -92,12 +95,13 @@ public class VisitDTO {
 
     @Override
     public String toString() {
-        return "Visit{" +
+        return "VisitDTO{" +
                 "id=" + id +
-                ", hunter=" + hunter.getNick() +
-                ", forest=" + forest.getName() +
+                ", hunterId=" + hunterId +
+                ", forest=" + forest +
                 ", note='" + note + '\'' +
-                ", date=" + date +
+                ", fromDate=" + fromDate +
+                ", toDate=" + toDate +
                 ", mushroomsCount=" + mushroomsCount +
                 '}';
     }

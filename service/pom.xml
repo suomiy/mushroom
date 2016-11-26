@@ -34,8 +34,12 @@
             <artifactId>javax.inject</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
+            <groupId>fr.xebia.extras</groupId>
+            <artifactId>selma-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.xebia.extras</groupId>
+            <artifactId>selma</artifactId>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

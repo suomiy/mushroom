@@ -5,7 +5,6 @@ import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.views.View;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,23 +34,15 @@ public class HunterDTO extends UserDTO {
         return visits;
     }
 
-    public void setVisits(List<VisitDTO> visits) { this.visits = visits; }
-
-    public void removeVisit(VisitDTO visit) {
-        this.visits.remove(visit);
-    }
-
-    public void addVisit(VisitDTO visit) {
-        visit.setHunter(this);
-        this.visits.add(visit);
+    public void setVisits(List<VisitDTO> visits) {
+        this.visits = visits;
     }
 
     @Override
     public String toString() {
-        return  super.toString() +
+        return super.toString() +
                 "HunterDTO{" +
                 "rank=" + rank +
                 '}';
     }
-
 }

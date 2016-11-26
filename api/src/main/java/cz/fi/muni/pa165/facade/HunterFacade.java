@@ -21,7 +21,7 @@ public interface HunterFacade {
      * @param hunter              - hunter to register
      * @param unencryptedPassword - hunter's password
      */
-    void registerHunter(HunterCreateDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
+    void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter
@@ -36,7 +36,7 @@ public interface HunterFacade {
      * @param hunter
      * @return - updated hunter
      */
-    HunterDTO update(HunterCreateDTO hunter);
+    HunterDTO update(HunterDTO hunter);
 
     /**
      * Deletes hunter from Database.

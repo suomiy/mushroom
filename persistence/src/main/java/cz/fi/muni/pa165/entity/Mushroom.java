@@ -38,7 +38,7 @@ public class Mushroom implements Comparable<Mushroom> {
     private String description;
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -62,7 +62,7 @@ public class Mushroom implements Comparable<Mushroom> {
     }
 
     public Date getFromDate() {
-        return new Date(this.fromDate.getTime());
+        return fromDate == null ? null : new Date(this.fromDate.getTime());
     }
 
     /**
@@ -81,7 +81,7 @@ public class Mushroom implements Comparable<Mushroom> {
     }
 
     public Date getToDate() {
-        return new Date(this.toDate.getTime());
+        return toDate == null ? null : new Date(this.toDate.getTime());
     }
 
     /**
