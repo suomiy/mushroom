@@ -25,7 +25,7 @@ import java.util.List;
 public class HunterServiceImpl implements HunterService {
 
     @Inject
-    HunterDao hunterDao;
+    private HunterDao hunterDao;
 
     @Override
     public void registerHunter(Hunter hunter, String unencryptedPassword) throws HunterAuthenticationException {

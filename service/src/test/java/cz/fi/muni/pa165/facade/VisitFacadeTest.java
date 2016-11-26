@@ -10,11 +10,13 @@ import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
-import cz.fi.muni.pa165.service.BeanMapperService;
 import cz.fi.muni.pa165.service.VisitService;
-import cz.fi.muni.pa165.service.VisitServiceImpl;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
 import cz.fi.muni.pa165.service.facade.VisitFaceadeImpl;
+import cz.fi.muni.pa165.service.mappers.ForestMapperService;
+import cz.fi.muni.pa165.service.mappers.HunterMapperService;
+import cz.fi.muni.pa165.service.mappers.MushroomMapperService;
+import cz.fi.muni.pa165.service.mappers.VisitMapperService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -46,13 +48,19 @@ public class VisitFacadeTest {
     private VisitFacade visitFacade  = new VisitFaceadeImpl();
 
     @Mock
-    private VisitDao visitDao;
-
-    @Mock
     private VisitService visitService;
 
     @Mock
-    private BeanMapperService beanMapperService;
+    private VisitMapperService mapperService;
+
+    @Mock
+    private HunterMapperService hunterMapperService;
+
+    @Mock
+    private ForestMapperService forestMapperService;
+
+    @Mock
+    private MushroomMapperService mushroomMapperService;
 
     private HunterDTO hunterDTO;
     private Hunter hunter;
@@ -133,7 +141,7 @@ public class VisitFacadeTest {
         c.set(Calendar.YEAR, year);
         return c.getTime();
     }
-/*
+    /**
     @Test
     public void create() {
         visitFacade.create(visitDTO);

@@ -18,7 +18,7 @@ import java.util.List;
 public class VisitServiceImpl implements VisitService {
 
     @Inject
-    VisitDao visitDao;
+    private VisitDao visitDao;
 
     @Override
     public void create(Visit visit) {

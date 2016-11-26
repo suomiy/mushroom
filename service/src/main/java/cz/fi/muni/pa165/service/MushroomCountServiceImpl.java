@@ -18,13 +18,13 @@ import java.util.*;
 public class MushroomCountServiceImpl implements MushroomCountService {
 
     @Inject
-    MushroomCountDao mushroomCountDao;
+    private MushroomCountDao mushroomCountDao;
 
     @Inject
-    VisitDao visitDao;
+    private VisitDao visitDao;
 
     @Inject
-    TimeService timeService;
+    private TimeService timeService;
 
     @Override
     public void create(MushroomCount mushroomCount) {
@@ -56,12 +56,12 @@ public class MushroomCountServiceImpl implements MushroomCountService {
         Date from = timeService.getOneWeekBeforeTime();
         Date to = timeService.getCurrentTime();
 
-        Set<MushroomCount> result = new HashSet<>();
+        List<MushroomCount> result = new ArrayList<>();
 
         for (Visit visit : visitDao.findByDate(from, to)) {
             result.addAll(visit.getMushroomsCount());
         }
 
-        return new ArrayList<>(result);
+        return result;
     }
 }

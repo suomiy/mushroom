@@ -1,13 +1,11 @@
 package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.dao.VisitDao;
-import cz.fi.muni.pa165.entity.Forest;
-import cz.fi.muni.pa165.entity.Hunter;
-import cz.fi.muni.pa165.entity.Visit;
+import cz.fi.muni.pa165.entity.*;
+import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
-import org.hamcrest.Matcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Matchers.argThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
 /**
@@ -46,7 +44,10 @@ public class VisitServiceTest {
     private Visit visit2;
     private Forest forest;
     private Forest forest2;
-
+    private Mushroom hrib;
+    private Mushroom muchomurka;
+    private MushroomCount mcount;
+    private MushroomCount mcount2;
 
     private Date fromDate = buildDate(20,11,2016);
     private Date toDate = buildDate(22,11,2016);
@@ -56,6 +57,14 @@ public class VisitServiceTest {
     @BeforeMethod
     public void init() {
         MockitoAnnotations.initMocks(this);
+
+        hrib = new Mushroom();
+        hrib.setName("Hrib smrkovy");
+        hrib.setType(MushroomType.EDIBLE);
+
+        muchomurka = new Mushroom();
+        muchomurka.setName("Muchomurka cervena");
+        muchomurka.setType(MushroomType.NONEDIBLE);
 
         hunter = new Hunter();
         hunter.setNick("fake");
@@ -70,18 +79,29 @@ public class VisitServiceTest {
         forest2 = new Forest();
         forest2.setName("Smrkovy les");
 
+        mcount = new MushroomCount();
+        mcount.setMushroom(hrib);
+        mcount.setCount(40);
+        mcount.setVisit(visit);
+
+        mcount2 = new MushroomCount();
+        mcount2.setMushroom(muchomurka);
+        mcount2.setCount(12);
+        mcount2.setVisit(visit2);
+
         visit = new Visit();
         visit.setFromDate(fromDate);
         visit.setToDate(okTestDate);
         visit.setHunter(hunter);
         visit.setForest(forest);
+        visit.addMushroomCount(mcount);
 
         visit2 = new Visit();
         visit2.setFromDate(okTestDate);
         visit2.setToDate(toDate);
         visit2.setHunter(hunter);
         visit2.setForest(forest2);
-
+        visit2.addMushroomCount(mcount2);
 
         Mockito.when(visitDao.findByDate(okTestDate)).thenReturn(Arrays.asList(visit, visit2));
         Mockito.when(visitDao.findByDate(fromDate)).thenReturn(Arrays.asList(visit));
@@ -100,6 +120,7 @@ public class VisitServiceTest {
         Mockito.when(visitDao.findById(3L)).thenReturn(null);
 
         Mockito.when(visitDao.findAll()).thenReturn(Arrays.asList(visit, visit2));
+        Mockito.when(visitDao.findByMushroom(hrib)).thenReturn(Arrays.asList(visit));
     }
 
     private Date buildDate(int day, int month, int year) {
@@ -187,6 +208,13 @@ public class VisitServiceTest {
         List<Visit> v = visitService.findByHunter(hunter);
         Assert.assertEquals(v.size(), 2);
         Assert.assertEquals(v.get(0).getHunter().getNick(), hunter.getNick());
+    }
+
+    @Test
+    public void findByMushroom() {
+        List<Visit> loadedVisits = visitService.findByMushroom(hrib);
+
+        assertThat(loadedVisits).isNotNull().hasSize(1).containsOnly(visit);
     }
 
 }

@@ -27,8 +27,5 @@ public class TimeServiceTest {
     @BeforeMethod
     public void init() {
         MockitoAnnotations.initMocks(this);
-
-
-
     }
 }

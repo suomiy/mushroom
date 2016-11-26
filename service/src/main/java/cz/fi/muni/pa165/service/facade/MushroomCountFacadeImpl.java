@@ -19,10 +19,10 @@ import java.util.List;
 public class MushroomCountFacadeImpl implements MushroomCountFacade {
 
     @Inject
-    MushroomCountService mushroomCountService;
+    private MushroomCountService mushroomCountService;
 
     @Inject
-    MushroomCountMapperService mapperService;
+    private MushroomCountMapperService mapperService;
 
     @Override
     public void create(MushroomCountDTO mushroomCount) {

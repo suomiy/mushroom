@@ -17,12 +17,12 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.inject.Inject;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Matchers.argThat;
 import static org.hamcrest.CoreMatchers.not;
 import static org.mockito.Mockito.times;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.times;
  */
 
 @ContextConfiguration(classes = ServiceConfig.class)
-public class MushroomCountServiceTest {
+public class MushroomCountServiceTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     @InjectMocks
@@ -43,30 +43,35 @@ public class MushroomCountServiceTest {
     @Mock
     private MushroomCountDao mushroomCountDao;
 
-    /*
     @Mock
     private VisitDao visitDao;
 
     @Mock
     private TimeService timeService;
-    */
+
     private Mushroom hrib;
     private Mushroom muchomurka;
     private Visit visit1;
+    private Visit visit2;
     private Forest forest;
     private Hunter hunter;
-    private Date toDate;
-    private Date fromDate;
+    private Date toDate1;
+    private Date fromDate1;
+    private Date toDate2;
+    private Date fromDate2;
     private MushroomCount mcount;
     private MushroomCount mcount2;
+    private MushroomCount mcount3;
 
     @BeforeMethod
     public void init() {
 
         MockitoAnnotations.initMocks(this);
 
-        fromDate = new Date(1479709822000L);
-        toDate = new Date(1479731422000L);
+        fromDate1 = buildDate(12,10,2016);
+        toDate1 = buildDate(14,10,2016);
+        fromDate2 = buildDate(15,10,2016);
+        toDate2 = buildDate(17,10,2016);
 
         hrib = new Mushroom();
         hrib.setName("Hrib smrkovy");
@@ -88,12 +93,6 @@ public class MushroomCountServiceTest {
         hunter.setRank(Rank.GURU);
         hunter.setType(Role.USER);
 
-        visit1 = new Visit();
-        visit1.setFromDate(fromDate);
-        visit1.setToDate(toDate);
-        visit1.setForest(forest);
-        visit1.setHunter(hunter);
-
         mcount = new MushroomCount();
         mcount.setMushroom(hrib);
         mcount.setCount(40);
@@ -104,12 +103,35 @@ public class MushroomCountServiceTest {
         mcount2.setCount(12);
         mcount2.setVisit(visit1);
 
+        mcount3 = new MushroomCount();
+        mcount3.setMushroom(hrib);
+        mcount3.setCount(2);
+        mcount3.setVisit(visit2);
+
+        visit1 = new Visit();
+        visit1.setFromDate(fromDate1);
+        visit1.setToDate(toDate1);
+        visit1.setForest(forest);
+        visit1.setHunter(hunter);
+        visit1.addMushroomCount(mcount);
+        visit1.addMushroomCount(mcount2);
+
+        visit2 = new Visit();
+        visit2.setFromDate(fromDate2);
+        visit2.setToDate(toDate2);
+        visit2.setForest(forest);
+        visit2.setHunter(hunter);
+        visit2.addMushroomCount(mcount3);
 
         Mockito.when(mushroomCountDao.findById(1L)).thenReturn(mcount);
         Mockito.when(mushroomCountDao.findById(argThat(not(1L)))).thenReturn(null);
 
         Mockito.when(mushroomCountDao.findAll()).thenReturn(Arrays.asList(mcount,mcount2));
 
+        Mockito.when(timeService.getOneWeekBeforeTime()).thenReturn(fromDate1);
+        Mockito.when(timeService.getCurrentTime()).thenReturn(toDate2);
+        Mockito.when(visitDao.findByDate(fromDate1,toDate2))
+                .thenReturn(Arrays.asList(visit1,visit2));
     }
 
 
@@ -163,5 +185,20 @@ public class MushroomCountServiceTest {
 
     }
 
+    @Test
+    public void findRecentlyFoundPickableMushrooms() {
+        List<MushroomCount> loadedMushroomCount = mushroomCountService.findRecentlyFoundPickableMushrooms();
+        assertThat(loadedMushroomCount).isNotNull().hasSize(3)
+                .containsOnly(mcount,mcount2,mcount3);
+
+    }
+
+    private Date buildDate(int day, int month, int year) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.YEAR, year);
+        return c.getTime();
+    }
 
 }
