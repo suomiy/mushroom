@@ -29,7 +29,9 @@ public class VisitMapperService extends EntityDTOServiceImpl<Visit, VisitDTO> {
     public VisitDTO asDto(Visit visit) {
         VisitDTO result = mapper.asDto(visit);
         if (result != null) {
-            result.setHunterId(visit.getHunter().getId());
+            if (visit.getHunter() != null) {
+                result.setHunterId(visit.getHunter().getId());
+            }
             result.setMushroomsCount(mushroomCountMapperService.asDtos(visit.getMushroomsCount()));
         }
 
@@ -40,9 +42,11 @@ public class VisitMapperService extends EntityDTOServiceImpl<Visit, VisitDTO> {
     public Visit asEntity(VisitDTO visitDTO) {
         Visit result = mapper.asEntity(visitDTO);
         if (result != null) {
-            Hunter hunter = new Hunter();
-            hunter.setId(visitDTO.getHunterId());
-            result.setHunter(hunter);
+            if (visitDTO.getHunterId() != null) {
+                Hunter hunter = new Hunter();
+                hunter.setId(visitDTO.getHunterId());
+                result.setHunter(hunter);
+            }
             result.setMushroomsCount(new TreeSet<>(
                     mushroomCountMapperService.asEntities(visitDTO.getMushroomsCount())));
         }

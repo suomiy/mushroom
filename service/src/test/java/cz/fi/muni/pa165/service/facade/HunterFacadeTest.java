@@ -60,10 +60,10 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
     public void prepareData() {
         hunter = ObjectsHelper.getHunterEntity();
         hunter.setId(null);
-        hunterDTO = ObjectsHelper.getHunterEntityDTO();
+        hunterDTO = ObjectsHelper.getHunterDTO();
 
         emptyHunter = ObjectsHelper.getEmptyHunterEntity();
-        emptyHunterDTO = ObjectsHelper.getEmptyHunterEntityDTO();
+        emptyHunterDTO = ObjectsHelper.getEmptyHunterDTO();
 
         hunters = new ArrayList<>();
         hunters.add(hunter);

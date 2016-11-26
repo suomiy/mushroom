@@ -28,7 +28,7 @@ public class HunterMapperServiceTest extends AbstractTestNGSpringContextTests {
     @BeforeClass
     public void prepareData() {
         entity = ObjectsHelper.getHunterEntity();
-        dto = ObjectsHelper.getHunterEntityDTO();
+        dto = ObjectsHelper.getHunterDTO();
     }
 
     @Test

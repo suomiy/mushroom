@@ -77,29 +77,12 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MushroomDTO)) return false;
 
-        if (this == o) {
-            return true;
-        }
+        MushroomDTO that = (MushroomDTO) o;
 
-        if (o == null) {
-            return true;
-        }
-
-        if (!(o instanceof MushroomDTO)) {
-            return false;
-        }
-
-        MushroomDTO other = (MushroomDTO) o;
-        if (this.name == null && other.getName() != null) {
-            return false;
-        }
-
-        if (!this.name.equals(other.getName())) {
-            return false;
-        }
-        return true;
-
+        return name != null ? name.equals(that.name) : that.name == null;
     }
 
     @Override

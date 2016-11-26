@@ -51,10 +51,10 @@ public interface VisitFacade {
     /**
      * Find all visitDTOs for given hunter.
      *
-     * @param hunter HunterDTO entity
+     * @param hunterId id of hunter entity
      * @return list of all visitDTOs for given hunter
      */
-    List<VisitDTO> findByHunter(HunterDTO hunter);
+    List<VisitDTO> findByHunter(Long hunterId);
 
     /**
      * Find all visitDTOs for given mushroom.
