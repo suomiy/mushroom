@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class ForestFaceadeImpl implements ForestFacade {
+public class ForestFacadeImpl implements ForestFacade {
 
     @Inject
     private ForestService forestService;
