@@ -3,8 +3,8 @@ package cz.fi.muni.pa165.service.facade;
 import cz.fi.muni.pa165.dto.MushroomCountDTO;
 import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.facade.MushroomCountFacade;
-import cz.fi.muni.pa165.service.BeanMapperService;
 import cz.fi.muni.pa165.service.MushroomCountService;
+import cz.fi.muni.pa165.service.mappers.MushroomCountMapperService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,37 +22,37 @@ public class MushroomCountFacadeImpl implements MushroomCountFacade {
     MushroomCountService mushroomCountService;
 
     @Inject
-    BeanMapperService beanMapperService;
+    MushroomCountMapperService mapperService;
 
     @Override
     public void create(MushroomCountDTO mushroomCount) {
-        mushroomCountService.create(beanMapperService.mapTo(mushroomCount, MushroomCount.class));
+        mushroomCountService.create(mapperService.asEntity(mushroomCount));
     }
 
     @Override
     public MushroomCountDTO update(MushroomCountDTO mushroomCount) {
-        MushroomCount updated = mushroomCountService.update(beanMapperService.mapTo(mushroomCount, MushroomCount.class));
-        return beanMapperService.mapTo(updated, MushroomCountDTO.class);
+        MushroomCount updated = mushroomCountService.update(mapperService.asEntity(mushroomCount));
+        return mapperService.asDto(updated);
     }
 
     @Override
     public void delete(Long id) {
-        MushroomCount entity = beanMapperService.mapTo(mushroomCountService.findById(id), MushroomCount.class);
+        MushroomCount entity = mushroomCountService.findById(id);
         mushroomCountService.delete(entity);
     }
 
     @Override
     public MushroomCountDTO findById(Long id) {
-        MushroomCount entity = beanMapperService.mapTo(mushroomCountService.findById(id), MushroomCount.class);
-        return beanMapperService.mapTo(entity, MushroomCountDTO.class);
+        MushroomCount entity = mushroomCountService.findById(id);
+        return mapperService.asDto(entity);
     }
 
     @Override
     public List<MushroomCountDTO> findAll() {
-        return beanMapperService.mapTo(mushroomCountService.findAll(), MushroomCountDTO.class);
+        return mapperService.asDtos(mushroomCountService.findAll());
     }
 
     public List<MushroomCountDTO> findRecentlyFoundPickableMushrooms() {
-        return beanMapperService.mapTo(mushroomCountService.findRecentlyFoundPickableMushrooms(), MushroomCountDTO.class);
+        return mapperService.asDtos(mushroomCountService.findRecentlyFoundPickableMushrooms());
     }
 }

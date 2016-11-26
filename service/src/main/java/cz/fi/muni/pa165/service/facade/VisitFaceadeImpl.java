@@ -1,13 +1,13 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.entity.Forest;
-import cz.fi.muni.pa165.entity.Hunter;
-import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.facade.VisitFacade;
-import cz.fi.muni.pa165.service.BeanMapperService;
 import cz.fi.muni.pa165.service.VisitService;
+import cz.fi.muni.pa165.service.mappers.ForestMapperService;
+import cz.fi.muni.pa165.service.mappers.HunterMapperService;
+import cz.fi.muni.pa165.service.mappers.MushroomMapperService;
+import cz.fi.muni.pa165.service.mappers.VisitMapperService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,61 +25,70 @@ public class VisitFaceadeImpl implements VisitFacade {
     VisitService visitService;
 
     @Inject
-    BeanMapperService beanMapperService;
+    VisitMapperService mapperService;
+
+    @Inject
+    HunterMapperService hunterMapperService;
+
+    @Inject
+    ForestMapperService forestMapperService;
+
+    @Inject
+    private MushroomMapperService mushroomMapperService;
 
     @Override
     public void create(VisitDTO visit) {
-        visitService.create(beanMapperService.mapTo(visit, Visit.class));
+        visitService.create(mapperService.asEntity(visit));
     }
 
     @Override
     public VisitDTO update(VisitDTO visit) {
-        Visit updated = visitService.update(beanMapperService.mapTo(visit, Visit.class));
-        return beanMapperService.mapTo(updated, VisitDTO.class);
+        Visit updated = visitService.update(mapperService.asEntity(visit));
+        return mapperService.asDto(updated);
     }
 
     @Override
     public void delete(Long id) {
-        visitService.delete(beanMapperService.mapTo(visitService.findById(id), Visit.class));
+        visitService.delete(visitService.findById(id));
     }
 
     @Override
     public VisitDTO findById(Long id) {
-        return beanMapperService.mapTo(visitService.findById(id), VisitDTO.class);
+        return mapperService.asDto(visitService.findById(id));
     }
 
     @Override
     public List<VisitDTO> findAll() {
-        return beanMapperService.mapTo(visitService.findAll(), VisitDTO.class);
+        return mapperService.asDtos(visitService.findAll());
     }
 
     @Override
     public List<VisitDTO> findByForest(ForestDTO forest) {
-        List<Visit> found = visitService.findByForest(beanMapperService.mapTo(forest, Forest.class));
-        return beanMapperService.mapTo(found, VisitDTO.class);
+        List<Visit> found = visitService.findByForest(forestMapperService.asEntity(forest));
+        return mapperService.asDtos(found);
     }
 
     @Override
     public List<VisitDTO> findByHunter(HunterDTO hunter) {
-        List<Visit> found = visitService.findByHunter(beanMapperService.mapTo(hunter, Hunter.class));
-        return beanMapperService.mapTo(found, VisitDTO.class);
+        List<Visit> found = visitService.findByHunter(hunterMapperService.asEntity(hunter));
+        return mapperService.asDtos(found);
     }
 
     @Override
     public List<VisitDTO> findByMushroom(MushroomDTO mushroom) {
-        List<Visit> found = visitService.findByMushroom(beanMapperService.mapTo(mushroom, Mushroom.class));
-        return beanMapperService.mapTo(found, VisitDTO.class);
+        List<Visit> found = visitService.findByMushroom(mushroomMapperService.asEntity(mushroom));
+        return mapperService.asDtos(found);
     }
 
     @Override
     public List<VisitDTO> findByDate(DateDTO date) {
         List<Visit> found = visitService.findByDate(date.getDate());
-        return beanMapperService.mapTo(found, VisitDTO.class);
+        return mapperService.asDtos(found);
     }
 
     @Override
     public List<VisitDTO> findByDate(DateIntervalDTO interval) {
         List<Visit> found = visitService.findByDate(interval.getFrom(), interval.getTo());
-        return beanMapperService.mapTo(found, VisitDTO.class);
+        return mapperService.asDtos(found);
     }
 }

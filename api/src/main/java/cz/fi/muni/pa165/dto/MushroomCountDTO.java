@@ -11,47 +11,61 @@ public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
 
     private MushroomDTO mushroom;
 
-    private VisitDTO visit;
+    private Long visitId;
 
     private int count;
 
     public MushroomCountDTO() {
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public MushroomDTO getMushroom() { return mushroom; }
+    public MushroomDTO getMushroom() {
+        return mushroom;
+    }
 
-    public void setMushroom(MushroomDTO mushroom) { this.mushroom = mushroom; }
+    public void setMushroom(MushroomDTO mushroom) {
+        this.mushroom = mushroom;
+    }
 
-    public VisitDTO getVisit() { return visit; }
+    public Long getVisitId() {
+        return visitId;
+    }
 
-    public void setVisit(VisitDTO visit) { this.visit = visit; }
+    public void setVisitId(Long visitId) {
+        this.visitId = visitId;
+    }
 
-    public int getCount() { return count; }
+    public int getCount() {
+        return count;
+    }
 
-    public void setCount(int count) { this.count = count; }
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
         if (!(o instanceof MushroomCountDTO)) return false;
 
         MushroomCountDTO that = (MushroomCountDTO) o;
 
         if (count != that.count) return false;
         if (mushroom != null ? !mushroom.equals(that.mushroom) : that.mushroom != null) return false;
-        return visit != null ? visit.equals(that.visit) : that.visit == null;
-
+        return visitId != null ? visitId.equals(that.visitId) : that.visitId == null;
     }
 
     @Override
     public int hashCode() {
         int result = mushroom != null ? mushroom.hashCode() : 0;
-        result = 31 * result + (visit != null ? visit.hashCode() : 0);
+        result = 31 * result + (visitId != null ? visitId.hashCode() : 0);
         result = 31 * result + count;
         return result;
     }
@@ -69,12 +83,11 @@ public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
 
     @Override
     public String toString() {
-        return "MushroomCount{" +
+        return "MushroomCountDTO{" +
                 "id=" + id +
                 ", mushroom=" + mushroom +
-                ", visit=" + visit +
+                ", visitId=" + visitId +
                 ", count=" + count +
                 '}';
     }
-
 }
