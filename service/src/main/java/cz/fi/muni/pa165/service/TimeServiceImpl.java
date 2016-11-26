@@ -14,14 +14,18 @@ public class TimeServiceImpl implements TimeService {
 
     @Override
     public Date getCurrentTime() {
-        return new Date();
+        return getNow().getTime();
     }
 
     @Override
     public Date getOneWeekBeforeTime() {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = getNow();
         calendar.set(Calendar.DATE, -7);
 
         return calendar.getTime();
+    }
+
+    private static Calendar getNow() {
+        return Calendar.getInstance();
     }
 }

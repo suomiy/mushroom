@@ -1,31 +1,45 @@
 package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.service.config.ServiceConfig;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.test.context.ContextConfiguration;
-import org.testng.annotations.BeforeMethod;
 
-import java.util.Date;
+import java.util.Calendar;
 
-/**
- * Created by michal on 11/25/16.
- *
- * @author Michal Kysilko 436339
- */
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(TimeServiceImpl.class)
 @ContextConfiguration(classes = ServiceConfig.class)
 public class TimeServiceTest {
+    private static final Calendar now = Calendar.getInstance();
 
-    @Autowired
-    @InjectMocks
-    private TimeService timeService = new TimeServiceImpl();
+    private TimeServiceImpl timeService = new TimeServiceImpl();
 
-    private Date now = new Date();
+    @Test
+    public void testCurrentTime() throws InterruptedException {
+        mockCalendar();
+        Assert.assertTrue(timeService.getCurrentTime().compareTo(getCalendarInstance().getTime()) == 0);
+    }
 
-    @BeforeMethod
-    public void init() {
-        MockitoAnnotations.initMocks(this);
+    @Test
+    public void testOneWeekBeforeTime() throws InterruptedException {
+        mockCalendar();
+        Calendar oneWeekBack = getCalendarInstance();
+        oneWeekBack.set(Calendar.DATE, -7);
+        Assert.assertTrue(timeService.getOneWeekBeforeTime().compareTo(oneWeekBack.getTime()) == 0);
+    }
+
+    private void mockCalendar() throws InterruptedException {
+        PowerMockito.mockStatic(Calendar.class);
+        PowerMockito.when(Calendar.getInstance()).thenReturn(getCalendarInstance());
+        Thread.sleep(100);
+    }
+
+    private Calendar getCalendarInstance() {
+        return (Calendar) now.clone();
     }
 }
