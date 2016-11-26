@@ -1,4 +1,4 @@
-package cz.fi.muni.pa165.facade;
+package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.DateDTO;
 import cz.fi.muni.pa165.dto.ForestDTO;
@@ -9,9 +9,9 @@ import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
+import cz.fi.muni.pa165.facade.VisitFacade;
 import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
-import cz.fi.muni.pa165.service.facade.VisitFaceadeImpl;
 import cz.fi.muni.pa165.service.mappers.ForestMapperService;
 import cz.fi.muni.pa165.service.mappers.HunterMapperService;
 import cz.fi.muni.pa165.service.mappers.MushroomMapperService;
@@ -25,8 +25,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+
+import static cz.fi.muni.pa165.service.mappers.ObjectsHelper.buildDate;
 
 /**
  * Created by michal on 11/26/16.
@@ -124,13 +124,6 @@ public class VisitFacadeTest {
         Mockito.when(visitService.findAll()).thenReturn(Arrays.asList(visit));
     }
 
-    private Date buildDate(int day, int month, int year) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH, day);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.YEAR, year);
-        return c.getTime();
-    }
     /**
      @Test public void create() {
      visitFacade.create(visitDTO);
