@@ -18,7 +18,7 @@ public class UserAuthenticateDTO {
         return password;
     }
 
-    public void setPasswordHash(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -26,7 +26,7 @@ public class UserAuthenticateDTO {
         return email;
     }
 
-    public void setEmail(String nick) {
+    public void setEmail(String email) {
         this.email = email;
     }
 }

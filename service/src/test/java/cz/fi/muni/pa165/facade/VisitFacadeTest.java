@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dao.VisitDao;
 import cz.fi.muni.pa165.dto.DateDTO;
 import cz.fi.muni.pa165.dto.ForestDTO;
 import cz.fi.muni.pa165.dto.HunterDTO;
@@ -23,16 +22,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import static org.mockito.Mockito.times;
 
 /**
  * Created by michal on 11/26/16.
@@ -45,7 +39,7 @@ public class VisitFacadeTest {
 
     @Autowired
     @InjectMocks
-    private VisitFacade visitFacade  = new VisitFaceadeImpl();
+    private VisitFacade visitFacade = new VisitFaceadeImpl();
 
     @Mock
     private VisitService visitService;
@@ -69,7 +63,6 @@ public class VisitFacadeTest {
     private ForestDTO forestDTO;
     private Forest forest;
 
-
     private DateDTO fromDate;
     private DateDTO toDate;
     private DateDTO okTestDate;
@@ -84,8 +77,8 @@ public class VisitFacadeTest {
         okTestDate = new DateDTO();
         failTestDate = new DateDTO();
 
-        fromDate.setDate(buildDate(20,11,2016));
-        toDate.setDate(buildDate(22,11,2016));
+        fromDate.setDate(buildDate(20, 11, 2016));
+        toDate.setDate(buildDate(22, 11, 2016));
         okTestDate.setDate(buildDate(21, 11, 2016));
         failTestDate.setDate(buildDate(25, 11, 2016));
 
@@ -115,12 +108,10 @@ public class VisitFacadeTest {
         visitDTO.setForest(forestDTO);
 */
         visit = new Visit();
-        visit.setFromDate(buildDate(20,11,2016));
-        visit.setToDate(buildDate(22,11,2016));
+        visit.setFromDate(buildDate(20, 11, 2016));
+        visit.setToDate(buildDate(22, 11, 2016));
         visit.setHunter(hunter);
         visit.setForest(forest);
-
-
 
         Mockito.when(visitService.findByDate(buildDate(25, 11, 2016))).thenReturn(null);
 
@@ -131,7 +122,6 @@ public class VisitFacadeTest {
         Mockito.when(visitService.findById(1L)).thenReturn(visit);
 
         Mockito.when(visitService.findAll()).thenReturn(Arrays.asList(visit));
-
     }
 
     private Date buildDate(int day, int month, int year) {
@@ -142,59 +132,51 @@ public class VisitFacadeTest {
         return c.getTime();
     }
     /**
-    @Test
-    public void create() {
-        visitFacade.create(visitDTO);
-        Mockito.verify(visitService, times(1)).create(visit);
-    }
+     @Test public void create() {
+     visitFacade.create(visitDTO);
+     Mockito.verify(visitService, times(1)).create(visit);
+     }
 
 
-    @Test
-    public void delete() {
-        visitFacade.create(visitDTO);
-        visitFacade.delete(visitDTO.getId());
-        Mockito.verify(visitService, times(1)).delete(visit);
-    }
+     @Test public void delete() {
+     visitFacade.create(visitDTO);
+     visitFacade.delete(visitDTO.getId());
+     Mockito.verify(visitService, times(1)).delete(visit);
+     }
 
-    @Test
-    public void update() {
-        visitDTO.setToDate(buildDate(22,11,2017));
-        visitFacade.update(visitDTO);
-        Mockito.verify(visitService, times(1)).update(visit);
-    }
+     @Test public void update() {
+     visitDTO.setToDate(buildDate(22,11,2017));
+     visitFacade.update(visitDTO);
+     Mockito.verify(visitService, times(1)).update(visit);
+     }
 
-    @Test
-    public void findById() {
-        VisitDTO v = visitFacade.findById(1L);
-        Assert.assertEquals(beanMapperService.mapTo(visit, VisitDTO.class), v);
+     @Test public void findById() {
+     VisitDTO v = visitFacade.findById(1L);
+     Assert.assertEquals(beanMapperService.mapTo(visit, VisitDTO.class), v);
 
-    }
+     }
 
-    @Test
-    public void findAll() {
-        List<VisitDTO> v = visitFacade.findAll();
-        Assert.assertEquals(v.size(), 1);
-        Assert.assertEquals(v.get(0).getHunter().getRank(), hunter.getRank());
-    }
+     @Test public void findAll() {
+     List<VisitDTO> v = visitFacade.findAll();
+     Assert.assertEquals(v.size(), 1);
+     Assert.assertEquals(v.get(0).getHunter().getRank(), hunter.getRank());
+     }
 
-    @Test
-    public void findByDate() {
-        List<VisitDTO> v = visitFacade.findByDate(failTestDate);
-        Assert.assertNull(v);
-    }
+     @Test public void findByDate() {
+     List<VisitDTO> v = visitFacade.findByDate(failTestDate);
+     Assert.assertNull(v);
+     }
 
-    @Test
-    public void findByForest() {
-        List<VisitDTO> v = visitFacade.findByForest(forestDTO);
-        Assert.assertEquals(v.size(), 1);
-        Assert.assertEquals(v.get(0).getForest().getName(), forestDTO.getName());
-    }
+     @Test public void findByForest() {
+     List<VisitDTO> v = visitFacade.findByForest(forestDTO);
+     Assert.assertEquals(v.size(), 1);
+     Assert.assertEquals(v.get(0).getForest().getName(), forestDTO.getName());
+     }
 
-    @Test
-    public void findByHunter() {
-        List<VisitDTO> v = visitFacade.findByHunter(hunterDTO);
-        Assert.assertEquals(v.size(), 1);
-        Assert.assertEquals(v.get(0).getHunter().getNick(), hunterDTO.getNick());
-    }
-    */
+     @Test public void findByHunter() {
+     List<VisitDTO> v = visitFacade.findByHunter(hunterDTO);
+     Assert.assertEquals(v.size(), 1);
+     Assert.assertEquals(v.get(0).getHunter().getNick(), hunterDTO.getNick());
+     }
+     */
 }

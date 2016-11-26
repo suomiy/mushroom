@@ -20,7 +20,7 @@ public class TimeServiceTest {
 
     @Autowired
     @InjectMocks
-    private TimeService timeService  = new TimeServiceImpl();
+    private TimeService timeService = new TimeServiceImpl();
 
     private Date now = new Date();
 

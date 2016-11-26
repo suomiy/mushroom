@@ -6,6 +6,7 @@ import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.enums.Rank;
 import cz.fi.muni.pa165.enums.Role;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
+import cz.fi.muni.pa165.service.mappers.ObjectsHelper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -17,11 +18,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 
 /**
@@ -34,7 +34,7 @@ public class VisitServiceTest {
 
     @Autowired
     @InjectMocks
-    private VisitService visitService  = new VisitServiceImpl();
+    private VisitService visitService = new VisitServiceImpl();
 
     @Mock
     private VisitDao visitDao;
@@ -49,10 +49,10 @@ public class VisitServiceTest {
     private MushroomCount mcount;
     private MushroomCount mcount2;
 
-    private Date fromDate = buildDate(20,11,2016);
-    private Date toDate = buildDate(22,11,2016);
-    private Date okTestDate = buildDate(21, 11, 2016);
-    private Date failTestDate = buildDate(25, 11, 2016);
+    private Date fromDate = ObjectsHelper.buildDate(20, 11, 2016);
+    private Date toDate = ObjectsHelper.buildDate(22, 11, 2016);
+    private Date okTestDate = ObjectsHelper.buildDate(21, 11, 2016);
+    private Date failTestDate = ObjectsHelper.buildDate(25, 11, 2016);
 
     @BeforeMethod
     public void init() {
@@ -123,20 +123,11 @@ public class VisitServiceTest {
         Mockito.when(visitDao.findByMushroom(hrib)).thenReturn(Arrays.asList(visit));
     }
 
-    private Date buildDate(int day, int month, int year) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH, day);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.YEAR, year);
-        return c.getTime();
-    }
-
     @Test
     public void create() {
         visitService.create(visit);
         Mockito.verify(visitDao, times(1)).create(visit);
     }
-
 
     @Test
     public void delete() {
@@ -216,5 +207,4 @@ public class VisitServiceTest {
 
         assertThat(loadedVisits).isNotNull().hasSize(1).containsOnly(visit);
     }
-
 }
