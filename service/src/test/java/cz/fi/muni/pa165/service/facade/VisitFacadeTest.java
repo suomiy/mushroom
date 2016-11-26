@@ -1,54 +1,44 @@
 package cz.fi.muni.pa165.service.facade;
 
-import cz.fi.muni.pa165.dto.DateDTO;
-import cz.fi.muni.pa165.dto.ForestDTO;
-import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.MushroomDTO;
 import cz.fi.muni.pa165.dto.VisitDTO;
-import cz.fi.muni.pa165.entity.Forest;
-import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.entity.Visit;
-import cz.fi.muni.pa165.enums.Rank;
-import cz.fi.muni.pa165.enums.Role;
 import cz.fi.muni.pa165.facade.VisitFacade;
+import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
-import cz.fi.muni.pa165.service.mappers.ForestMapperService;
-import cz.fi.muni.pa165.service.mappers.HunterMapperService;
-import cz.fi.muni.pa165.service.mappers.MushroomMapperService;
-import cz.fi.muni.pa165.service.mappers.VisitMapperService;
+import cz.fi.muni.pa165.service.mappers.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import static cz.fi.muni.pa165.service.mappers.ObjectsHelper.buildDate;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
- * Created by michal on 11/26/16.
- *
- * @author Michal Kysilko 436339
+ * @author Filip Krepinsky (410022) on 11/25/16
  */
-
-@ContextConfiguration(classes = ServiceConfig.class)
-public class VisitFacadeTest {
-
-    @Autowired
-    @InjectMocks
-    private VisitFacade visitFacade = new VisitFaceadeImpl();
+@org.springframework.test.context.ContextConfiguration(classes = ServiceConfig.class)
+public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private VisitService visitService;
 
     @Mock
-    private VisitMapperService mapperService;
+    private HunterService hunterService;
 
     @Mock
-    private HunterMapperService hunterMapperService;
+    private VisitMapperService mapperService;
 
     @Mock
     private ForestMapperService forestMapperService;
@@ -56,120 +46,146 @@ public class VisitFacadeTest {
     @Mock
     private MushroomMapperService mushroomMapperService;
 
-    private HunterDTO hunterDTO;
-    private Hunter hunter;
-    private VisitDTO visitDTO;
+    @InjectMocks
+    private VisitFacade visitFacade = new VisitFacadeImpl();
+
     private Visit visit;
-    private ForestDTO forestDTO;
-    private Forest forest;
+    private Visit emptyVisit;
+    private VisitDTO visitDTO;
+    private VisitDTO emptyVisitDTO;
 
-    private DateDTO fromDate;
-    private DateDTO toDate;
-    private DateDTO okTestDate;
-    private DateDTO failTestDate;
+    private List<VisitDTO> visitDTOs;
+    private List<Visit> visits;
 
-    @BeforeMethod
-    public void init() {
+    private Mushroom mushroom;
+    private MushroomDTO mushroomDto;
+
+    @BeforeClass
+    public void setup() {
         MockitoAnnotations.initMocks(this);
-
-        fromDate = new DateDTO();
-        toDate = new DateDTO();
-        okTestDate = new DateDTO();
-        failTestDate = new DateDTO();
-
-        fromDate.setDate(buildDate(20, 11, 2016));
-        toDate.setDate(buildDate(22, 11, 2016));
-        okTestDate.setDate(buildDate(21, 11, 2016));
-        failTestDate.setDate(buildDate(25, 11, 2016));
-
-        hunterDTO = new HunterDTO();
-        hunterDTO.setNick("fake");
-        hunterDTO.setEmail("fake@fake.fake");
-        hunterDTO.setType(Role.USER);
-        hunterDTO.setRank(Rank.BEGINNER);
-
-        hunter = new Hunter();
-        hunter.setNick("fake");
-        hunter.setEmail("fake@fake.fake");
-        hunter.setType(Role.USER);
-        hunter.setRank(Rank.BEGINNER);
-
-        forestDTO = new ForestDTO();
-        forestDTO.setName("Bukovy les");
-
-        forest = new Forest();
-        forest.setName("Bukovy les");
-
-        /*
-        visitDTO = new VisitDTO();
-        visitDTO.setFromDate(fromDate);
-        visitDTO.setToDate(toDate);
-        visitDTO.setHunter(hunterDTO);
-        visitDTO.setForest(forestDTO);
-*/
-        visit = new Visit();
-        visit.setFromDate(buildDate(20, 11, 2016));
-        visit.setToDate(buildDate(22, 11, 2016));
-        visit.setHunter(hunter);
-        visit.setForest(forest);
-
-        Mockito.when(visitService.findByDate(buildDate(25, 11, 2016))).thenReturn(null);
-
-        Mockito.when(visitService.findByForest(forest)).thenReturn(Arrays.asList(visit));
-
-        Mockito.when(visitService.findByHunter(hunter)).thenReturn(Arrays.asList(visit));
-
-        Mockito.when(visitService.findById(1L)).thenReturn(visit);
-
-        Mockito.when(visitService.findAll()).thenReturn(Arrays.asList(visit));
     }
 
-    /**
-     @Test public void create() {
-     visitFacade.create(visitDTO);
-     Mockito.verify(visitService, times(1)).create(visit);
-     }
+    @BeforeMethod
+    public void prepareData() {
+        visit = ObjectsHelper.getVisitEntity();
+        visitDTO = ObjectsHelper.getVisitDTO();
 
+        emptyVisit = ObjectsHelper.getEmptyVisitEntity();
+        emptyVisitDTO = ObjectsHelper.getEmptyVisitDTO();
 
-     @Test public void delete() {
-     visitFacade.create(visitDTO);
-     visitFacade.delete(visitDTO.getId());
-     Mockito.verify(visitService, times(1)).delete(visit);
-     }
+        visits = new ArrayList<>();
+        visits.add(visit);
+        visits.add(emptyVisit);
 
-     @Test public void update() {
-     visitDTO.setToDate(buildDate(22,11,2017));
-     visitFacade.update(visitDTO);
-     Mockito.verify(visitService, times(1)).update(visit);
-     }
+        visitDTOs = new ArrayList<>();
+        visitDTOs.add(visitDTO);
+        visitDTOs.add(emptyVisitDTO);
 
-     @Test public void findById() {
-     VisitDTO v = visitFacade.findById(1L);
-     Assert.assertEquals(beanMapperService.mapTo(visit, VisitDTO.class), v);
+        mushroom = visit.getMushroomsCount().first().getMushroom();
+        mushroomDto = visitDTO.getMushroomsCount().get(0).getMushroom();
 
-     }
+        when(mapperService.asDto(visit)).thenReturn(visitDTO);
+        when(mapperService.asEntity(visitDTO)).thenReturn(visit);
 
-     @Test public void findAll() {
-     List<VisitDTO> v = visitFacade.findAll();
-     Assert.assertEquals(v.size(), 1);
-     Assert.assertEquals(v.get(0).getHunter().getRank(), hunter.getRank());
-     }
+        when(mapperService.asDto(emptyVisit)).thenReturn(emptyVisitDTO);
+        when(mapperService.asEntity(emptyVisitDTO)).thenReturn(emptyVisit);
 
-     @Test public void findByDate() {
-     List<VisitDTO> v = visitFacade.findByDate(failTestDate);
-     Assert.assertNull(v);
-     }
+        when(forestMapperService.asDto(visit.getForest())).thenReturn(visitDTO.getForest());
+        when(forestMapperService.asDto(emptyVisit.getForest())).thenReturn(emptyVisitDTO.getForest());
+        when(forestMapperService.asEntity(visitDTO.getForest())).thenReturn(visit.getForest());
+        when(forestMapperService.asEntity(emptyVisitDTO.getForest())).thenReturn(emptyVisit.getForest());
 
-     @Test public void findByForest() {
-     List<VisitDTO> v = visitFacade.findByForest(forestDTO);
-     Assert.assertEquals(v.size(), 1);
-     Assert.assertEquals(v.get(0).getForest().getName(), forestDTO.getName());
-     }
+        when(mushroomMapperService.asDto(mushroom)).thenReturn(mushroomDto);
+        when(mushroomMapperService.asEntity(mushroomDto)).thenReturn(mushroom);
+    }
 
-     @Test public void findByHunter() {
-     List<VisitDTO> v = visitFacade.findByHunter(hunterDTO);
-     Assert.assertEquals(v.size(), 1);
-     Assert.assertEquals(v.get(0).getHunter().getNick(), hunterDTO.getNick());
-     }
-     */
+    @Test
+    public void create() {
+        visitFacade.create(visitDTO);
+        verify(visitService).create(visit);
+    }
+
+    @Test
+    public void update() {
+        when(visitService.update(visit)).thenReturn(visit);
+        assertThat(visitFacade.update(visitDTO)).isEqualToComparingFieldByField(visitDTO);
+    }
+
+    @Test
+    public void delete() {
+        when(visitService.findById(visit.getId())).thenReturn(visit);
+        visitFacade.delete(visit.getId());
+        verify(visitService).delete(visit);
+    }
+
+    @Test
+    public void findByID() {
+        when(visitService.findById(visit.getId())).thenReturn(visit);
+        VisitDTO result = visitFacade.findById(visit.getId());
+        assertThat(result).isEqualToComparingFieldByField(visitDTO);
+    }
+
+    @Test
+    public void findByForest() {
+        removeLast();
+
+        when(visitService.findByForest(visit.getForest())).thenReturn(visits);
+        List<VisitDTO> result = visitFacade.findByForest(visitDTO.getForest());
+
+        assertThat(result).isEqualTo(visitDTOs);
+    }
+
+    @Test
+    public void findByHunter() {
+        removeLast();
+
+        when(visitService.findByHunter(visit.getHunter())).thenReturn(visits);
+        when(hunterService.findById(visitDTO.getHunterId())).thenReturn(visit.getHunter());
+        List<VisitDTO> result = visitFacade.findByHunter(visitDTO.getHunterId());
+
+        assertThat(result).isEqualTo(visitDTOs);
+    }
+
+    @Test
+    public void findByMushroom() {
+        removeLast();
+
+        when(visitService.findByMushroom(mushroom)).thenReturn(visits);
+        List<VisitDTO> result = visitFacade.findByMushroom(mushroomDto);
+
+        assertThat(result).isEqualTo(visitDTOs);
+    }
+
+    private void removeLast() {
+        if (!visitDTOs.isEmpty()) {
+            visitDTOs.remove(visitDTOs.size() - 1);
+        }
+
+        if (!visits.isEmpty()) {
+            visits.remove(visits.size() - 1);
+        }
+    }
+
+    @Test
+    public void findByDate() {
+        when(visitService.findByDate(ObjectsHelper.getFrom())).thenReturn(visits);
+        List<VisitDTO> result = visitFacade.findByDate(ObjectsHelper.getFromDTO());
+
+        assertThat(result).isEqualTo(visitDTOs);
+    }
+
+    @Test
+    public void findByDateInterval() {
+        when(visitService.findByDate(ObjectsHelper.getFrom(), ObjectsHelper.getTo())).thenReturn(visits);
+        List<VisitDTO> result = visitFacade.findByDate(ObjectsHelper.getIntervalDTO());
+
+        assertThat(result).isEqualTo(visitDTOs);
+    }
+
+    @Test
+    public void findAll() {
+        when(visitService.findAll()).thenReturn(visits);
+        Collection<VisitDTO> result = visitFacade.findAll();
+        assertThat(result).isEqualTo(visitDTOs);
+    }
 }

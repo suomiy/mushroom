@@ -28,7 +28,7 @@ public class VisitMapperServiceTest extends AbstractTestNGSpringContextTests {
     @BeforeClass
     public void prepareData() {
         entity = ObjectsHelper.getVisitEntity();
-        dto = ObjectsHelper.getVisitEntityDTO();
+        dto = ObjectsHelper.getVisitDTO();
     }
 
     @Test

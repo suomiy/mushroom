@@ -1,8 +1,10 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.facade.VisitFacade;
+import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.mappers.ForestMapperService;
 import cz.fi.muni.pa165.service.mappers.HunterMapperService;
@@ -19,16 +21,16 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class VisitFaceadeImpl implements VisitFacade {
+public class VisitFacadeImpl implements VisitFacade {
 
     @Inject
     private VisitService visitService;
 
     @Inject
-    private VisitMapperService mapperService;
+    private HunterService hunterService;
 
     @Inject
-    private HunterMapperService hunterMapperService;
+    private VisitMapperService mapperService;
 
     @Inject
     private ForestMapperService forestMapperService;
@@ -69,8 +71,9 @@ public class VisitFaceadeImpl implements VisitFacade {
     }
 
     @Override
-    public List<VisitDTO> findByHunter(HunterDTO hunter) {
-        List<Visit> found = visitService.findByHunter(hunterMapperService.asEntity(hunter));
+    public List<VisitDTO> findByHunter(Long hunterId) {
+        Hunter hunter = hunterService.findById(hunterId);
+        List<Visit> found = visitService.findByHunter(hunter);
         return mapperService.asDtos(found);
     }
 

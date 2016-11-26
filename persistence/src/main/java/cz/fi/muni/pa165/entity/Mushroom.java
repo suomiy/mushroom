@@ -103,28 +103,12 @@ public class Mushroom implements Comparable<Mushroom> {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mushroom)) return false;
 
-        if (this == o) {
-            return true;
-        }
+        Mushroom mushroom = (Mushroom) o;
 
-        if (o == null) {
-            return true;
-        }
-
-        if (!(o instanceof Mushroom)) {
-            return false;
-        }
-
-        Mushroom other = (Mushroom) o;
-        if (this.name == null && other.getName() != null) {
-            return false;
-        }
-
-        if (!this.name.equals(other.getName())) {
-            return false;
-        }
-        return true;
+        return name != null ? name.equals(mushroom.name) : mushroom.name == null;
     }
 
     @Override
