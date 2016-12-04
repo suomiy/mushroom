@@ -26,7 +26,9 @@ public class MushroomCountFacadeImpl implements MushroomCountFacade {
 
     @Override
     public void create(MushroomCountDTO mushroomCount) {
-        mushroomCountService.create(mapperService.asEntity(mushroomCount));
+        MushroomCount count = mapperService.asEntity(mushroomCount);
+        mushroomCountService.create(count);
+        mushroomCount.setId(count.getId());
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Mushroom implements Comparable<Mushroom> {
 
     private String description;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

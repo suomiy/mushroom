@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.ForestDTO;
 import cz.fi.muni.pa165.entity.Forest;
+import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.facade.ForestFacade;
 import cz.fi.muni.pa165.service.ForestService;
 import cz.fi.muni.pa165.service.mappers.ForestMapperService;
@@ -28,7 +29,9 @@ public class ForestFacadeImpl implements ForestFacade {
 
     @Override
     public void create(ForestDTO forest) {
-        forestService.create(mapperService.asEntity(forest));
+        Forest f = mapperService.asEntity(forest);
+        forestService.create(f);
+        forest.setId(f.getId());
     }
 
     @Override

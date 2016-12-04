@@ -9,4 +9,3 @@
     <h1>Welcome to Mushroom Hunter Portal</h1>
 </body>
 </html>
-
