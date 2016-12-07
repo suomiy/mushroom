@@ -6,10 +6,10 @@ import cz.fi.muni.pa165.dto.MushroomDTO;
 import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.facade.MushroomFacade;
 import cz.fi.muni.pa165.rest.Uri;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -20,18 +20,18 @@ import java.util.List;
 @RequestMapping(path = Uri.ROOT_URI_MUSHROOM, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MushroomController {
 
-    @Autowired
+    @Inject
     MushroomFacade mushroomFacade;
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public MushroomDTO create(@RequestBody MushroomDTO mushroomDTO) {
-        mushroomFacade.create(mushroomDTO);
-        return mushroomDTO;
+    public MushroomDTO create(@RequestBody MushroomDTO mushroom) {
+        mushroomFacade.create(mushroom);
+        return mushroom;
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public MushroomDTO update(@RequestBody MushroomDTO mushroomDTO) {
-        return mushroomFacade.update(mushroomDTO);
+    public MushroomDTO update(@RequestBody MushroomDTO mushroom) {
+        return mushroomFacade.update(mushroom);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
