@@ -11,6 +11,7 @@ public class ForestDTO {
 
     private Long id;
 
+    @NotNull
     private String name;
 
     private String localityDescription;
@@ -18,15 +19,25 @@ public class ForestDTO {
     public ForestDTO() {
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getLocalityDescription() { return localityDescription; }
+    public String getLocalityDescription() {
+        return localityDescription;
+    }
 
     public void setLocalityDescription(String localityDescription) {
         this.localityDescription = localityDescription;
@@ -52,7 +63,6 @@ public class ForestDTO {
             return false;
         }
         return true;
-
     }
 
     @Override

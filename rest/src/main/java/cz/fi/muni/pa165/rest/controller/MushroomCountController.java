@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -21,13 +22,13 @@ public class MushroomCountController {
     MushroomCountFacade mushroomCountFacade;
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public MushroomCountDTO create(@RequestBody MushroomCountDTO mushroomCount) {
+    public MushroomCountDTO create(@Valid @RequestBody MushroomCountDTO mushroomCount) {
         mushroomCountFacade.create(mushroomCount);
         return mushroomCount;
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public MushroomCountDTO update(@RequestBody MushroomCountDTO mushroomCount) {
+    public MushroomCountDTO update(@Valid @RequestBody MushroomCountDTO mushroomCount) {
         return mushroomCountFacade.update(mushroomCount);
     }
 

@@ -1,11 +1,14 @@
 package cz.fi.muni.pa165.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * @author Filip Krepinsky (410022) on 11/25/16
  */
 public class DateDTO {
+
+    @NotNull
     private Date date;
 
     public Date getDate() {
