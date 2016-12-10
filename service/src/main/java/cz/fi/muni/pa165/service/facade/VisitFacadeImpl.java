@@ -40,7 +40,9 @@ public class VisitFacadeImpl implements VisitFacade {
 
     @Override
     public void create(VisitDTO visit) {
-        visitService.create(mapperService.asEntity(visit));
+        Visit v = mapperService.asEntity(visit);
+        visitService.create(v);
+        visit.setId(v.getId());
     }
 
     @Override

@@ -31,7 +31,9 @@ public class MushroomFacadeImpl implements MushroomFacade {
 
     @Override
     public void create(MushroomDTO mushroom) {
-        mushroomService.create(mapperService.asEntity(mushroom));
+        Mushroom m = mapperService.asEntity(mushroom);
+        mushroomService.create(m);
+        mushroom.setId(m.getId());
     }
 
     @Override

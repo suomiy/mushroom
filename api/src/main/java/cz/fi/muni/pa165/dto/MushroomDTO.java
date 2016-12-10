@@ -1,9 +1,8 @@
 package cz.fi.muni.pa165.dto;
 
 import cz.fi.muni.pa165.enums.MushroomType;
-import java.util.Calendar;
-import java.util.Date;
 
+import java.util.Date;
 
 /**
  * Created by Michal Kysilko 436339 , on 23.11.16.
@@ -25,10 +24,11 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
 
     private String description;
 
-    public MushroomDTO() {}
+    public MushroomDTO() {
+    }
 
-    public long getId() {
-        return this.id;
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -112,5 +112,4 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
                 ", description='" + this.description + '\'' +
                 '}';
     }
-
 }

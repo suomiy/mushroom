@@ -27,6 +27,56 @@
         <dependencies>
 
             <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-web-api</artifactId>
+                <version>6.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.hateoas</groupId>
+                <artifactId>spring-hateoas</artifactId>
+                <version>0.21.0.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>1.2.0</version><!-- spring-test 4.1.8 uses this version as compile dependency -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <!--mapping-->
+            <dependency>
+                <groupId>fr.xebia.extras</groupId>
+                <artifactId>selma-processor</artifactId>
+                <version>0.15</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.xebia.extras</groupId>
+                <artifactId>selma</artifactId>
+                <version>0.15</version>
+            </dependency>
+
+            <!--testing-->
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
                 <version>2.0.2-beta</version>
@@ -39,17 +89,6 @@
                 <version>3.5.2</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/fr.xebia.extras/selma-processor -->
-            <dependency>
-                <groupId>fr.xebia.extras</groupId>
-                <artifactId>selma-processor</artifactId>
-                <version>0.15</version>
-            </dependency>
-            <dependency>
-                <groupId>fr.xebia.extras</groupId>
-                <artifactId>selma</artifactId>
-                <version>0.15</version>
-            </dependency>
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-module-junit4</artifactId>
@@ -65,8 +104,6 @@
                 <artifactId>powermock-classloading-xstream</artifactId>
                 <version>1.6.6</version>
             </dependency>
-
-
 
         </dependencies>
     </dependencyManagement>
@@ -90,5 +127,7 @@
         <module>persistence</module>
         <module>service</module>
         <module>api</module>
+        <module>web</module>
+        <module>rest</module>
     </modules>
 </project>
