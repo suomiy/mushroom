@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.rest.controller.error;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -52,6 +53,12 @@ public class GlobalExceptionController {
 
         apiError.setErrors(errors);
         return apiError;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void handleException(HttpMessageConversionException x) { // otherwise it would get classified as RuntimeException
+        throw x;
     }
 
     @ExceptionHandler
