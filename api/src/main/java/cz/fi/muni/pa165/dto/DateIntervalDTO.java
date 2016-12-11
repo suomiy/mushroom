@@ -8,8 +8,10 @@ import java.util.Date;
  */
 public class DateIntervalDTO {
 
+    @NotNull
     private Date from;
 
+    @NotNull
     private Date to;
 
     public Date getFrom() {

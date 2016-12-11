@@ -15,8 +15,10 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
 
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private MushroomType type;
 
     private Date fromDate;
@@ -53,7 +55,7 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
     }
 
     public Date getFromDate() {
-        return new Date(this.fromDate.getTime());
+        return fromDate;
     }
 
     public void setFromDate(Date fromDate) {
@@ -61,7 +63,7 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
     }
 
     public Date getToDate() {
-        return new Date(this.toDate.getTime());
+        return toDate;
     }
 
     public void setToDate(Date toDate) {

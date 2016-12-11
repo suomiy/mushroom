@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -21,13 +22,13 @@ public class ForestController {
     ForestFacade forestFacade;
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ForestDTO create(@RequestBody ForestDTO forest) {
+    public ForestDTO create(@Valid @RequestBody ForestDTO forest) {
         forestFacade.create(forest);
         return forest;
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public ForestDTO update(@RequestBody ForestDTO forest) {
+    public ForestDTO update(@Valid @RequestBody ForestDTO forest) {
         return forestFacade.update(forest);
     }
 

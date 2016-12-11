@@ -12,10 +12,13 @@ public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
 
     private Long id;
 
+    @NotNull
     private MushroomDTO mushroom;
 
+    @NotNull
     private Long visitId;
 
+    @Min(1)
     private int count;
 
     public MushroomCountDTO() {
