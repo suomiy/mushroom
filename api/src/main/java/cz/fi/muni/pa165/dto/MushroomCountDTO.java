@@ -1,5 +1,8 @@
 package cz.fi.muni.pa165.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by Erik Macej 433744 , on 20.11.16.
  *

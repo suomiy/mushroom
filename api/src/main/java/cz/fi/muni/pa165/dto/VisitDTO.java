@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -10,14 +11,18 @@ public class VisitDTO {
 
     private Long id;
 
+    @NotNull
     private Long hunterId;
 
+    @NotNull
     private ForestDTO forest;
 
     private String note;
 
+    @NotNull
     private Date fromDate;
 
+    @NotNull
     private Date toDate;
 
     private List<MushroomCountDTO> mushroomsCount;

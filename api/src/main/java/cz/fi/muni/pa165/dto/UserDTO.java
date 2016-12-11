@@ -1,28 +1,24 @@
 package cz.fi.muni.pa165.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonView;
 import cz.fi.muni.pa165.enums.Role;
-import cz.fi.muni.pa165.views.View;
+
+import javax.validation.constraints.NotNull;
 
 public abstract class UserDTO {
 
-    @JsonView(View.Summary.class)
     private Long id;
 
-    @JsonView(View.Summary.class)
     private String firstName;
 
-    @JsonView(View.Summary.class)
     private String surname;
 
-    @JsonView(View.Summary.class)
+    @NotNull
     private String nick;
 
-    @JsonView(View.Summary.class)
+    @NotNull
     private String email;
 
-    @JsonView(View.Summary.class)
+    @NotNull
     private Role type;
 
     public UserDTO() {

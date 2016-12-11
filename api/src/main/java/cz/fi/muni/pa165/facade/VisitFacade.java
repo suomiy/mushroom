@@ -43,10 +43,9 @@ public interface VisitFacade {
     /**
      * Find all visitDTOs for given forest.
      *
-     * @param forest ForestDTO entity
-     * @return list of all visitDTOs for given forest
+     * @param forestId - id of forest
      */
-    List<VisitDTO> findByForest(ForestDTO forest);
+    List<VisitDTO> findByForest(Long forestId);
 
     /**
      * Find all visitDTOs for given hunter.
@@ -59,10 +58,9 @@ public interface VisitFacade {
     /**
      * Find all visitDTOs for given mushroom.
      *
-     * @param mushroom MushroomDTO entity
-     * @return list of all visitDTOs for given mushroom
+     * @param mushroomId - id of mushroom
      */
-    List<VisitDTO> findByMushroom(MushroomDTO mushroom);
+    List<VisitDTO> findByMushroom(Long mushroomId);
 
     /**
      * Finds all visits that can be found in this Date (year and time are ignored)

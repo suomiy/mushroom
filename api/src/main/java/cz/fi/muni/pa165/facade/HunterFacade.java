@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
@@ -16,10 +17,9 @@ public interface HunterFacade {
     /**
      * Register given hunter with his password
      *
-     * @param hunter              - hunter to register
-     * @param unencryptedPassword - hunter's password
+     * @param registrateHunterDTO - hunter to register
      */
-    void registerHunter(HunterDTO hunter, String unencryptedPassword) throws HunterAuthenticationException;
+    void registerHunter(RegistrateHunterDTO registrateHunterDTO) throws HunterAuthenticationException;
 
     /**
      * Authenticates Hunter

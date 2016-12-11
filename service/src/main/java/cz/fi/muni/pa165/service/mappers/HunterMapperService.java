@@ -14,32 +14,10 @@ import javax.inject.Inject;
 public class HunterMapperService extends EntityDTOServiceImpl<Hunter, HunterDTO> {
     private HunterMapper mapper = Selma.builder(HunterMapper.class).build();
 
-    @Inject
-    private VisitMapperService visitMapperService;
-
     @SuppressWarnings("unchecked")
     @Override
     public HunterMapper getMapper() {
         return mapper;
     }
 
-    @Override
-    public HunterDTO asDto(Hunter hunter) {
-        HunterDTO result = mapper.asDto(hunter);
-        if (result != null) {
-            result.setVisits(visitMapperService.asDtos(hunter.getVisits()));
-        }
-
-        return result;
-    }
-
-    @Override
-    public Hunter asEntity(HunterDTO hunterDTO) {
-        Hunter result = mapper.asEntity(hunterDTO);
-        if (result != null) {
-            result.setVisits(visitMapperService.asEntities(hunterDTO.getVisits()));
-        }
-
-        return result;
-    }
 }

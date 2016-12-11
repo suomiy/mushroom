@@ -53,8 +53,27 @@ public class ObjectsHelper {
         hunter.setPasswordHash("123");
         hunter.setType(Role.USER);
         hunter.setRank(Rank.GURU);
-        hunter.addVisit(getVisitEntity());
-        hunter.addVisit(getEmptyVisitEntity());
+        return hunter;
+    }
+
+    public static Hunter getRegistrateHunterEntity() {
+        Hunter hunter = new Hunter();
+        hunter.setEmail("samo@hunter.cz");
+        hunter.setFirstName("Samuel");
+        hunter.setSurname("Hunter");
+        hunter.setNick("Samo");
+        hunter.setType(Role.USER);
+        hunter.setRank(Rank.BEGINNER);
+        return hunter;
+    }
+
+    public static  RegistrateHunterDTO getRegistrateHunterDTO() {
+        RegistrateHunterDTO hunter = new RegistrateHunterDTO();
+        hunter.setEmail("samo@hunter.cz");
+        hunter.setFirstName("Samuel");
+        hunter.setSurname("Hunter");
+        hunter.setNick("Samo");
+        hunter.setUnencryptedPassword("123");
         return hunter;
     }
 
@@ -67,10 +86,6 @@ public class ObjectsHelper {
         hunter.setEmail("samo@hunter.cz");
         hunter.setType(Role.USER);
         hunter.setRank(Rank.GURU);
-        ArrayList<VisitDTO> visitDTOs = new ArrayList<>(1);
-        visitDTOs.add(getVisitDTO());
-        visitDTOs.add(getEmptyVisitDTO());
-        hunter.setVisits(visitDTOs);
 
         return hunter;
     }
@@ -241,4 +256,5 @@ public class ObjectsHelper {
         c.set(Calendar.YEAR, year);
         return c.getTime();
     }
+
 }

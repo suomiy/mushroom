@@ -1,5 +1,7 @@
 package cz.fi.muni.pa165.dto;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by Erik Macej 433744 , on 19.11.16.
  *
@@ -7,8 +9,10 @@ package cz.fi.muni.pa165.dto;
  */
 public class UserAuthenticateDTO {
 
+    @NotNull
     private String password;
 
+    @NotNull
     private String email;
 
     public UserAuthenticateDTO() {
