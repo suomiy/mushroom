@@ -1,13 +1,14 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.entity.Hunter;
-import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
 import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.mappers.HunterMapperService;
+import cz.fi.muni.pa165.service.mappers.RegistrateHunterMapperService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,13 +28,15 @@ public class HunterFacadeImpl implements HunterFacade {
     private HunterService hunterService;
 
     @Inject
-    private HunterMapperService mapperService;
+    private HunterMapperService hunterMapperService;
+
+    @Inject
+    private RegistrateHunterMapperService registrateHunterMapperService;
 
     @Override
-    public void registerHunter(HunterDTO hunterDTO, String unencryptedPassword) throws HunterAuthenticationException {
-        Hunter hunterEntity = mapperService.asEntity(hunterDTO);
-        hunterService.registerHunter(hunterEntity, unencryptedPassword);
-        hunterDTO.setId(hunterEntity.getId());
+    public void registerHunter(RegistrateHunterDTO registrateHunterDTO) throws HunterAuthenticationException {
+        Hunter hunterEntity = registrateHunterMapperService.asEntity(registrateHunterDTO);
+        hunterService.registerHunter(hunterEntity, registrateHunterDTO.getUnencryptedPassword());
     }
 
     @Override
@@ -44,7 +47,7 @@ public class HunterFacadeImpl implements HunterFacade {
 
     @Override
     public HunterDTO update(HunterDTO hunterDTO) {
-        Hunter hunter = mapperService.asEntity(hunterDTO);
+        Hunter hunter = hunterMapperService.asEntity(hunterDTO);
 
         Hunter hunterEntity = hunterService.findById(hunter.getId());
         hunterEntity.setEmail(hunter.getEmail());
@@ -55,7 +58,7 @@ public class HunterFacadeImpl implements HunterFacade {
         hunterEntity.setSurname(hunter.getSurname());
         hunterEntity = hunterService.update(hunterEntity);
 
-        return mapperService.asDto(hunterEntity);
+        return hunterMapperService.asDto(hunterEntity);
     }
 
     @Override
@@ -67,18 +70,18 @@ public class HunterFacadeImpl implements HunterFacade {
     @Override
     public HunterDTO findById(Long id) {
         Hunter hunter = hunterService.findById(id);
-        return mapperService.asDto(hunter);
+        return hunterMapperService.asDto(hunter);
     }
 
     @Override
     public HunterDTO findByEmail(String email) {
         Hunter hunter = hunterService.findByEmail(email);
-        return mapperService.asDto(hunter);
+        return hunterMapperService.asDto(hunter);
     }
 
     @Override
     public List<HunterDTO> findAll() {
-        return mapperService.asDtos(hunterService.findAll());
+        return hunterMapperService.asDtos(hunterService.findAll());
     }
 
     @Override

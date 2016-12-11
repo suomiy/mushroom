@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
+import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
 import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
@@ -9,6 +10,7 @@ import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
 import cz.fi.muni.pa165.service.mappers.HunterMapperService;
 import cz.fi.muni.pa165.service.mappers.ObjectsHelper;
+import cz.fi.muni.pa165.service.mappers.RegistrateHunterMapperService;
 import cz.fi.muni.pa165.service.mappers.TestHelper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,7 +40,10 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
     private HunterService hunterService;
 
     @Mock
-    private HunterMapperService mapperService;
+    private HunterMapperService hunterMapperService;
+
+    @Mock
+    private RegistrateHunterMapperService registrateHunterMapperService;
 
     @InjectMocks
     private HunterFacade hunterFacade = new HunterFacadeImpl();
@@ -47,6 +52,7 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
     private Hunter emptyHunter;
     private HunterDTO hunterDTO;
     private HunterDTO emptyHunterDTO;
+    private RegistrateHunterDTO registrateHunterDTO;
 
     private List<HunterDTO> hunterDTOs;
     private List<Hunter> hunters;
@@ -61,6 +67,7 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
         hunter = ObjectsHelper.getHunterEntity();
         hunter.setId(null);
         hunterDTO = ObjectsHelper.getHunterDTO();
+        registrateHunterDTO = ObjectsHelper.getRegistrateHunterDTO();
 
         emptyHunter = ObjectsHelper.getEmptyHunterEntity();
         emptyHunterDTO = ObjectsHelper.getEmptyHunterDTO();
@@ -73,16 +80,17 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
         hunterDTOs.add(hunterDTO);
         hunterDTOs.add(emptyHunterDTO);
 
-        when(mapperService.asDto(hunter)).thenReturn(hunterDTO);
-        when(mapperService.asDto(emptyHunter)).thenReturn(emptyHunterDTO);
-        when(mapperService.asEntity(hunterDTO)).thenReturn(hunter);
-        when(mapperService.asEntity(emptyHunterDTO)).thenReturn(emptyHunter);
+        when(hunterMapperService.asDto(hunter)).thenReturn(hunterDTO);
+        when(hunterMapperService.asDto(emptyHunter)).thenReturn(emptyHunterDTO);
+        when(registrateHunterMapperService.asEntity(registrateHunterDTO)).thenReturn(hunter);
+        when(hunterMapperService.asEntity(hunterDTO)).thenReturn(hunter);
+        when(hunterMapperService.asEntity(emptyHunterDTO)).thenReturn(emptyHunter);
     }
 
     @Test
     public void registerHunter() throws HunterAuthenticationException {
-        hunterFacade.registerHunter(hunterDTO, PASSWORD);
-        verify(hunterService).registerHunter(hunter, PASSWORD);
+        hunterFacade.registerHunter(registrateHunterDTO);
+        verify(hunterService).registerHunter(hunter, registrateHunterDTO.getUnencryptedPassword());
     }
 
     @Test

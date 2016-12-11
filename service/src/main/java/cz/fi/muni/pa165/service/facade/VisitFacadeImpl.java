@@ -1,10 +1,14 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.entity.Forest;
 import cz.fi.muni.pa165.entity.Hunter;
+import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.facade.VisitFacade;
+import cz.fi.muni.pa165.service.ForestService;
 import cz.fi.muni.pa165.service.HunterService;
+import cz.fi.muni.pa165.service.MushroomService;
 import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.mappers.ForestMapperService;
 import cz.fi.muni.pa165.service.mappers.HunterMapperService;
@@ -28,6 +32,12 @@ public class VisitFacadeImpl implements VisitFacade {
 
     @Inject
     private HunterService hunterService;
+
+    @Inject
+    private MushroomService mushroomService;
+
+    @Inject
+    private ForestService forestService;
 
     @Inject
     private VisitMapperService mapperService;
@@ -67,8 +77,9 @@ public class VisitFacadeImpl implements VisitFacade {
     }
 
     @Override
-    public List<VisitDTO> findByForest(ForestDTO forest) {
-        List<Visit> found = visitService.findByForest(forestMapperService.asEntity(forest));
+    public List<VisitDTO> findByForest(Long forestId) {
+        Forest forest = forestService.findById(forestId);
+        List<Visit> found = visitService.findByForest(forest);
         return mapperService.asDtos(found);
     }
 
@@ -80,8 +91,9 @@ public class VisitFacadeImpl implements VisitFacade {
     }
 
     @Override
-    public List<VisitDTO> findByMushroom(MushroomDTO mushroom) {
-        List<Visit> found = visitService.findByMushroom(mushroomMapperService.asEntity(mushroom));
+    public List<VisitDTO> findByMushroom(Long mushroomId) {
+        Mushroom mushroom = mushroomService.findById(mushroomId);
+        List<Visit> found = visitService.findByMushroom(mushroom);
         return mapperService.asDtos(found);
     }
 

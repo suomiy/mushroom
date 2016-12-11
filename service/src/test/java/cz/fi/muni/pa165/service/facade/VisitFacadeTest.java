@@ -1,11 +1,15 @@
 package cz.fi.muni.pa165.service.facade;
 
+import cz.fi.muni.pa165.dto.MushroomCountDTO;
 import cz.fi.muni.pa165.dto.MushroomDTO;
 import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.entity.Mushroom;
+import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.facade.VisitFacade;
+import cz.fi.muni.pa165.service.ForestService;
 import cz.fi.muni.pa165.service.HunterService;
+import cz.fi.muni.pa165.service.MushroomService;
 import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
 import cz.fi.muni.pa165.service.mappers.*;
@@ -38,6 +42,12 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     private HunterService hunterService;
 
     @Mock
+    private ForestService forestService;
+
+    @Mock
+    private MushroomService mushroomService;
+
+    @Mock
     private VisitMapperService mapperService;
 
     @Mock
@@ -56,6 +66,7 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
 
     private List<VisitDTO> visitDTOs;
     private List<Visit> visits;
+    private MushroomCountDTO mushroomCount;
 
     private Mushroom mushroom;
     private MushroomDTO mushroomDto;
@@ -72,6 +83,7 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
 
         emptyVisit = ObjectsHelper.getEmptyVisitEntity();
         emptyVisitDTO = ObjectsHelper.getEmptyVisitDTO();
+        mushroomCount = ObjectsHelper.getMushroomCountDTO();
 
         visits = new ArrayList<>();
         visits.add(visit);
@@ -129,8 +141,9 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     public void findByForest() {
         removeLast();
 
+        when(forestService.findById(visitDTO.getForest().getId())).thenReturn(visit.getForest());
         when(visitService.findByForest(visit.getForest())).thenReturn(visits);
-        List<VisitDTO> result = visitFacade.findByForest(visitDTO.getForest());
+        List<VisitDTO> result = visitFacade.findByForest(visitDTO.getForest().getId());
 
         assertThat(result).isEqualTo(visitDTOs);
     }
@@ -150,8 +163,9 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     public void findByMushroom() {
         removeLast();
 
+        when(mushroomService.findById(mushroomCount.getMushroom().getId())).thenReturn(mushroom);
         when(visitService.findByMushroom(mushroom)).thenReturn(visits);
-        List<VisitDTO> result = visitFacade.findByMushroom(mushroomDto);
+        List<VisitDTO> result = visitFacade.findByMushroom(mushroomDto.getId());
 
         assertThat(result).isEqualTo(visitDTOs);
     }

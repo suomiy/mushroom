@@ -56,6 +56,6 @@ public class TestHelper {
 
     public static void updatedEntityEquals(HunterDTO expected, HunterDTO actual) {
         assertThat(actual).isEqualToComparingOnlyGivenFields(expected, "id", "firstName", "surname",
-                "nick", "email", "type", "rank", "visits");
+                "nick", "email", "type", "rank");
     }
 }
