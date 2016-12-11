@@ -4,6 +4,8 @@ import cz.fi.muni.pa165.dto.MushroomCountDTO;
 import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.facade.MushroomCountFacade;
 import cz.fi.muni.pa165.service.MushroomCountService;
+import cz.fi.muni.pa165.service.MushroomService;
+import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.mappers.MushroomCountMapperService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,19 +24,31 @@ public class MushroomCountFacadeImpl implements MushroomCountFacade {
     private MushroomCountService mushroomCountService;
 
     @Inject
+    private MushroomService mushroomService;
+
+    @Inject
+    private VisitService visitService;
+
+    @Inject
     private MushroomCountMapperService mapperService;
 
     @Override
     public void create(MushroomCountDTO mushroomCount) {
         MushroomCount count = mapperService.asEntity(mushroomCount);
+        count.setMushroom(mushroomService.findById(mushroomCount.getMushroomId()));
+        count.setVisit(visitService.findById(mushroomCount.getVisitId()));
+
         mushroomCountService.create(count);
         mushroomCount.setId(count.getId());
     }
 
     @Override
     public MushroomCountDTO update(MushroomCountDTO mushroomCount) {
-        MushroomCount updated = mushroomCountService.update(mapperService.asEntity(mushroomCount));
-        return mapperService.asDto(updated);
+        MushroomCount count = mapperService.asEntity(mushroomCount);
+        count.setMushroom(mushroomService.findById(mushroomCount.getMushroomId()));
+        count.setVisit(visitService.findById(mushroomCount.getVisitId()));
+
+        return mapperService.asDto(mushroomCountService.update(count));
     }
 
     @Override

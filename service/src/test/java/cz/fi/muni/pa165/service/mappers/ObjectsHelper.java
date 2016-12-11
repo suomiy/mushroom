@@ -43,6 +43,20 @@ public class ObjectsHelper {
         return visit;
     }
 
+    public static ForestDTO getEmptyForestDTO() {
+        ForestDTO forest = new ForestDTO();
+        forest.setId(10L);
+
+        return forest;
+    }
+
+    public static Forest getEmptyForestEntity() {
+        Forest forest = new Forest();
+        forest.setId(10L);
+
+        return forest;
+    }
+
     public static Hunter getHunterEntity() {
         Hunter hunter = getEmptyHunterEntity();
         hunter.setId(1L);
@@ -67,7 +81,7 @@ public class ObjectsHelper {
         return hunter;
     }
 
-    public static  RegistrateHunterDTO getRegistrateHunterDTO() {
+    public static RegistrateHunterDTO getRegistrateHunterDTO() {
         RegistrateHunterDTO hunter = new RegistrateHunterDTO();
         hunter.setEmail("samo@hunter.cz");
         hunter.setFirstName("Samuel");
@@ -94,7 +108,7 @@ public class ObjectsHelper {
         Visit visit = getEmptyVisitEntity();
         visit.setId(1L);
         visit.setHunter(getEmptyHunterEntity());
-        visit.setForest(getForestEntity());
+        visit.setForest(getEmptyForestEntity());
         visit.setNote("Nice visit");
         visit.setFromDate(getFrom());
         visit.setToDate(getTo());
@@ -109,7 +123,7 @@ public class ObjectsHelper {
         VisitDTO visit = getEmptyVisitDTO();
         visit.setId(1L);
         visit.setHunterId(getEmptyHunterDTO().getId());
-        visit.setForest(getForestDTO());
+        visit.setForestId(getEmptyForestDTO().getId());
         visit.setNote("Nice visit");
         visit.setFromDate(getFrom());
         visit.setToDate(getTo());
@@ -157,7 +171,7 @@ public class ObjectsHelper {
         entity.setId(1L);
         entity.setCount(5);
 
-        Mushroom mushroom = getMushroomEntity();
+        Mushroom mushroom = getEmptyMushroomEntity();
         Visit visit = getEmptyVisitEntity();
 
         entity.setMushroom(mushroom);
@@ -171,10 +185,10 @@ public class ObjectsHelper {
         dto.setId(1L);
         dto.setCount(5);
 
-        MushroomDTO mushroomDTO = getMushroomDTO();
+        MushroomDTO mushroomDTO = getEmptyMushroomDTO();
         VisitDTO visitDTO = getEmptyVisitDTO();
 
-        dto.setMushroom(mushroomDTO);
+        dto.setMushroomId(mushroomDTO.getId());
         dto.setVisitId(visitDTO.getId());
 
         return dto;
@@ -256,5 +270,4 @@ public class ObjectsHelper {
         c.set(Calendar.YEAR, year);
         return c.getTime();
     }
-
 }

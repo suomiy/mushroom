@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Michal Kysilko 436339
  */
 
-public class MushroomDTO implements Comparable<MushroomDTO> {
+public class MushroomDTO {
 
     private Long id;
 
@@ -91,17 +91,6 @@ public class MushroomDTO implements Comparable<MushroomDTO> {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
-    }
-
-    @Override
-    public int compareTo(MushroomDTO mushroom) {
-        String otherName = mushroom.name;
-
-        if (name == null || otherName == null) {
-            return name == null ? (otherName == null ? 0 : -1) : 1;
-        }
-
-        return name.compareTo(otherName);
     }
 
     @Override

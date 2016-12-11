@@ -15,7 +15,7 @@ public class VisitDTO {
     private Long hunterId;
 
     @NotNull
-    private ForestDTO forest;
+    private Long forestId;
 
     private String note;
 
@@ -47,12 +47,12 @@ public class VisitDTO {
         this.hunterId = hunterId;
     }
 
-    public ForestDTO getForest() {
-        return forest;
+    public Long getForestId() {
+        return forestId;
     }
 
-    public void setForest(ForestDTO forest) {
-        this.forest = forest;
+    public void setForestId(Long forestId) {
+        this.forestId = forestId;
     }
 
     public Date getFromDate() {
@@ -107,7 +107,7 @@ public class VisitDTO {
         return "VisitDTO{" +
                 "id=" + id +
                 ", hunterId=" + hunterId +
-                ", forest=" + forest +
+                ", forestId=" + forestId +
                 ", note='" + note + '\'' +
                 ", fromDate=" + fromDate +
                 ", toDate=" + toDate +

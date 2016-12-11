@@ -33,8 +33,7 @@ public class TestHelper {
     }
 
     public static void NewDTOEquals(MushroomCountDTO expected, MushroomCountDTO actual) {
-        assertThat(actual).isEqualToComparingOnlyGivenFields(expected, "id", "visitId", "count");
-        NewDTOEquals(expected.getMushroom(), actual.getMushroom());
+        assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     public static void NewDTOEquals(VisitDTO expected, VisitDTO actual) {

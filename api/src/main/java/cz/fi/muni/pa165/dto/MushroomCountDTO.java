@@ -8,12 +8,12 @@ import javax.validation.constraints.NotNull;
  *
  * @author Erik Macej 433744
  */
-public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
+public class MushroomCountDTO {
 
     private Long id;
 
     @NotNull
-    private MushroomDTO mushroom;
+    private Long mushroomId;
 
     @NotNull
     private Long visitId;
@@ -32,12 +32,12 @@ public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
         this.id = id;
     }
 
-    public MushroomDTO getMushroom() {
-        return mushroom;
+    public Long getMushroomId() {
+        return mushroomId;
     }
 
-    public void setMushroom(MushroomDTO mushroom) {
-        this.mushroom = mushroom;
+    public void setMushroomId(Long mushroomId) {
+        this.mushroomId = mushroomId;
     }
 
     public Long getVisitId() {
@@ -64,34 +64,23 @@ public class MushroomCountDTO implements Comparable<MushroomCountDTO> {
         MushroomCountDTO that = (MushroomCountDTO) o;
 
         if (count != that.count) return false;
-        if (mushroom != null ? !mushroom.equals(that.mushroom) : that.mushroom != null) return false;
+        if (mushroomId != null ? !mushroomId.equals(that.mushroomId) : that.mushroomId != null) return false;
         return visitId != null ? visitId.equals(that.visitId) : that.visitId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = mushroom != null ? mushroom.hashCode() : 0;
+        int result = mushroomId != null ? mushroomId.hashCode() : 0;
         result = 31 * result + (visitId != null ? visitId.hashCode() : 0);
         result = 31 * result + count;
         return result;
     }
 
     @Override
-    public int compareTo(MushroomCountDTO mushroomCount) {
-        MushroomDTO otherShroom = mushroomCount.mushroom;
-
-        if (mushroom == null || otherShroom == null) {
-            return mushroom == null ? (otherShroom == null ? 0 : -1) : 1;
-        }
-
-        return mushroom.compareTo(otherShroom);
-    }
-
-    @Override
     public String toString() {
         return "MushroomCountDTO{" +
                 "id=" + id +
-                ", mushroom=" + mushroom +
+                ", mushroomId=" + mushroomId +
                 ", visitId=" + visitId +
                 ", count=" + count +
                 '}';

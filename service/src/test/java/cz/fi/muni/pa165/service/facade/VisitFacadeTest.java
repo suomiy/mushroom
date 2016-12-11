@@ -1,10 +1,8 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.MushroomCountDTO;
-import cz.fi.muni.pa165.dto.MushroomDTO;
 import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.entity.Mushroom;
-import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.entity.Visit;
 import cz.fi.muni.pa165.facade.VisitFacade;
 import cz.fi.muni.pa165.service.ForestService;
@@ -12,8 +10,6 @@ import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.MushroomService;
 import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
-import cz.fi.muni.pa165.service.mappers.ForestMapperService;
-import cz.fi.muni.pa165.service.mappers.MushroomMapperService;
 import cz.fi.muni.pa165.service.mappers.ObjectsHelper;
 import cz.fi.muni.pa165.service.mappers.VisitMapperService;
 import org.mockito.InjectMocks;
@@ -53,12 +49,6 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private VisitMapperService mapperService;
 
-    @Mock
-    private ForestMapperService forestMapperService;
-
-    @Mock
-    private MushroomMapperService mushroomMapperService;
-
     @InjectMocks
     private VisitFacade visitFacade = new VisitFacadeImpl();
 
@@ -72,7 +62,6 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     private MushroomCountDTO mushroomCount;
 
     private Mushroom mushroom;
-    private MushroomDTO mushroomDto;
 
     @BeforeClass
     public void setup() {
@@ -97,21 +86,12 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
         visitDTOs.add(emptyVisitDTO);
 
         mushroom = visit.getMushroomsCount().first().getMushroom();
-        mushroomDto = visitDTO.getMushroomsCount().get(0).getMushroom();
 
         when(mapperService.asDto(visit)).thenReturn(visitDTO);
         when(mapperService.asEntity(visitDTO)).thenReturn(visit);
 
         when(mapperService.asDto(emptyVisit)).thenReturn(emptyVisitDTO);
         when(mapperService.asEntity(emptyVisitDTO)).thenReturn(emptyVisit);
-
-        when(forestMapperService.asDto(visit.getForest())).thenReturn(visitDTO.getForest());
-        when(forestMapperService.asDto(emptyVisit.getForest())).thenReturn(emptyVisitDTO.getForest());
-        when(forestMapperService.asEntity(visitDTO.getForest())).thenReturn(visit.getForest());
-        when(forestMapperService.asEntity(emptyVisitDTO.getForest())).thenReturn(emptyVisit.getForest());
-
-        when(mushroomMapperService.asDto(mushroom)).thenReturn(mushroomDto);
-        when(mushroomMapperService.asEntity(mushroomDto)).thenReturn(mushroom);
     }
 
     @Test
@@ -144,9 +124,9 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     public void findByForest() {
         removeLast();
 
-        when(forestService.findById(visitDTO.getForest().getId())).thenReturn(visit.getForest());
+        when(forestService.findById(visitDTO.getForestId())).thenReturn(visit.getForest());
         when(visitService.findByForest(visit.getForest())).thenReturn(visits);
-        List<VisitDTO> result = visitFacade.findByForest(visitDTO.getForest().getId());
+        List<VisitDTO> result = visitFacade.findByForest(visitDTO.getForestId());
 
         assertThat(result).isEqualTo(visitDTOs);
     }
@@ -166,9 +146,9 @@ public class VisitFacadeTest extends AbstractTestNGSpringContextTests {
     public void findByMushroom() {
         removeLast();
 
-        when(mushroomService.findById(mushroomCount.getMushroom().getId())).thenReturn(mushroom);
+        when(mushroomService.findById(mushroomCount.getMushroomId())).thenReturn(mushroom);
         when(visitService.findByMushroom(mushroom)).thenReturn(visits);
-        List<VisitDTO> result = visitFacade.findByMushroom(mushroomDto.getId());
+        List<VisitDTO> result = visitFacade.findByMushroom(mushroom.getId());
 
         assertThat(result).isEqualTo(visitDTOs);
     }
