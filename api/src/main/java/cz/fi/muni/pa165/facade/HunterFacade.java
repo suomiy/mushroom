@@ -6,6 +6,7 @@ import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Erik Macej 433744 , on 20.11.16.
@@ -64,7 +65,7 @@ public interface HunterFacade {
      *
      * @return list of Hunters
      */
-    Collection<HunterDTO> findAll();
+    List<HunterDTO> findAll();
 
     /**
      * Changes user password

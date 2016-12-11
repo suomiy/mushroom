@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 public abstract class UserDTO {
 
+    @NotNull
     private Long id;
 
     private String firstName;
