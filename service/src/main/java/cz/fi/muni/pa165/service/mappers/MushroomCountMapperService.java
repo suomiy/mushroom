@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.service.mappers;
 
 import cz.fi.muni.pa165.dto.MushroomCountDTO;
+import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.entity.Visit;
 import fr.xebia.extras.selma.Selma;
@@ -23,7 +24,12 @@ public class MushroomCountMapperService extends EntityDTOServiceImpl<MushroomCou
     public MushroomCountDTO asDto(MushroomCount mushroomCount) {
         MushroomCountDTO result = mapper.asDto(mushroomCount);
         if (result != null) {
-            result.setVisitId(mushroomCount.getVisit().getId());
+            if (mushroomCount.getVisit() != null) {
+                result.setVisitId(mushroomCount.getVisit().getId());
+            }
+            if (mushroomCount.getMushroom() != null) {
+                result.setMushroomId(mushroomCount.getMushroom().getId());
+            }
         }
 
         return result;
@@ -33,9 +39,16 @@ public class MushroomCountMapperService extends EntityDTOServiceImpl<MushroomCou
     public MushroomCount asEntity(MushroomCountDTO mushroomCountDTO) {
         MushroomCount result = mapper.asEntity(mushroomCountDTO);
         if (result != null) {
-            Visit v = new Visit();
-            v.setId(mushroomCountDTO.getVisitId());
-            result.setVisit(v);
+            if (mushroomCountDTO.getVisitId() != null) {
+                Visit visit = new Visit();
+                visit.setId(mushroomCountDTO.getVisitId());
+                result.setVisit(visit);
+            }
+            if (mushroomCountDTO.getMushroomId() != null) {
+                Mushroom mushroom = new Mushroom();
+                mushroom.setId(mushroomCountDTO.getMushroomId());
+                result.setMushroom(mushroom);
+            }
         }
 
         return result;

@@ -49,25 +49,12 @@ public class Forest {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (!(o instanceof Forest)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof Forest)) return false;
 
-        Forest other = (Forest) o;
-        if (name == null && other.getName() != null) {
-            return false;
-        }
-        if (!name.equals(other.getName())) {
-            return false;
-        }
-        return true;
+        Forest forest = (Forest) o;
 
+        return name != null ? name.equals(forest.name) : forest.name == null;
     }
 
     @Override

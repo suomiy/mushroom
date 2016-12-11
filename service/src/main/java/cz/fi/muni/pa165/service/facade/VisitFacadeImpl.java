@@ -1,6 +1,8 @@
 package cz.fi.muni.pa165.service.facade;
 
-import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.dto.DateDTO;
+import cz.fi.muni.pa165.dto.DateIntervalDTO;
+import cz.fi.muni.pa165.dto.VisitDTO;
 import cz.fi.muni.pa165.entity.Forest;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.entity.Mushroom;
@@ -10,9 +12,6 @@ import cz.fi.muni.pa165.service.ForestService;
 import cz.fi.muni.pa165.service.HunterService;
 import cz.fi.muni.pa165.service.MushroomService;
 import cz.fi.muni.pa165.service.VisitService;
-import cz.fi.muni.pa165.service.mappers.ForestMapperService;
-import cz.fi.muni.pa165.service.mappers.HunterMapperService;
-import cz.fi.muni.pa165.service.mappers.MushroomMapperService;
 import cz.fi.muni.pa165.service.mappers.VisitMapperService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,23 +41,21 @@ public class VisitFacadeImpl implements VisitFacade {
     @Inject
     private VisitMapperService mapperService;
 
-    @Inject
-    private ForestMapperService forestMapperService;
-
-    @Inject
-    private MushroomMapperService mushroomMapperService;
-
     @Override
     public void create(VisitDTO visit) {
         Visit v = mapperService.asEntity(visit);
+        v.setForest(forestService.findById(visit.getForestId()));
+        v.setHunter(hunterService.findById(visit.getHunterId()));
         visitService.create(v);
         visit.setId(v.getId());
     }
 
     @Override
     public VisitDTO update(VisitDTO visit) {
-        Visit updated = visitService.update(mapperService.asEntity(visit));
-        return mapperService.asDto(updated);
+        Visit v = mapperService.asEntity(visit);
+        v.setForest(forestService.findById(visit.getForestId()));
+        v.setHunter(hunterService.findById(visit.getHunterId()));
+        return mapperService.asDto(visitService.update(v));
     }
 
     @Override

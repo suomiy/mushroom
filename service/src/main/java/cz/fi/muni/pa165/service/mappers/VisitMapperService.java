@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.service.mappers;
 
 import cz.fi.muni.pa165.dto.VisitDTO;
+import cz.fi.muni.pa165.entity.Forest;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.entity.Visit;
 import fr.xebia.extras.selma.Selma;
@@ -32,6 +33,9 @@ public class VisitMapperService extends EntityDTOServiceImpl<Visit, VisitDTO> {
             if (visit.getHunter() != null) {
                 result.setHunterId(visit.getHunter().getId());
             }
+            if (visit.getForest() != null) {
+                result.setForestId(visit.getForest().getId());
+            }
             result.setMushroomsCount(mushroomCountMapperService.asDtos(visit.getMushroomsCount()));
         }
 
@@ -46,6 +50,11 @@ public class VisitMapperService extends EntityDTOServiceImpl<Visit, VisitDTO> {
                 Hunter hunter = new Hunter();
                 hunter.setId(visitDTO.getHunterId());
                 result.setHunter(hunter);
+            }
+            if (visitDTO.getForestId() != null) {
+                Forest forest = new Forest();
+                forest.setId(visitDTO.getForestId());
+                result.setForest(forest);
             }
             result.setMushroomsCount(new TreeSet<>(
                     mushroomCountMapperService.asEntities(visitDTO.getMushroomsCount())));

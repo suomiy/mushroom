@@ -7,7 +7,7 @@ import fr.xebia.extras.selma.Mapper;
 /**
  * @author Filip Krepinsky (410022) on 11/25/16
  */
-@Mapper(withIgnoreFields = {"visit", "visitId"})
+@Mapper(withIgnoreFields = {"visit", "visitId", "mushroom", "mushroomId"})
 interface MushroomCountMapper extends EntityDTOMapper<MushroomCount, MushroomCountDTO> {
 }
 

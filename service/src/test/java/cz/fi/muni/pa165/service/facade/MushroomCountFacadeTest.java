@@ -4,6 +4,8 @@ import cz.fi.muni.pa165.dto.MushroomCountDTO;
 import cz.fi.muni.pa165.entity.MushroomCount;
 import cz.fi.muni.pa165.facade.MushroomCountFacade;
 import cz.fi.muni.pa165.service.MushroomCountService;
+import cz.fi.muni.pa165.service.MushroomService;
+import cz.fi.muni.pa165.service.VisitService;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
 import cz.fi.muni.pa165.service.mappers.MushroomCountMapperService;
 import cz.fi.muni.pa165.service.mappers.ObjectsHelper;
@@ -15,6 +17,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +37,12 @@ public class MushroomCountFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private MushroomCountMapperService mapperService;
+
+    @Mock
+    private MushroomService mushroomService;
+
+    @Mock
+    private VisitService visitService;
 
     @InjectMocks
     private MushroomCountFacade mushroomCountFacade = new MushroomCountFacadeImpl();
