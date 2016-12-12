@@ -50,8 +50,8 @@ public class MushroomController {
         return mushroomFacade.findAll();
     }
 
-    @RequestMapping(path = "/findbyname/{name}", method = RequestMethod.GET)
-    public MushroomDTO findByName(@PathVariable("name") String name) {
+    @RequestMapping(path = "/find", method = RequestMethod.POST)
+    public MushroomDTO findByName(@RequestParam("name") String name) {
         return mushroomFacade.findByName(name);
     }
 

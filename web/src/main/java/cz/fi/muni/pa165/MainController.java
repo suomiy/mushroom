@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-    @RequestMapping(path = "/{v:(?!^rest)^.*}/**", method = RequestMethod.GET)
+    @RequestMapping(path = "/{v:(?!^rest|resources|pages)^.*}/**", method = RequestMethod.GET)
     public String index() {
         return Uri.INDEX_FILE;
     }
