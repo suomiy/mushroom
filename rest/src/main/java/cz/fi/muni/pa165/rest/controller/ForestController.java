@@ -47,8 +47,8 @@ public class ForestController {
         return forestFacade.findAll();
     }
 
-    @RequestMapping(path = "/findbyname/{name}", method = RequestMethod.GET)
-    public ForestDTO findByName(@PathVariable("name") String name) {
+    @RequestMapping(path = "/find", method = RequestMethod.POST)
+    public ForestDTO findByName(@RequestParam("name") String name) {
         return forestFacade.findByName(name);
     }
 }
