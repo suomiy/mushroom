@@ -1,0 +1,38 @@
+/**
+ * Created by kisty on 14.12.16.
+ */
+
+
+function loadAdminHunters($http, $scope) {
+    $http.get('/pa165/rest/hunter/findall').then(function (response) {
+        $scope.hunters = response.data;
+        console.log('All hunters loaded');
+    });
+}
+
+portalControllers.controller('AdminHuntersCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+
+        loadAdminHunters($http,$scope);
+
+        $scope.deleteHunter = function (hunter) {
+            console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
+            $http.delete('/pa165/rest/hunter/' + hunter.id ).then(
+                function success(response) {
+                    console.log('deleted hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
+                    $rootScope.successAlert = 'Deleted hunter "' + hunter.email + '"';
+                    loadAdminHunters($http, $scope);
+                },
+                function error(response) {
+                    console.log("error when deleting hunter");
+                    console.log(response);
+                    switch (response.data.code) {
+                        default:
+                            $rootScope.errorAlert = 'Cannot delete hunter '+response.data.message;
+                            break;
+                    }
+                }
+            );
+        };
+
+    });
