@@ -11,7 +11,7 @@ function loadAdminHunters($http, $scope) {
 }
 
 portalControllers.controller('AdminHuntersCtrl',
-    function ($scope, $rootScope, $routeParams, $http) {
+    function ($scope, $rootScope, $http ) {
 
         loadAdminHunters($http,$scope);
 
@@ -34,5 +34,47 @@ portalControllers.controller('AdminHuntersCtrl',
                 }
             );
         };
+
+    });
+
+function findHunterById($hunterId, $scope, $http) {
+    $http.get('/pa165/rest/hunter/' + $hunterId).then(function (response) {
+        $scope.hunter = response.data;
+        console.log('loaded hunter ' + $scope.hunter.id + ' (' + $scope.hunter.email + ')');
+    })
+
+};
+
+portalControllers.controller('AdminHunterUpdateCtrl',
+    function ($scope , $routeParams, $http, $rootScope, $location) {
+        
+        var hunterId = $routeParams.hunterId;
+        $scope.ranks = ranks;
+        $scope.types = roles;
+
+        findHunterById(hunterId, $scope, $http);
+
+        $scope.updateHunter = function (hunter) {
+            console.log("updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
+            $http({
+                method: 'POST',
+                url: '/pa165/rest/hunter/update',
+                data: hunter
+            }).then(function success(response) {
+                    console.log('updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
+                    $rootScope.successAlert = 'Updated hunter "' + hunter.email + '"';
+                    $location.path("/admin/hunters");
+                },
+                function error(response) {
+                    console.log("error when updating hunter");
+                    console.log(response);
+                    switch (response.data.code) {
+                        default:
+                            $rootScope.errorAlert = 'Cannot update hunter '+response.data.message;
+                            break;
+                    }
+                }
+            )
+        }
 
     });

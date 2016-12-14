@@ -1,9 +1,11 @@
 package cz.fi.muni.pa165.entity;
 
 import cz.fi.muni.pa165.enums.Role;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author Filip Krepinsky (410022) on 10/29/16
@@ -23,10 +25,12 @@ public abstract class User {
     private String surname;
 
     @NotNull
+    @Size(min = 4, max = 20)
     @Column(nullable = false, unique = true)
     private String nick;
 
     @NotNull
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
