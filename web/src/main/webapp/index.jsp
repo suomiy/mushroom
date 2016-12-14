@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/app.js"></script>
+    <script src="${pageContext.request.contextPath}/admin_hunter_controllers.js"></script>
     <style>
         .navbar-nav.navbar-right .btn { position: relative; z-index: 2;padding: 4px 20px; margin: 10px auto; transition: transform 0.3s; }
     </style>

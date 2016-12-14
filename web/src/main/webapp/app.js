@@ -1,12 +1,17 @@
 'use strict';
 
-//created by Erik Macej, 433744
+/**
+ * Created by kisty on 14.12.16.
+ */
 
 var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute','portalControllers']);
 var portalControllers = angular.module('portalControllers', []);
 
 mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
+
+        adminHunterConfig($routeProvider);
+
         $routeProvider.
         when('/yourprofile', { templateUrl: 'resources/partials/your_profile.html', controller: 'YourProfileCtrl' }).
         when('/yourvisits', { templateUrl: 'resources/partials/your_visits.html', controller: 'YourVisitsCtrl' }).
@@ -24,6 +29,11 @@ mushroomHunterApp.config(['$routeProvider',
         otherwise({redirectTo: '/yourprofile'});
 
     }]);
+
+
+function adminHunterConfig($routeProvider) {
+    $routeProvider.when('/admin/hunters', { templateUrl: 'resources/partials/admin/admin_hunters.html', controller: 'AdminHuntersCtrl'});
+}
 
 mushroomHunterApp.run(function ($rootScope) {
     $rootScope.hideSuccessAlert = function () {
@@ -62,40 +72,6 @@ portalControllers.controller('MushroomsCtrl', function ($scope, $http) {
 });
 
 portalControllers.controller('ForestsCtrl', function ($scope, $http) {
-
-});
-
-function loadAdminHunters($http, $scope) {
-    $http.get('/pa165/rest/hunter/findall').then(function (response) {
-        $scope.hunters = response.data;
-        console.log('All hunters loaded');
-    });
-}
-
-portalControllers.controller('AdminHuntersCtrl',
-    function ($scope, $rootScope, $routeParams, $http) {
-
-        loadAdminHunters($http,$scope);
-
-        $scope.deleteHunter = function (hunter) {
-            console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
-            $http.delete('/pa165/rest/hunter/' + hunter.id ).then(
-                function success(response) {
-                    console.log('deleted hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
-                    $rootScope.successAlert = 'Deleted hunter "' + hunter.email + '"';
-                    loadAdminHunters($http, $scope);
-                },
-                function error(response) {
-                    console.log("error when deleting hunter");
-                    console.log(response);
-                    switch (response.data.code) {
-                        default:
-                            $rootScope.errorAlert = 'Cannot delete hunter '+response.data.message;
-                            break;
-                    }
-                }
-            );
-        };
 
 });
 
