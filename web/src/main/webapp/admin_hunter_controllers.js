@@ -10,10 +10,20 @@ function loadAdminHunters($http, $scope) {
     });
 }
 
+function findHunterByEmail($email, $scope, $http) {
+    var hunter;
+
+    $http.get('/pa165/rest/hunter/findbyemail?email=' + $email).then(function (response) {
+        hunter = response.data;
+        $scope.hunters = [hunter];
+        console.log('Hunter with email' + $email + 'loaded');
+    });
+}
+
 portalControllers.controller('AdminHuntersCtrl',
     function ($scope, $rootScope, $http ) {
 
-        loadAdminHunters($http,$scope);
+        loadAdminHunters($http, $scope);
 
         $scope.deleteHunter = function (hunter) {
             console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
@@ -33,6 +43,14 @@ portalControllers.controller('AdminHuntersCtrl',
                     }
                 }
             );
+        };
+
+        $scope.findAllHunters = function () {
+            loadAdminHunters($http,$scope);
+        };
+
+        $scope.findHunterByEmail = function (email) {
+            findHunterByEmail(email, $scope, $http);
         };
 
     });

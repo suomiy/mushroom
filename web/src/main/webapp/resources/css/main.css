@@ -19,3 +19,7 @@ h1{
     padding-left: 22px;
     padding-right: 30px;
 }
+
+.email-form div {
+    float: left;
+}
