@@ -10,6 +10,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,9 +35,7 @@ public class HunterController {
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public HunterDTO update(@Valid @RequestBody HunterDTO hunterDTO) {
-        return hunterFacade.update(hunterDTO);
-    }
+    public HunterDTO update(@Valid @RequestBody HunterDTO hunterDTO) { return hunterFacade.update(hunterDTO);}
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") long id) { hunterFacade.delete(id); }

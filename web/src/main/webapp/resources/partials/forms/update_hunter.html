@@ -17,7 +17,7 @@
     <div class="form-group" ng-class="{'has-error': !(form.nick.$valid)}">
         <label for="nick" class="col-sm-2 control-label">Nick</label>
         <div class="col-sm-10">
-            <input placeholder="nick" id="nick" type="text" ng-minlength="6" ng-maxlength="20" name="nick" class="form-control" ng-model="hunter.nick" required/>
+            <input placeholder="nick" id="nick" type="text" ng-minlength="2" ng-maxlength="20" name="nick" class="form-control" ng-model="hunter.nick" required/>
             <p class="help-block" ng-show="form.nick.$error.required">Nick is required</p>
             <p class="help-block" ng-show="form.nick.$error.minlength">Nick must be at least 6 characters</p>
             <p class="help-block" ng-show="form.nick.$error.maxlength">Nick must be at shorter than 20 characters</p>

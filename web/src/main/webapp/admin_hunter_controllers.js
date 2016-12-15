@@ -88,8 +88,10 @@ portalControllers.controller('AdminHunterUpdateCtrl',
                     console.log(response);
                     switch (response.data.code) {
                         default:
-                            $rootScope.errorAlert = 'Cannot update hunter '+response.data.message;
-                            break;
+                            angular.forEach(response.data.errors, function(value) {
+                                $rootScope.errorAlert = 'Cannot update hunter - ' + value;
+                            });
+                        break;
                     }
                 }
             )
