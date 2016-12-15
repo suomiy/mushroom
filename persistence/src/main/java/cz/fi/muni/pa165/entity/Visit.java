@@ -40,7 +40,7 @@ public class Visit {
     private Date toDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("mushroom.name")
+    @OrderBy("count")
     private SortedSet<MushroomCount> mushroomsCount = new TreeSet<>();
 
     public Long getId() {
