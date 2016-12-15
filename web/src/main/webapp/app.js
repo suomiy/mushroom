@@ -6,6 +6,8 @@
 
 var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute','portalControllers']);
 var portalControllers = angular.module('portalControllers', []);
+var ranks = [ 'BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
+var roles = [ 'ADMIN', 'USER'];
 
 mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
@@ -20,7 +22,6 @@ mushroomHunterApp.config(['$routeProvider',
         when('/visits', { templateUrl: 'resources/partials/visits.html', controller: 'VisitsCtrl'}).
         when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'}).
         when('/forests', { templateUrl: 'resources/partials/forests.html', controller: 'ForestsCtrl'}).
-        when('/admin/hunters', { templateUrl: 'resources/partials/admin/admin_hunters.html', controller: 'AdminHuntersCtrl'}).
         when('/admin/visits', { templateUrl: 'resources/partials/admin/admin_visits.html', controller: 'AdminVisitsCtrl'}).
         when('/admin/forests', { templateUrl: 'resources/partials/admin/admin_forests.html', controller: 'AdminForestsCtrl'}).
         when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
@@ -33,6 +34,7 @@ mushroomHunterApp.config(['$routeProvider',
 
 function adminHunterConfig($routeProvider) {
     $routeProvider.when('/admin/hunters', { templateUrl: 'resources/partials/admin/admin_hunters.html', controller: 'AdminHuntersCtrl'});
+    $routeProvider.when('/admin/hunters/update/:hunterId', { templateUrl: 'resources/partials/forms/update_hunter.html', controller: 'AdminHunterUpdateCtrl'});
 }
 
 mushroomHunterApp.run(function ($rootScope) {

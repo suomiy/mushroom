@@ -1,8 +1,10 @@
 package cz.fi.muni.pa165.dto;
 
 import cz.fi.muni.pa165.enums.Role;
+import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public abstract class UserDTO {
 
@@ -14,9 +16,11 @@ public abstract class UserDTO {
     private String surname;
 
     @NotNull
+    @Size(min = 5, max = 20)
     private String nick;
 
     @NotNull
+    @Email
     private String email;
 
     @NotNull
