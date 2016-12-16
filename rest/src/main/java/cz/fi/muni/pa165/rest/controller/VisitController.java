@@ -66,7 +66,7 @@ public class VisitController {
         return visitFacade.findByMushroom(mushroomId);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
+    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
     public List<VisitDTO> findByDate(@Valid @RequestBody DateDTO date) {
         return visitFacade.findByDate(date);
     }

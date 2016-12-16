@@ -1,43 +1,11 @@
 /**
- * Created by kisty on 16.12.16.
+ * Created by Erik Macej on 16.12.16.
  */
-
-function loadAdminForests($http, $scope) {
-    $http.get('/pa165/rest/forest/findall').then(function (response) {
-        $scope.forests = response.data;
-        console.log('All forests loaded');
-    });
-};
-
-function findForestByName($name, $scope, $http) {
-    var forest;
-
-    $http.get('/pa165/rest/forest/find?name=' + $name).then(function (response) {
-        forest = response.data;
-
-        if(response.data) {
-            $scope.forests = [forest];
-            console.log('Forest with name' + forest.name + 'loaded');
-        }else{
-            $scope.forests = [];
-            console.log('Forest with name doesn t exists');
-        }
-
-    });
-};
-
-function findForestById($forestId, $scope, $http) {
-    $http.get('/pa165/rest/forest/' + $forestId).then(function (response) {
-        $scope.forest = response.data;
-        console.log('Forest with name' + $scope.forest.name + 'loaded');
-    })
-
-};
 
 portalControllers.controller('AdminForestsCtrl',
     function ($scope, $http, $rootScope) {
 
-        loadAdminForests($http, $scope);
+        loadForests($http, $scope);
 
         $scope.deleteForest = function (forest) {
             console.log("deleting forest with id=" + forest.id + ' (' + forest.name + ')');
@@ -62,7 +30,7 @@ portalControllers.controller('AdminForestsCtrl',
         };
 
         $scope.findAllForests = function () {
-            loadAdminForests($http,$scope);
+            loadForests($http,$scope);
         };
 
         $scope.findForestByName = function (name) {

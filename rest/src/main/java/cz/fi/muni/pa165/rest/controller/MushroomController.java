@@ -60,12 +60,12 @@ public class MushroomController {
         return mushroomFacade.findByType(type);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
+    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
     public List<MushroomDTO> findByDate(@Valid @RequestBody DateDTO date) {
         return mushroomFacade.findByDate(date);
     }
 
-    @RequestMapping(path = "/findbydateinterval", method = RequestMethod.GET)
+    @RequestMapping(path = "/findbydateinterval", method = RequestMethod.POST)
     public List<MushroomDTO> findByDate(@Valid @RequestBody DateIntervalDTO interval) {
         return mushroomFacade.findByDate(interval);
     }
