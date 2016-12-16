@@ -22,46 +22,42 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">Mushroom hunter portal</a>
+<div ng-app="mushroomHunterApp">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/">Mushroom hunter portal</a>
+            </div>
         </div>
-    </div>
-    <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/yourprofile">Your Profile</a></li>
-            <li><a href="#/yourvisits">Your Visits</a></li>
-            <li><a href="#/yourcatches">Your Catches</a></li>
-            <li><a href="#/catches">Catches</a></li>
-            <li><a href="#/visits">Visits</a></li>
-            <li><a href="#/mushrooms">Mushrooms</a></li>
-            <li><a href="#/forests">Forests</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#/admin/hunters">Hunters</a></li>
-                    <li><a href="#/admin/visits">Visits</a></li>
-                    <li><a href="#/admin/forests">Forests</a></li>
-                    <li><a href="#/admin/mushroomcounts">Mushroom Counts</a></li>
-                    <li><a href="#/admin/mushrooms">Mushrooms</a></li>
-                </ul>
-            </li>
-            <li>
-                <a class="btn btn-default" href="#/login" role="button">Login</a>
-            </li>
-        </ul>
-    </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-hide="user.role == 'ANONYMOUS'"><a href="#/yourprofile">Your Profile</a></li>
+                <li class="dropdown" ng-hide="user.role == 'ANONYMOUS'">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Your Catches And Visits<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/yourvisits">Your Visits</a></li>
+                        <li><a href="#/yourcatches">Your Catches</a></li>
+                    </ul>
+                </li>
+                <li><a href="#/catches">Catches</a></li>
+                <li><a href="#/visits">Visits</a></li>
+                <li><a href="#/mushrooms">Mushrooms</a></li>
+                <li><a href="#/forests">Forests</a></li>
+                <li ng-hide="user.role == 'ANONYMOUS'"><a href="#/hunters">Hunters</a></li>
+                <li>
+                    <a class="btn btn-default" href="#/login" ng-show="!user.isLogged()" role="button">Login</a>
+                    <a class="btn btn-default" href="#/visits" ng-show="user.isLogged()" ng-click="user.logout()" role="button">Logout</a>
+                </li>
+            </ul>
+        </div>
 
-    <div class="container">
-
-        <div ng-app="mushroomHunterApp">
+        <div class="container">
 
             <div ng-show="warningAlert" class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" aria-label="Close" ng-click="hideWarningAlert()"> <span aria-hidden="true">&times;</span></button>
@@ -79,8 +75,7 @@
             <!-- the place where HTML templates are replaced by AngularJS routing -->
             <div ng-view></div>
         </div>
-
-    </div>
-</nav>
+    </nav>
+</div>
 </body>
 </html>
