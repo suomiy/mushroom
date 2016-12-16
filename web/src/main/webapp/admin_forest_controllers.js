@@ -9,7 +9,7 @@ portalControllers.controller('AdminForestsCtrl',
 
         $scope.deleteForest = function (forest) {
             console.log("deleting forest with id=" + forest.id + ' (' + forest.name + ')');
-            $http.delete('/pa165/rest/forest/' + forest.id ).then(
+            $http.delete('rest/forest/' + forest.id ).then(
                 function success(response) {
                     console.log('deleted forest ' + forest.id + ' (' + forest.name + ')  on server');
                     $rootScope.successAlert = 'Deleted forest "' + forest.name + '"';
@@ -52,7 +52,7 @@ portalControllers.controller('AdminCreateForestCtrl',
             console.log("Creating forest with name=" + forest.name);
             $http({
                 method: 'POST',
-                url: '/pa165/rest/forest/create',
+                url: 'rest/forest/create',
                 data: forest
             }).then(function success(response) {
                     console.log('Created forest ' + forest.name + '  on server');
@@ -86,7 +86,7 @@ portalControllers.controller('AdminUpdateForestCtrl',
             console.log("Updating forest with id=" + forest.id);
             $http({
                 method: 'POST',
-                url: '/pa165/rest/forest/update',
+                url: 'rest/forest/update',
                 data: forest
             }).then(function success(response) {
                     console.log('Updated forest ' + forest.id + '  on server');

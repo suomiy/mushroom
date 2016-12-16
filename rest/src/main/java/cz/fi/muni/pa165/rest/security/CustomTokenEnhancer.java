@@ -21,6 +21,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         final Map<String, Object> additionalInfo = new HashMap<>();
 
         additionalInfo.put("role", hunter.getType().name());
+        additionalInfo.put("userId", hunter.getId());
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 

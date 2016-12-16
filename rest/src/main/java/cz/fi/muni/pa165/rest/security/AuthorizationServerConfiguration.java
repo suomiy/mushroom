@@ -29,8 +29,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private static final String[] SCOPES = new String[]{"read", "write", "trust"};
     private static final String[] GRANT_TYPES = new String[]{"password", "authorization_code", "refresh_token", "implicit"};
     private static final String[] AUTHORITIES = new String[]{"ROLE_CLIENT", "ROLE_TRUSTED_CLIENT"};
-    private static final int ACCESS_TOKEN_VALIDITY = 300;
-    private static final int REFRESH_TOKEN_VALIDITY = 600;
+    private static final int WEB_ACCESS_TOKEN_VALIDITY = 120;
+    private static final int REST_ACCESS_TOKEN_VALIDITY = 600;
+    private static final int REFRESH_TOKEN_VALIDITY = 1200;
 
     @Inject
     private TokenStore tokenStore;
@@ -50,14 +51,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorities(AUTHORITIES)
                 .scopes(SCOPES)
                 .secret(WEB_CLIENT_SECRET)
-                .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY).
+                .accessTokenValiditySeconds(WEB_ACCESS_TOKEN_VALIDITY).
                 refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY)
                 .and().withClient(REST_CLIENT_ID)
                 .authorizedGrantTypes(GRANT_TYPES)
                 .authorities(AUTHORITIES)
                 .scopes(SCOPES)
                 .secret(REST_CLIENT_SECRET)
-                .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY).
+                .accessTokenValiditySeconds(REST_ACCESS_TOKEN_VALIDITY).
                 refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY);
     }
 
