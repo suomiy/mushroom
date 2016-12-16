@@ -11,9 +11,22 @@ var roles = [ 'ANONYMOUS', 'ADMIN', 'USER' ];
 
 mushroomHunterApp.run(function ($rootScope) {
         $rootScope.user = {
-            role: roles[0],
-            id: null
-        }
+            role: roles[2],
+            id: null,
+            email: null,
+            password: null,
+            accessToken: null,
+            isLogged: function () {
+                return this.id != null
+            },
+            logout: function () {
+                this.role = roles[0];
+                this.email = null;
+                this.password = null;
+                this.accessToken = null;
+                this.id = null;
+            }
+        };
     });
 
 mushroomHunterApp.config(['$routeProvider',
@@ -34,7 +47,7 @@ mushroomHunterApp.config(['$routeProvider',
         when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
         when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'}).
         when('/login', { templateUrl: 'resources/partials/login.html', controller: 'LoginCtrl'}).
-        otherwise({redirectTo: '/yourprofile'});
+        otherwise({redirectTo: '/visits'});
 
     }]);
 
