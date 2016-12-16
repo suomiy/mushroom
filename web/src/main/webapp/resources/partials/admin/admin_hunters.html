@@ -1,7 +1,8 @@
 <h1>Administation of hunters</h1>
 
 <button class="btn btn-success" ng-click="findAllHunters()">Find All Hunters</button>
-
+<br>
+<br>
 <form name="form" novalidate class="form-inline">
 
     <button ng-disabled="!form.$valid" class="btn btn-success" type="submit" ng-click="findHunterByEmail(email)">Find Hunter By Email</button>
@@ -14,31 +15,4 @@
 
 </form>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Surname</th>
-        <th>Nick</th>
-        <th>Email</th>
-        <th>Type</th>
-        <th>Rank</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="hunter in hunters track by $index">
-        <td>{{hunter.id}}</td>
-        <td>{{hunter.firstName}}</td>
-        <td>{{hunter.surname}}</td>
-        <td>{{hunter.nick}}</td>
-        <td>{{hunter.email}}</td>
-        <td>{{hunter.type}}</td>
-        <td>{{hunter.rank}}</td>
-        <td>
-            <button ng-click="deleteHunter(hunter)" type="submit" class="btn btn-danger">Delete</button>
-            <a class="btn btn-success" href="#/admin/hunters/update/{{hunter.id}}" role="button">Update</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div ng-include="'resources/partials/list/list_hunter.html'"></div>

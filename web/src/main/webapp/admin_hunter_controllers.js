@@ -15,8 +15,15 @@ function findHunterByEmail($email, $scope, $http) {
 
     $http.get('/pa165/rest/hunter/findbyemail?email=' + $email).then(function (response) {
         hunter = response.data;
-        $scope.hunters = [hunter];
-        console.log('Hunter with email' + $email + 'loaded');
+
+        if(response.data) {
+            $scope.hunters = [hunter];
+            console.log('Hunter with email' + hunter.email + 'loaded');
+        }else{
+            $scope.hunters = [];
+            console.log('Hunter with email doesn t exists');
+        }
+
     });
 }
 
@@ -38,7 +45,9 @@ portalControllers.controller('AdminHuntersCtrl',
                     console.log(response);
                     switch (response.data.code) {
                         default:
-                            $rootScope.errorAlert = 'Cannot delete hunter '+response.data.message;
+                            angular.forEach(response.data.errors, function(value) {
+                                $rootScope.errorAlert = 'Cannot delete hunter - ' + value;
+                            });
                             break;
                     }
                 }

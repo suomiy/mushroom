@@ -13,6 +13,7 @@ mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
 
         adminHunterConfig($routeProvider);
+        adminForestConfig($routeProvider);
 
         $routeProvider.
         when('/yourprofile', { templateUrl: 'resources/partials/your_profile.html', controller: 'YourProfileCtrl' }).
@@ -23,7 +24,6 @@ mushroomHunterApp.config(['$routeProvider',
         when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'}).
         when('/forests', { templateUrl: 'resources/partials/forests.html', controller: 'ForestsCtrl'}).
         when('/admin/visits', { templateUrl: 'resources/partials/admin/admin_visits.html', controller: 'AdminVisitsCtrl'}).
-        when('/admin/forests', { templateUrl: 'resources/partials/admin/admin_forests.html', controller: 'AdminForestsCtrl'}).
         when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
         when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'}).
         when('/login', { templateUrl: 'resources/partials/login.html', controller: 'LoginCtrl'}).
@@ -35,6 +35,13 @@ mushroomHunterApp.config(['$routeProvider',
 function adminHunterConfig($routeProvider) {
     $routeProvider.when('/admin/hunters', { templateUrl: 'resources/partials/admin/admin_hunters.html', controller: 'AdminHuntersCtrl'});
     $routeProvider.when('/admin/hunters/update/:hunterId', { templateUrl: 'resources/partials/forms/update_hunter.html', controller: 'AdminHunterUpdateCtrl'});
+}
+
+function adminForestConfig($routeProvider) {
+    $routeProvider.when('/admin/forests', { templateUrl: 'resources/partials/admin/admin_forests.html', controller: 'AdminForestsCtrl'});
+    $routeProvider.when('/admin/forests/newforest', { templateUrl: 'resources/partials/forms/create_forest.html', controller: 'AdminCreateForestCtrl'});
+    $routeProvider.when('/admin/forests/update/:forestId', { templateUrl: 'resources/partials/forms/update_forest.html', controller: 'AdminUpdateForestCtrl'});
+
 }
 
 mushroomHunterApp.run(function ($rootScope) {
@@ -74,10 +81,6 @@ portalControllers.controller('MushroomsCtrl', function ($scope, $http) {
 });
 
 portalControllers.controller('ForestsCtrl', function ($scope, $http) {
-
-});
-
-portalControllers.controller('AdminForestsCtrl', function ($scope, $http) {
 
 });
 
