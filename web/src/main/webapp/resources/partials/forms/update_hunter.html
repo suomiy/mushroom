@@ -1,58 +1,8 @@
-<form name="form"  novalidate class="form-horizontal">
+<form name="form" novalidate class="form-horizontal">
 
-    <div class="form-group">
-        <label for="firstName" class="col-sm-2 control-label">First Name</label>
-        <div class="col-sm-10">
-            <input placeholder="firstName" id="firstName" type="text" name="firstName" class="form-control" ng-model="hunter.firstName"/>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="surname" class="col-sm-2 control-label">Surname</label>
-        <div class="col-sm-10">
-            <input placeholder="surname" id="surname" type="text" name="surname" class="form-control" ng-model="hunter.surname"/>
-        </div>
-    </div>
-
-    <div class="form-group" ng-class="{'has-error': !(form.nick.$valid)}">
-        <label for="nick" class="col-sm-2 control-label">Nick</label>
-        <div class="col-sm-10">
-            <input placeholder="nick" id="nick" type="text" ng-minlength="6" ng-maxlength="20" name="nick" class="form-control" ng-model="hunter.nick" required/>
-            <p class="help-block" ng-show="form.nick.$error.required">Nick is required</p>
-            <p class="help-block" ng-show="form.nick.$error.minlength">Nick must be at least 6 characters</p>
-            <p class="help-block" ng-show="form.nick.$error.maxlength">Nick must be at shorter than 20 characters</p>
-        </div>
-    </div>
-
-    <div class="form-group" ng-class="{'has-error': !(form.email.$valid)}">
-        <label for="email" class="col-sm-2 control-label">Email</label>
-        <div class="col-sm-10">
-            <input placeholder="email" id="email" type="text" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" name="email" class="form-control" ng-model="hunter.email" required/>
-            <p class="help-block" ng-show="form.email.$error.required">Nick is required</p>
-            <p class="help-block" ng-show="!(form.email.$valid)">Not valid email</p>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="type" class="col-sm-2 control-label">Role</label>
-        <div class="col-sm-10">
-            <select id="type" name="type" class="form-control" ng-model="hunter.type">
-                <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="rank" class="col-sm-2 control-label">Rank</label>
-        <div class="col-sm-10">
-            <select id="rank" name="rank" class="form-control" ng-model="hunter.rank">
-                <option ng-repeat="rank in ranks" value="{{rank}}">{{rank}}</option>
-            </select>
-        </div>
-    </div>
+    <div ng-include="'resources/partials/forms/form_partials/form_hunter.html'"></div>
 
     <a class="btn btn-danger" href="#/admin/hunters" role="button">Back</a>
     <button ng-disabled="!form.$valid" class="btn btn-success" type="submit" ng-click="updateHunter(hunter)">Update Hunter</button>
-
 
 </form>

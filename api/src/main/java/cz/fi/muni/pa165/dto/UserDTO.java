@@ -16,7 +16,7 @@ public abstract class UserDTO {
     private String surname;
 
     @NotNull
-    @Size(min = 5, max = 20)
+    @Size(min = 4, max = 20)
     private String nick;
 
     @NotNull

@@ -1,1 +1,21 @@
-<h1>Admin Forests</h1>
+<h1>Administration of Forests</h1>
+
+<a class="btn btn-success" href="#/admin/forests/newforest" role="button">New Forest</a>
+<br>
+<br>
+<button class="btn btn-success" ng-click="findAllForests()">Find All Forests</button>
+<br>
+<br>
+<form name="form" novalidate class="form-inline">
+
+    <button ng-disabled="!form.$valid" class="btn btn-success" type="submit" ng-click="findForestByName(name)">Find Forest By Name</button>
+
+    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+        <div class="col-sm-10">
+            <input placeholder="name" id="name" type="text" name="name" class="form-control" ng-model="name" required/>
+        </div>
+    </div>
+
+</form>
+
+<div ng-include="'resources/partials/list/list_forest.html'"></div>

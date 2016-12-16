@@ -1,0 +1,28 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Surname</th>
+        <th>Nick</th>
+        <th>Email</th>
+        <th>Type</th>
+        <th>Rank</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="hunter in hunters track by $index">
+        <td>{{hunter.id}}</td>
+        <td>{{hunter.firstName}}</td>
+        <td>{{hunter.surname}}</td>
+        <td>{{hunter.nick}}</td>
+        <td>{{hunter.email}}</td>
+        <td>{{hunter.type}}</td>
+        <td>{{hunter.rank}}</td>
+        <td>
+            <button ng-click="deleteHunter(hunter)" type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-success" href="#/admin/hunters/update/{{hunter.id}}" role="button">Update</a>
+        </td>
+    </tr>
+    </tbody>
+</table>

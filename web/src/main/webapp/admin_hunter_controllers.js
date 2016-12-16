@@ -10,10 +10,27 @@ function loadAdminHunters($http, $scope) {
     });
 }
 
+function findHunterByEmail($email, $scope, $http) {
+    var hunter;
+
+    $http.get('/pa165/rest/hunter/findbyemail?email=' + $email).then(function (response) {
+        hunter = response.data;
+
+        if(response.data) {
+            $scope.hunters = [hunter];
+            console.log('Hunter with email' + hunter.email + 'loaded');
+        }else{
+            $scope.hunters = [];
+            console.log('Hunter with email doesn t exists');
+        }
+
+    });
+}
+
 portalControllers.controller('AdminHuntersCtrl',
     function ($scope, $rootScope, $http ) {
 
-        loadAdminHunters($http,$scope);
+        loadAdminHunters($http, $scope);
 
         $scope.deleteHunter = function (hunter) {
             console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
@@ -28,11 +45,21 @@ portalControllers.controller('AdminHuntersCtrl',
                     console.log(response);
                     switch (response.data.code) {
                         default:
-                            $rootScope.errorAlert = 'Cannot delete hunter '+response.data.message;
+                            angular.forEach(response.data.errors, function(value) {
+                                $rootScope.errorAlert = 'Cannot delete hunter - ' + value;
+                            });
                             break;
                     }
                 }
             );
+        };
+
+        $scope.findAllHunters = function () {
+            loadAdminHunters($http,$scope);
+        };
+
+        $scope.findHunterByEmail = function (email) {
+            findHunterByEmail(email, $scope, $http);
         };
 
     });
@@ -70,8 +97,10 @@ portalControllers.controller('AdminHunterUpdateCtrl',
                     console.log(response);
                     switch (response.data.code) {
                         default:
-                            $rootScope.errorAlert = 'Cannot update hunter '+response.data.message;
-                            break;
+                            angular.forEach(response.data.errors, function(value) {
+                                $rootScope.errorAlert = 'Cannot update hunter - ' + value;
+                            });
+                        break;
                     }
                 }
             )
