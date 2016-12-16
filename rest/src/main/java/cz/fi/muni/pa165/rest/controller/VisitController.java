@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,23 +52,27 @@ public class VisitController {
         return visitFacade.findAll();
     }
 
-    @RequestMapping(path = "/findbyhunter", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbyhunter", method = RequestMethod.GET)
     public List<VisitDTO> findByHunter(@RequestParam("id") Long hunterId) {
         return visitFacade.findByHunter(hunterId);
     }
 
-    @RequestMapping(path = "/findbyforest", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbyforest", method = RequestMethod.GET)
     public List<VisitDTO> findByForest(@RequestParam("id") Long forestId) {
         return visitFacade.findByForest(forestId);
     }
 
-    @RequestMapping(path = "/findbymushroom", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbymushroom", method = RequestMethod.GET)
     public List<VisitDTO> findByHMushroom(@RequestParam("id") Long mushroomId) {
         return visitFacade.findByMushroom(mushroomId);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
-    public List<VisitDTO> findByDate(@Valid @RequestBody DateDTO date) {
+    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
+    public List<VisitDTO> findByDate(@Valid @RequestParam("date") Long fromDate) {
+        DateDTO date = new DateDTO();
+        Date d = new Date();
+        d.setTime(fromDate);
+        date.setDate(d);
         return visitFacade.findByDate(date);
     }
 

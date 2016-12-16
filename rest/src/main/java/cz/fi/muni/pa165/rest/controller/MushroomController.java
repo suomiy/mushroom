@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = Uri.ROOT_URI_MUSHROOM, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MushroomController {
+
 
     @Inject
     MushroomFacade mushroomFacade;
@@ -50,23 +52,34 @@ public class MushroomController {
         return mushroomFacade.findAll();
     }
 
-    @RequestMapping(path = "/find", method = RequestMethod.POST)
+    @RequestMapping(path = "/find", method = RequestMethod.GET)
     public MushroomDTO findByName(@RequestParam("name") String name) {
         return mushroomFacade.findByName(name);
     }
 
-    @RequestMapping(path = "/findbytype", method = RequestMethod.POST)
-    public List<MushroomDTO> findByType(@RequestBody MushroomType type) {
+    @RequestMapping(path = "/findbytype", method = RequestMethod.GET)
+    public List<MushroomDTO> findByType(@RequestParam("type") MushroomType type) {
         return mushroomFacade.findByType(type);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
-    public List<MushroomDTO> findByDate(@Valid @RequestBody DateDTO date) {
+    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
+    public List<MushroomDTO> findByDate(@Valid @RequestParam("date") Long dateFrom) {
+        DateDTO date = new DateDTO();
+        Date d = new Date();
+        d.setTime(dateFrom);
+        date.setDate(d);
         return mushroomFacade.findByDate(date);
     }
 
-    @RequestMapping(path = "/findbydateinterval", method = RequestMethod.POST)
-    public List<MushroomDTO> findByDate(@Valid @RequestBody DateIntervalDTO interval) {
+    @RequestMapping(path = "/findbydateinterval", method = RequestMethod.GET)
+    public List<MushroomDTO> findByDate(@Valid @RequestParam("fromDate") Long fromDate, @RequestParam("toDate") Long toDate) {
+        DateIntervalDTO interval = new DateIntervalDTO();
+        Date dFrom = new Date();
+        Date dTo = new Date();
+        dFrom.setTime(fromDate);
+        dTo.setTime(toDate);
+        interval.setFrom(dFrom);
+        interval.setTo(dTo);
         return mushroomFacade.findByDate(interval);
     }
 }
