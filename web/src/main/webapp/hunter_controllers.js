@@ -2,10 +2,10 @@
  * Created by Erik Macej on 14.12.16.
  */
 
-portalControllers.controller('AdminHuntersCtrl',
+portalControllers.controller('HuntersCtrl',
     function ($scope, $rootScope, $http ) {
 
-        loadAdminHunters($http, $scope);
+        loadHunters($http, $scope);
 
         $scope.deleteHunter = function (hunter) {
             console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
@@ -13,7 +13,7 @@ portalControllers.controller('AdminHuntersCtrl',
                 function success(response) {
                     console.log('deleted hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
                     $rootScope.successAlert = 'Deleted hunter "' + hunter.email + '"';
-                    loadAdminHunters($http, $scope);
+                    loadHunters($http, $scope);
                 },
                 function error(response) {
                     console.log("error when deleting hunter");
@@ -30,7 +30,7 @@ portalControllers.controller('AdminHuntersCtrl',
         };
 
         $scope.findAllHunters = function () {
-            loadAdminHunters($http,$scope);
+            loadHunters($http,$scope);
         };
 
         $scope.findHunterByEmail = function (email) {
@@ -39,10 +39,11 @@ portalControllers.controller('AdminHuntersCtrl',
 
     });
 
-portalControllers.controller('AdminHunterUpdateCtrl',
+portalControllers.controller('HunterUpdateCtrl',
     function ($scope , $routeParams, $http, $rootScope, $location) {
         
         var hunterId = $routeParams.hunterId;
+        $scope.showRanksAndRoles = true;
         $scope.ranks = ranks;
         $scope.types = roles;
 
@@ -57,7 +58,7 @@ portalControllers.controller('AdminHunterUpdateCtrl',
             }).then(function success(response) {
                     console.log('updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
                     $rootScope.successAlert = 'Updated hunter "' + hunter.email + '"';
-                    $location.path("/admin/hunters");
+                    $location.path("/hunters");
                 },
                 function error(response) {
                     console.log("error when updating hunter");
