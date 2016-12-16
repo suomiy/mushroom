@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,12 +66,8 @@ public class VisitController {
         return visitFacade.findByMushroom(mushroomId);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
-    public List<VisitDTO> findByDate(@Valid @RequestParam("date") Long fromDate) {
-        DateDTO date = new DateDTO();
-        Date d = new Date();
-        d.setTime(fromDate);
-        date.setDate(d);
+    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
+    public List<VisitDTO> findByDate(@Valid @RequestBody DateDTO date) {
         return visitFacade.findByDate(date);
     }
 

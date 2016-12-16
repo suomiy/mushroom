@@ -40,12 +40,12 @@ curl http://localhost:8081/pa165/rest/mushroom/findbytype?type=EDIBLE
 
 Find Mushrooms by date
 ```
-curl http://localhost:8081/pa165/rest/mushroom/findbydate?date=15165165155
+curl -X POST -H "Content-Type: application/json" -d '{"date":"2016-11-30 00:00"}'  http://localhost:8081/pa165/rest/mushroom/findbydate
 ```
 
 Find Mushrooms by date interval
 ```
-curl "http://localhost:8081/pa165/rest/mushroom/findbydateinterval?fromDate=15167165155&toDate=15167165156"
+curl -X POST -H "Content-Type: application/json" -d '{"from":"2016-07-30 00:00","to":"2016-08-10 00:00"}'  http://localhost:8081/pa165/rest/mushroom/findbydateinterval
 ```
 
 #####Forest - ForestController.java
