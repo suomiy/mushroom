@@ -16,8 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script> var contextPath = "${pageContext.request.contextPath}"</script>
     <script src="${pageContext.request.contextPath}/app.js"></script>
-    <script src="${pageContext.request.contextPath}/admin_hunter_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/admin_forest_controllers.js"></script>
+    <script src="${pageContext.request.contextPath}/hunter_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/forest_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/your_profile_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/login_controllers.js"></script>

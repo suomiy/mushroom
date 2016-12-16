@@ -14,8 +14,6 @@ mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
 
         loginConfig($routeProvider);
-        adminHunterConfig($routeProvider);
-        adminForestConfig($routeProvider);
         forestConfig($routeProvider);
         hunterConfig($routeProvider);
 
@@ -34,19 +32,9 @@ mushroomHunterApp.config(['$routeProvider',
 
 function hunterConfig($routeProvider) {
     $routeProvider.when('/yourprofile', { templateUrl: 'resources/partials/your_profile.html', controller: 'YourProfileCtrl' });
-    $routeProvider.when('/yourprofile/update', { templateUrl: 'resources/partials/forms/update_hunter.html', controller: 'YourProfileUpdateCtrl' });
-}
-
-function adminHunterConfig($routeProvider) {
-    $routeProvider.when('/admin/hunters', { templateUrl: 'resources/partials/admin/admin_hunters.html', controller: 'AdminHuntersCtrl'});
-    $routeProvider.when('/admin/hunters/update/:hunterId', { templateUrl: 'resources/partials/forms/update_hunter.html', controller: 'AdminHunterUpdateCtrl'});
-}
-
-function adminForestConfig($routeProvider) {
-    $routeProvider.when('/admin/forests', { templateUrl: 'resources/partials/admin/admin_forests.html', controller: 'AdminForestsCtrl'});
-    $routeProvider.when('/admin/forests/newforest', { templateUrl: 'resources/partials/forms/create_forest.html', controller: 'AdminCreateForestCtrl'});
-    $routeProvider.when('/admin/forests/update/:forestId', { templateUrl: 'resources/partials/forms/update_forest.html', controller: 'AdminUpdateForestCtrl'});
-
+    $routeProvider.when('/yourprofile/update', { templateUrl: 'resources/partials/forms/update_your_profile.html', controller: 'YourProfileUpdateCtrl' });
+    $routeProvider.when('/hunters', { templateUrl: 'resources/partials/hunters.html', controller: 'HuntersCtrl'});
+    $routeProvider.when('/hunters/update/:hunterId', { templateUrl: 'resources/partials/forms/update_hunter.html', controller: 'HunterUpdateCtrl'});
 }
 
 function loginConfig($routeProvider) {
@@ -56,6 +44,8 @@ function loginConfig($routeProvider) {
 
 function forestConfig($routeProvider) {
     $routeProvider.when('/forests', { templateUrl: 'resources/partials/forests.html', controller: 'ForestsCtrl'});
+    $routeProvider.when('/forests/newforest', { templateUrl: 'resources/partials/forms/create_forest.html', controller: 'CreateForestCtrl'});
+    $routeProvider.when('/forests/update/:forestId', { templateUrl: 'resources/partials/forms/update_forest.html', controller: 'UpdateForestCtrl'});
 
 }
 
@@ -217,7 +207,7 @@ function findHunterById($hunterId, $scope, $http) {
 
 }
 
-function loadAdminHunters($http, $scope) {
+function loadHunters($http, $scope) {
     $http.get('rest/hunter/findall').then(function (response) {
         $scope.hunters = response.data;
         console.log('All hunters loaded');

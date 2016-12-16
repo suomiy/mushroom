@@ -11,6 +11,7 @@ portalControllers.controller('YourProfileUpdateCtrl',
     function ($scope, $routeParams, $http, $rootScope, $location) {
 
         findHunterById($rootScope.user.id,$scope, $http);
+        $scope.showRanksAndRoles = false;
 
         $scope.updateHunter = function (hunter) {
             console.log("updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');

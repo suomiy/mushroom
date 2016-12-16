@@ -20,8 +20,8 @@
         <td>{{hunter.type}}</td>
         <td>{{hunter.rank}}</td>
         <td>
-            <button ng-click="deleteHunter(hunter)" type="submit" class="btn btn-danger">Delete</button>
-            <a class="btn btn-success" href="#/admin/hunters/update/{{hunter.id}}" role="button">Update</a>
+            <button ng-show="user.role == 'ADMIN'" ng-click="deleteHunter(hunter)" type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-success" ng-show="user.role == 'ADMIN'" href="#/hunters/update/{{hunter.id}}" role="button">Update</a>
         </td>
     </tr>
     </tbody>
