@@ -51,22 +51,22 @@ public class VisitController {
         return visitFacade.findAll();
     }
 
-    @RequestMapping(path = "/findbyhunter", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbyhunter", method = RequestMethod.GET)
     public List<VisitDTO> findByHunter(@RequestParam("id") Long hunterId) {
         return visitFacade.findByHunter(hunterId);
     }
 
-    @RequestMapping(path = "/findbyforest", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbyforest", method = RequestMethod.GET)
     public List<VisitDTO> findByForest(@RequestParam("id") Long forestId) {
         return visitFacade.findByForest(forestId);
     }
 
-    @RequestMapping(path = "/findbymushroom", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbymushroom", method = RequestMethod.GET)
     public List<VisitDTO> findByHMushroom(@RequestParam("id") Long mushroomId) {
         return visitFacade.findByMushroom(mushroomId);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
     public List<VisitDTO> findByDate(@Valid @RequestBody DateDTO date) {
         return visitFacade.findByDate(date);
     }

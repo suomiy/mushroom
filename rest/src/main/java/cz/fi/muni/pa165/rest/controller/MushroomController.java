@@ -50,22 +50,22 @@ public class MushroomController {
         return mushroomFacade.findAll();
     }
 
-    @RequestMapping(path = "/find", method = RequestMethod.POST)
+    @RequestMapping(path = "/find", method = RequestMethod.GET)
     public MushroomDTO findByName(@RequestParam("name") String name) {
         return mushroomFacade.findByName(name);
     }
 
-    @RequestMapping(path = "/findbytype", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbytype", method = RequestMethod.GET)
     public List<MushroomDTO> findByType(@RequestBody MushroomType type) {
         return mushroomFacade.findByType(type);
     }
 
-    @RequestMapping(path = "/findbydate", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbydate", method = RequestMethod.GET)
     public List<MushroomDTO> findByDate(@Valid @RequestBody DateDTO date) {
         return mushroomFacade.findByDate(date);
     }
 
-    @RequestMapping(path = "/findbydateinterval", method = RequestMethod.POST)
+    @RequestMapping(path = "/findbydateinterval", method = RequestMethod.GET)
     public List<MushroomDTO> findByDate(@Valid @RequestBody DateIntervalDTO interval) {
         return mushroomFacade.findByDate(interval);
     }
