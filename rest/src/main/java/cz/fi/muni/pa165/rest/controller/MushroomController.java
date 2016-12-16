@@ -50,13 +50,13 @@ public class MushroomController {
         return mushroomFacade.findAll();
     }
 
-    @RequestMapping(path = "/find", method = RequestMethod.POST)
+    @RequestMapping(path = "/find", method = RequestMethod.GET)
     public MushroomDTO findByName(@RequestParam("name") String name) {
         return mushroomFacade.findByName(name);
     }
 
-    @RequestMapping(path = "/findbytype", method = RequestMethod.POST)
-    public List<MushroomDTO> findByType(@RequestBody MushroomType type) {
+    @RequestMapping(path = "/findbytype", method = RequestMethod.GET)
+    public List<MushroomDTO> findByType(@RequestParam("type") MushroomType type) {
         return mushroomFacade.findByType(type);
     }
 
