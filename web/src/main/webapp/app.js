@@ -6,43 +6,30 @@
 
 var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute', 'portalControllers']);
 var portalControllers = angular.module('portalControllers', []);
-var ranks = ['BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
-var roles = ['ANONYMOUS', 'ADMIN', 'USER'];
+var ranks = [ 'BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
+var roles = [ 'ADMIN', 'USER'];
+var types = [ 'EDIBLE', 'POISONOUS', 'NONEDIBLE', 'PSYCHEDELIC' ];
 var resourceUrl = 'resources/';
 
 mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
 
         loginConfig($routeProvider);
+        adminHunterConfig($routeProvider);
+        adminForestConfig($routeProvider);
+        adminMushroomConfig($routeProvider);
         forestConfig($routeProvider);
         hunterConfig($routeProvider);
-        registerConfig($routeProvider);
 
-        $routeProvider.when('/yourvisits', {
-            templateUrl: 'resources/partials/your_visits.html',
-            controller: 'YourVisitsCtrl'
-        }).when('/yourcatches', {
-            templateUrl: 'resources/partials/your_catches.html',
-            controller: 'YourCatchesCtrl'
-        }).when('/catches', {
-            templateUrl: 'resources/partials/catches.html',
-            controller: 'CatchesCtrl'
-        }).when('/visits', {
-            templateUrl: 'resources/partials/visits.html',
-            controller: 'VisitsCtrl'
-        }).when('/mushrooms', {
-            templateUrl: 'resources/partials/mushrooms.html',
-            controller: 'MushroomsCtrl'
-        }).when('/admin/visits', {
-            templateUrl: 'resources/partials/admin/admin_visits.html',
-            controller: 'AdminVisitsCtrl'
-        }).when('/admin/mushroomcounts', {
-            templateUrl: 'resources/partials/admin/admin_mushroomcounts.html',
-            controller: 'AdminMushroomCountsCtrl'
-        }).when('/admin/mushrooms', {
-            templateUrl: 'resources/partials/admin/admin_mushrooms.html',
-            controller: 'AdminMushroomsCtrl'
-        }).otherwise({redirectTo: '/visits'});
+        $routeProvider.
+        when('/yourvisits', { templateUrl: 'resources/partials/your_visits.html', controller: 'YourVisitsCtrl' }).
+        when('/yourcatches', { templateUrl: 'resources/partials/your_catches.html', controller: 'YourCatchesCtrl'}).
+        when('/catches', { templateUrl: 'resources/partials/catches.html', controller: 'CatchesCtrl'}).
+        when('/visits', { templateUrl: 'resources/partials/visits.html', controller: 'VisitsCtrl'}).
+        when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'}).
+        when('/admin/visits', { templateUrl: 'resources/partials/admin/admin_visits.html', controller: 'AdminVisitsCtrl'}).
+        when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
+        otherwise({redirectTo: '/visits'});
 
     }]);
 
@@ -60,6 +47,13 @@ function hunterConfig($routeProvider) {
         templateUrl: 'resources/partials/forms/update_hunter.html',
         controller: 'HunterUpdateCtrl'
     });
+}
+
+function adminMushroomConfig($routeProvider) {
+    $routeProvider.when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'});
+    $routeProvider.when('/admin/mushrooms/newmushroom', { templateUrl: 'resources/partials/forms/create_mushroom.html', controller: 'AdminCreateMushroomCtrl'});
+    $routeProvider.when('/admin/mushrooms/update/:mushroomId', { templateUrl: 'resources/partials/forms/update_mushroom.html', controller: 'AdminUpdateMushroomCtrl'});
+
 }
 
 function loginConfig($routeProvider) {
@@ -236,10 +230,6 @@ portalControllers.controller('AdminMushroomCountsCtrl', function ($scope, $http)
 });
 
 portalControllers.controller('AdminVisitsCtrl', function ($scope, $http) {
-
-});
-
-portalControllers.controller('AdminMushroomsCtrl', function ($scope, $http) {
 
 });
 

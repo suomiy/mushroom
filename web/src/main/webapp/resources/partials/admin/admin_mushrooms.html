@@ -1,1 +1,59 @@
-<h1>Admin Mushrooms</h1>
+<h1>Administration of Mushrooms</h1>
+
+<button class="btn btn-success" ng-click="findAllMushrooms()">Find All Mushrooms</button>
+<br>
+<br>
+<form name="form" novalidate class="form-inline">
+
+    <button ng-disabled="!form.$valid" class="btn btn-success" type="submit" ng-click="findMushroomByName(name)">Find Mushroom By Name</button>
+
+    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+        <div class="col-sm-10">
+            <input placeholder="name" id="name" type="text" name="name" class="form-control" ng-model="name" required/>
+        </div>
+    </div>
+
+</form>
+<br>
+<form name="form2" novalidate class="form-inline">
+
+    <button ng-disabled="!form2.$valid" class="btn btn-success" type="submit" ng-click="findMushroomByDate(date)">Find Mushrooms By Date</button>
+
+    <div class="form-group" ng-class="{'has-error': !(form2.date.$valid)}">
+        <div class="col-sm-10">
+            <input placeholder="YYYY-MM-DD hh:mm" id="date" type="text" name="date" class="form-control" ng-model="date" required/>
+        </div>
+    </div>
+
+</form>
+<br>
+<form name="form3" novalidate class="form-inline">
+
+    <button ng-disabled="!form3.$valid" class="btn btn-success" type="submit" ng-click="findMushroomByType(type)">Find Mushrooms By Type</button>
+
+    <div class="form-group" ng-class="{'has-error': !(form3.type.$valid)}">
+        <div class="col-sm-10">
+            <input placeholder="type" id="type" type="text" name="type" class="form-control" ng-model="type" required/>
+        </div>
+    </div>
+
+</form>
+<br>
+<form name="form4" novalidate class="form-inline">
+
+    <button ng-disabled="!form4.$valid" class="btn btn-success" type="submit" ng-click="findMushroomByDateInterval(fromDate,toDate)">Find Mushrooms By Date Interval</button>
+
+    <div class="form-group" ng-class="{'has-error': !(form4.type.$valid)}">
+        <div class="col-sm-10">
+            <input placeholder="from YYYY-MM-DD hh:mm" id="fromDate" type="text" name="fromDate" class="form-control" ng-model="fromDate" required/>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': !(form4.type.$valid)}">
+        <div class="col-sm-10">
+            <input placeholder="to YYYY-MM-DD hh:mm" id="toDate" type="text" name="toDate" class="form-control" ng-model="toDate" required/>
+        </div>
+    </div>
+
+</form>
+
+<div ng-include="'resources/partials/list/list_mushroom.html'"></div>
