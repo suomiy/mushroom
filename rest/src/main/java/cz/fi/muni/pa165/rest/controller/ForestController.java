@@ -21,13 +21,13 @@ public class ForestController {
     @Inject
     ForestFacade forestFacade;
 
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @RequestMapping(path = Uri.Part.CREATE, method = RequestMethod.POST)
     public ForestDTO create(@Valid @RequestBody ForestDTO forest) {
         forestFacade.create(forest);
         return forest;
     }
 
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    @RequestMapping(path = Uri.Part.UPDATE, method = RequestMethod.POST)
     public ForestDTO update(@Valid @RequestBody ForestDTO forest) {
         return forestFacade.update(forest);
     }

@@ -9,7 +9,7 @@ portalControllers.controller('AdminHuntersCtrl',
 
         $scope.deleteHunter = function (hunter) {
             console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
-            $http.delete('/pa165/rest/hunter/' + hunter.id ).then(
+            $http.delete('rest/hunter/' + hunter.id ).then(
                 function success(response) {
                     console.log('deleted hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
                     $rootScope.successAlert = 'Deleted hunter "' + hunter.email + '"';
@@ -40,7 +40,7 @@ portalControllers.controller('AdminHuntersCtrl',
     });
 
 portalControllers.controller('AdminHunterUpdateCtrl',
-    function ($scope, $routeParams, $http, $rootScope, $location) {
+    function ($scope , $routeParams, $http, $rootScope, $location) {
         
         var hunterId = $routeParams.hunterId;
         $scope.ranks = ranks;
@@ -52,7 +52,7 @@ portalControllers.controller('AdminHunterUpdateCtrl',
             console.log("updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
             $http({
                 method: 'POST',
-                url: '/pa165/rest/hunter/update',
+                url: 'rest/hunter/update',
                 data: hunter
             }).then(function success(response) {
                     console.log('updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');

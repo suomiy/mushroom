@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
-import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
@@ -16,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -91,19 +89,6 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
     public void registerHunter() throws HunterAuthenticationException {
         hunterFacade.registerHunter(registrateHunterDTO);
         verify(hunterService).registerHunter(hunter, registrateHunterDTO.getUnencryptedPassword());
-    }
-
-    @Test
-    public void authenticate() throws HunterAuthenticationException {
-        String email = hunter.getEmail();
-        when(hunterService.findByEmail(email)).thenReturn(hunter);
-        when(hunterService.authenticate(hunter, PASSWORD)).thenReturn(true);
-
-        UserAuthenticateDTO authenticate = new UserAuthenticateDTO();
-        authenticate.setEmail(email);
-        authenticate.setPassword(PASSWORD);
-
-        Assert.assertTrue(hunterFacade.authenticate(authenticate));
     }
 
     @Test

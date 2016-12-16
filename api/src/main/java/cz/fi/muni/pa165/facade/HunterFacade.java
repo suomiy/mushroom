@@ -2,10 +2,8 @@ package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
-import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,13 +19,6 @@ public interface HunterFacade {
      * @param registrateHunterDTO - hunter to register
      */
     void registerHunter(RegistrateHunterDTO registrateHunterDTO) throws HunterAuthenticationException;
-
-    /**
-     * Authenticates Hunter
-     *
-     * @return - true only if hashed password is equal with hunter passwordHash
-     */
-    boolean authenticate(UserAuthenticateDTO hunter) throws HunterAuthenticationException;
 
     /**
      * Updates hunter

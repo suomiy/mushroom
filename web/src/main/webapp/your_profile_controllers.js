@@ -16,7 +16,7 @@ portalControllers.controller('YourProfileUpdateCtrl',
             console.log("updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
             $http({
                 method: 'POST',
-                url: '/pa165/rest/hunter/update',
+                url: '/rest/hunter/update',
                 data: hunter
             }).then(function success(response) {
                     console.log('updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');

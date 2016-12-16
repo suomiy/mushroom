@@ -4,34 +4,16 @@
  * Created by Erik Macej on 14.12.16.
  */
 
-var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute','portalControllers']);
+var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute', 'portalControllers']);
 var portalControllers = angular.module('portalControllers', []);
-var ranks = [ 'BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
-var roles = [ 'ANONYMOUS', 'ADMIN', 'USER' ];
-
-mushroomHunterApp.run(function ($rootScope) {
-        $rootScope.user = {
-            role: roles[2],
-            id: null,
-            email: null,
-            password: null,
-            accessToken: null,
-            isLogged: function () {
-                return this.id != null
-            },
-            logout: function () {
-                this.role = roles[0];
-                this.email = null;
-                this.password = null;
-                this.accessToken = null;
-                this.id = null;
-            }
-        };
-    });
+var ranks = ['BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
+var roles = ['ANONYMOUS', 'ADMIN', 'USER'];
+var resourceUrl = 'resources/';
 
 mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
 
+        loginConfig($routeProvider);
         adminHunterConfig($routeProvider);
         adminForestConfig($routeProvider);
         forestConfig($routeProvider);
@@ -46,7 +28,6 @@ mushroomHunterApp.config(['$routeProvider',
         when('/admin/visits', { templateUrl: 'resources/partials/admin/admin_visits.html', controller: 'AdminVisitsCtrl'}).
         when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
         when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'}).
-        when('/login', { templateUrl: 'resources/partials/login.html', controller: 'LoginCtrl'}).
         otherwise({redirectTo: '/visits'});
 
     }]);
@@ -68,12 +49,123 @@ function adminForestConfig($routeProvider) {
 
 }
 
+function loginConfig($routeProvider) {
+    $routeProvider.when('/login', {templateUrl: resourceUrl + 'partials/login.html', controller: 'LoginCtrl'})
+}
+
+
 function forestConfig($routeProvider) {
     $routeProvider.when('/forests', { templateUrl: 'resources/partials/forests.html', controller: 'ForestsCtrl'});
 
 }
 
+mushroomHunterApp.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push(function ($q, $rootScope) {
+        return {
+            'request': function (config) {
+                if (config.url.indexOf(resourceUrl) != 0) { // not a resource
+                    var token = $rootScope.user.accessToken;
+                    if (token != null) {
+                        config.headers['Authorization'] = 'Bearer ' + token;
+                    }
+                }
+                // if interceptors caused the request to be fired again
+                if (typeof config.alreadySetContextPath == 'undefined') {
+                    config.alreadySetContextPath = true;
+                    config.url = contextPath + "/" + config.url;
+                }
+
+                return config;
+            }
+        };
+    });
+
+    // intercept for oauth tokens
+    $httpProvider.interceptors.push(['$rootScope', '$q', '$injector', '$location',
+            function ($rootScope, $q, $injector, $location) {
+                return {
+                    response: function (response) {
+                        return response; // no action, was successful
+                    }, responseError: function (response) {
+                        // error - was it 401 or something else?
+                        if (response.status === 401 && response.data.error && response.data.error === "invalid_token") {
+                            var deferred = $q.defer(); // defer until we can re-request a new token
+                            $rootScope.user.accessToken = null;
+                            // Get a new token... (cannot inject $http directly as will cause a circular ref)
+                            $rootScope.login($injector.get("$http"), function (loginResponse) {
+                                if (loginResponse.data) {
+                                    $rootScope.oauth = loginResponse.data.oauth; // we have a new oauth token - set at $rootScope
+                                    // now let's retry the original request - transformRequest in .run() below will add the new OAuth token
+                                    $injector.get("$http")(response.config).then(function (response) {
+                                        // we have a successful response - resolve it using deferred
+                                        deferred.resolve(response);
+                                    }, function (response) {
+                                        deferred.reject(); // something went wrong
+                                    });
+                                } else {
+                                    deferred.reject(); // login.json didn't give us data
+                                }
+                            }, function (response) {
+                                deferred.reject(); // token retry failed, redirect so user can login again
+                                $location.path('/login');
+                            });
+                            return deferred.promise; // return the deferred promise
+                        }
+                        return $q.reject(response); // not a recoverable error
+                    }
+                }
+            }
+        ]
+    );
+}]);
+
 mushroomHunterApp.run(function ($rootScope) {
+    $rootScope.clientCredentials = btoa('web-client:53ac618c-c8d2-44a1-b257-a2bd3816e829');
+
+    $rootScope.user = {
+        role: roles[0],
+        id: null,
+        email: null,
+        password: null,
+        accessToken: null,
+        isLogged: function () {
+            return this.id != null
+        },
+        logout: function () {
+            this.role = roles[0];
+            this.email = null;
+            this.password = null;
+            this.accessToken = null;
+            this.id = null;
+        }
+    };
+
+    $rootScope.login = function (http, successHandler, errorHandler) {
+        http({
+            method: 'POST',
+            url: 'oauth/token',
+            params: {
+                grant_type: 'password',
+                username: $rootScope.user.email,
+                password: $rootScope.user.password
+            },
+            headers: {
+                'Authorization': 'Basic ' + $rootScope.clientCredentials
+            }
+        }).then(function success(response) {
+                if (response.data) {
+                    $rootScope.user.id = response.data.userId;
+                    $rootScope.user.role = response.data.role;
+                    $rootScope.user.accessToken = response.data.access_token;
+                }
+                successHandler(response);
+            },
+            function error(response) {
+                errorHandler(response);
+            }
+        )
+    };
+
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -117,20 +209,16 @@ portalControllers.controller('AdminMushroomsCtrl', function ($scope, $http) {
 
 });
 
-portalControllers.controller('LoginCtrl', function ($scope, $http) {
-
-});
-
 function findHunterById($hunterId, $scope, $http) {
-    $http.get('/pa165/rest/hunter/' + $hunterId).then(function (response) {
+    $http.get('rest/hunter/' + $hunterId).then(function (response) {
         $scope.hunter = response.data;
         console.log('loaded hunter ' + $scope.hunter.id + ' (' + $scope.hunter.email + ')');
     })
 
-};
+}
 
 function loadAdminHunters($http, $scope) {
-    $http.get('/pa165/rest/hunter/findall').then(function (response) {
+    $http.get('rest/hunter/findall').then(function (response) {
         $scope.hunters = response.data;
         console.log('All hunters loaded');
     });
@@ -139,7 +227,7 @@ function loadAdminHunters($http, $scope) {
 function findHunterByEmail($email, $scope, $http) {
     var hunter;
 
-    $http.get('/pa165/rest/hunter/findbyemail?email=' + $email).then(function (response) {
+    $http.get('rest/hunter/findbyemail?email=' + $email).then(function (response) {
         hunter = response.data;
 
         if(response.data) {
@@ -154,24 +242,24 @@ function findHunterByEmail($email, $scope, $http) {
 }
 
 function loadForests($http, $scope) {
-    $http.get('/pa165/rest/forest/findall').then(function (response) {
+    $http.get('rest/forest/findall').then(function (response) {
         $scope.forests = response.data;
         console.log('All forests loaded');
     });
-};
+}
 
 function findForestById($forestId, $scope, $http) {
-    $http.get('/pa165/rest/forest/' + $forestId).then(function (response) {
+    $http.get('rest/forest/' + $forestId).then(function (response) {
         $scope.forest = response.data;
         console.log('Forest with name' + $scope.forest.name + 'loaded');
     })
 
-};
+}
 
 function findForestByName($name, $scope, $http) {
     var forest;
 
-    $http.get('/pa165/rest/forest/find?name=' + $name).then(function (response) {
+    $http.get('rest/forest/find?name=' + $name).then(function (response) {
         forest = response.data;
 
         if(response.data) {
@@ -183,7 +271,7 @@ function findForestByName($name, $scope, $http) {
         }
 
     });
-};
+}
 
 
 
