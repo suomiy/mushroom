@@ -30,5 +30,6 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     public void onStartup(javax.servlet.ServletContext servletContext) throws javax.servlet.ServletException {
         super.onStartup(servletContext);
         servletContext.addListener(RequestContextListener.class);
+
     }
 }

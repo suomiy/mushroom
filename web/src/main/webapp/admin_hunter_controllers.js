@@ -1,31 +1,6 @@
 /**
- * Created by kisty on 14.12.16.
+ * Created by Erik Macej on 14.12.16.
  */
-
-
-function loadAdminHunters($http, $scope) {
-    $http.get('/pa165/rest/hunter/findall').then(function (response) {
-        $scope.hunters = response.data;
-        console.log('All hunters loaded');
-    });
-}
-
-function findHunterByEmail($email, $scope, $http) {
-    var hunter;
-
-    $http.get('/pa165/rest/hunter/findbyemail?email=' + $email).then(function (response) {
-        hunter = response.data;
-
-        if(response.data) {
-            $scope.hunters = [hunter];
-            console.log('Hunter with email' + hunter.email + 'loaded');
-        }else{
-            $scope.hunters = [];
-            console.log('Hunter with email doesn t exists');
-        }
-
-    });
-}
 
 portalControllers.controller('AdminHuntersCtrl',
     function ($scope, $rootScope, $http ) {
@@ -64,16 +39,8 @@ portalControllers.controller('AdminHuntersCtrl',
 
     });
 
-function findHunterById($hunterId, $scope, $http) {
-    $http.get('/pa165/rest/hunter/' + $hunterId).then(function (response) {
-        $scope.hunter = response.data;
-        console.log('loaded hunter ' + $scope.hunter.id + ' (' + $scope.hunter.email + ')');
-    })
-
-};
-
 portalControllers.controller('AdminHunterUpdateCtrl',
-    function ($scope , $routeParams, $http, $rootScope, $location) {
+    function ($scope, $routeParams, $http, $rootScope, $location) {
         
         var hunterId = $routeParams.hunterId;
         $scope.ranks = ranks;
