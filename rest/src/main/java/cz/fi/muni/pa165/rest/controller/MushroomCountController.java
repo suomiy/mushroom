@@ -1,9 +1,13 @@
 package cz.fi.muni.pa165.rest.controller;
 
 import cz.fi.muni.pa165.dto.MushroomCountDTO;
+import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.facade.MushroomCountFacade;
+import cz.fi.muni.pa165.rest.security.ResourceAccess;
 import cz.fi.muni.pa165.rest.Uri;
+import cz.fi.muni.pa165.service.MushroomCountService;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -21,19 +25,24 @@ public class MushroomCountController {
     @Inject
     MushroomCountFacade mushroomCountFacade;
 
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @Inject
+    MushroomCountService mushroomCountService;
+
+    @RequestMapping(path = Uri.Part.CREATE, method = RequestMethod.POST)
     public MushroomCountDTO create(@Valid @RequestBody MushroomCountDTO mushroomCount) {
         mushroomCountFacade.create(mushroomCount);
         return mushroomCount;
     }
 
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public MushroomCountDTO update(@Valid @RequestBody MushroomCountDTO mushroomCount) {
+    @RequestMapping(path = Uri.Part.UPDATE, method = RequestMethod.POST)
+    public MushroomCountDTO update(@AuthenticationPrincipal Hunter loggedHunter, @Valid @RequestBody MushroomCountDTO mushroomCount) {
+        ResourceAccess.verify(loggedHunter, mushroomCountService.findById(mushroomCount.getId()));
         return mushroomCountFacade.update(mushroomCount);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") long id) {
+    public void delete(@AuthenticationPrincipal Hunter loggedHunter, @PathVariable("id") long id) {
+        ResourceAccess.verify(loggedHunter, mushroomCountService.findById(id));
         mushroomCountFacade.delete(id);
     }
 

@@ -4,6 +4,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.Filter;
+
 /**
  * @author Filip Krepinsky (410022) on 12/7/16
  */
@@ -31,5 +33,10 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
         super.onStartup(servletContext);
         servletContext.addListener(RequestContextListener.class);
 
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{new CORSFilter()};
     }
 }

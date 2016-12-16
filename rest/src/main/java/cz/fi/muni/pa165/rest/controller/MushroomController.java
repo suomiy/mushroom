@@ -24,13 +24,13 @@ public class MushroomController {
     @Inject
     MushroomFacade mushroomFacade;
 
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @RequestMapping(path = Uri.Part.CREATE, method = RequestMethod.POST)
     public MushroomDTO create(@Valid @RequestBody MushroomDTO mushroom) {
         mushroomFacade.create(mushroom);
         return mushroom;
     }
 
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
+    @RequestMapping(path = Uri.Part.UPDATE, method = RequestMethod.POST)
     public MushroomDTO update(@Valid @RequestBody MushroomDTO mushroom) {
         return mushroomFacade.update(mushroom);
     }

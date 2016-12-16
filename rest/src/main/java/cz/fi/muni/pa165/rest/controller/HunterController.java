@@ -2,15 +2,16 @@ package cz.fi.muni.pa165.rest.controller;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
+import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
 import cz.fi.muni.pa165.rest.Uri;
+import cz.fi.muni.pa165.rest.security.ResourceAccess;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,19 +35,30 @@ public class HunterController {
         hunterFacade.registerHunter(registrateHunterDTO);
     }
 
-    @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public HunterDTO update(@Valid @RequestBody HunterDTO hunterDTO) { return hunterFacade.update(hunterDTO);}
+    @RequestMapping(path = Uri.Part.UPDATE, method = RequestMethod.POST)
+    public HunterDTO update(@AuthenticationPrincipal Hunter loggedHunter, @Valid @RequestBody HunterDTO hunterDTO) {
+        ResourceAccess.verify(loggedHunter, hunterDTO);
+        return hunterFacade.update(hunterDTO);
+    }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") long id) { hunterFacade.delete(id); }
+    public void delete(@AuthenticationPrincipal Hunter loggedHunter, @PathVariable("id") long id) {
+        ResourceAccess.verifyHunterId(loggedHunter, id);
+        hunterFacade.delete(id);
+    }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public HunterDTO findById(@PathVariable("id") long id) { return hunterFacade.findById(id); }
+    public HunterDTO findById(@PathVariable("id") long id) {
+        return hunterFacade.findById(id);
+    }
 
     @RequestMapping(path = "/findall", method = RequestMethod.GET)
-    public List<HunterDTO> findAll() { return hunterFacade.findAll(); }
+    public List<HunterDTO> findAll() {
+        return hunterFacade.findAll();
+    }
 
     @RequestMapping(path = "/findbyemail", method = RequestMethod.GET)
-    public HunterDTO findByEmail(@RequestParam("email") String email) { return hunterFacade.findByEmail(email); }
-
+    public HunterDTO findByEmail(@RequestParam("email") String email) {
+        return hunterFacade.findByEmail(email);
+    }
 }

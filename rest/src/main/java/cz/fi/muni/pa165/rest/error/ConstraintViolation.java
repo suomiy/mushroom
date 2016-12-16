@@ -1,4 +1,4 @@
-package cz.fi.muni.pa165.rest.controller.error;
+package cz.fi.muni.pa165.rest.error;
 
 import java.util.HashMap;
 import java.util.Map;

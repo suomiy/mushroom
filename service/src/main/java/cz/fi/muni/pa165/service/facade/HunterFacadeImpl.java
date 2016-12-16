@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
-import cz.fi.muni.pa165.dto.UserAuthenticateDTO;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import cz.fi.muni.pa165.facade.HunterFacade;
@@ -37,12 +36,6 @@ public class HunterFacadeImpl implements HunterFacade {
     public void registerHunter(RegistrateHunterDTO registrateHunterDTO) throws HunterAuthenticationException {
         Hunter hunterEntity = registrateHunterMapperService.asEntity(registrateHunterDTO);
         hunterService.registerHunter(hunterEntity, registrateHunterDTO.getUnencryptedPassword());
-    }
-
-    @Override
-    public boolean authenticate(UserAuthenticateDTO hunter) throws HunterAuthenticationException {
-        Hunter hunterEntity = hunterService.findByEmail(hunter.getEmail());
-        return hunterService.authenticate(hunterEntity, hunter.getPassword());
     }
 
     @Override

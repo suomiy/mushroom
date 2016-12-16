@@ -1,6 +1,8 @@
-package cz.fi.muni.pa165.rest.controller.error;
+package cz.fi.muni.pa165.rest.error;
 
+import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +65,30 @@ public class GlobalExceptionController {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void handleException(MethodArgumentTypeMismatchException x) { // otherwise it would get classified as RuntimeException
+        throw x;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    void handleException(HunterAuthenticationException x) {
+        throw x;
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     ApiError handleException(RuntimeException x) {
+        String error = "Internal Error occurred";
         ApiError apiError = new ApiError();
         List<String> errors = new ArrayList<>();
-        errors.add("Internal Error occurred.");
+        if (x instanceof InvalidDataAccessApiUsageException) {
+            error = String.format("%s: %s", error, x.getMessage());
+        }
+
+        errors.add(error);
+
         apiError.setErrors(errors);
         return apiError;
     }

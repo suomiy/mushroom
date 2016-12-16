@@ -2,11 +2,14 @@ package cz.fi.muni.pa165.rest.controller;
 
 import cz.fi.muni.pa165.dto.DateDTO;
 import cz.fi.muni.pa165.dto.VisitDTO;
+import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.facade.VisitFacade;
 import cz.fi.muni.pa165.rest.Uri;
+import cz.fi.muni.pa165.rest.security.ResourceAccess;
+import cz.fi.muni.pa165.service.VisitService;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -25,6 +28,9 @@ public class VisitController {
     @Inject
     VisitFacade visitFacade;
 
+    @Inject
+    VisitService visitService;
+
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public VisitDTO create(@Valid @RequestBody VisitDTO visit) {
         visitFacade.create(visit);
@@ -32,12 +38,14 @@ public class VisitController {
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
-    public VisitDTO update(@Valid @RequestBody VisitDTO forest) {
-        return visitFacade.update(forest);
+    public VisitDTO update(@AuthenticationPrincipal Hunter loggedHunter, @Valid @RequestBody VisitDTO visit) {
+        ResourceAccess.verify(loggedHunter, visit);
+        return visitFacade.update(visit);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") long id) {
+    public void delete(@AuthenticationPrincipal Hunter loggedHunter, @PathVariable("id") long id) {
+        ResourceAccess.verify(loggedHunter, visitService.findById(id));
         visitFacade.delete(id);
     }
 
@@ -62,7 +70,7 @@ public class VisitController {
     }
 
     @RequestMapping(path = "/findbymushroom", method = RequestMethod.GET)
-    public List<VisitDTO> findByHMushroom(@RequestParam("id") Long mushroomId) {
+    public List<VisitDTO> findByMushroom(@RequestParam("id") Long mushroomId) {
         return visitFacade.findByMushroom(mushroomId);
     }
 
@@ -70,5 +78,4 @@ public class VisitController {
     public List<VisitDTO> findByDate(@Valid @RequestBody DateDTO date) {
         return visitFacade.findByDate(date);
     }
-
 }
