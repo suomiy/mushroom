@@ -56,7 +56,7 @@ public class MushroomController {
     }
 
     @RequestMapping(path = "/findbytype", method = RequestMethod.GET)
-    public List<MushroomDTO> findByType(@RequestBody MushroomType type) {
+    public List<MushroomDTO> findByType(@RequestParam("type") MushroomType type) {
         return mushroomFacade.findByType(type);
     }
 
