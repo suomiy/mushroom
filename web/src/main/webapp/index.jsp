@@ -20,6 +20,7 @@
     <script src="${pageContext.request.contextPath}/forest_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/your_profile_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/login_controllers.js"></script>
+    <script src="${pageContext.request.contextPath}/register_controllers.js"></script>
     <style>
         .navbar-nav.navbar-right .btn {
             position: relative;
@@ -62,6 +63,9 @@
                 <li>
                     <a class="btn btn-default" href="#/login" ng-show="!user.isLogged()" role="button">Login</a>
                     <a class="btn btn-default" href="#/visits" ng-show="user.isLogged()" ng-click="user.logout()" role="button">Logout</a>
+                </li>
+                <li>
+                    <a class="btn btn-default" href="#/signup" ng-show="!user.isLogged()" role="button">Sign Up</a>
                 </li>
             </ul>
         </div>

@@ -15,7 +15,7 @@ portalControllers.controller('LoginCtrl',
             }
 
             $rootScope.login($http, function (result) {
-                $location.path('/visits');
+                $location.path('/yourvisits');
             },function (result) {
                 $rootScope.errorAlert = 'Incorrect credentials';
             });

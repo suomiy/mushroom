@@ -35,7 +35,7 @@ public class HunterFacadeImpl implements HunterFacade {
     @Override
     public void registerHunter(RegistrateHunterDTO registrateHunterDTO) throws HunterAuthenticationException {
         Hunter hunterEntity = registrateHunterMapperService.asEntity(registrateHunterDTO);
-        hunterService.registerHunter(hunterEntity, registrateHunterDTO.getUnencryptedPassword());
+        hunterService.registerHunter(hunterEntity, registrateHunterDTO.getPassword());
     }
 
     @Override

@@ -87,7 +87,7 @@ public class ObjectsHelper {
         hunter.setFirstName("Samuel");
         hunter.setSurname("Hunter");
         hunter.setNick("Samo");
-        hunter.setUnencryptedPassword("123");
+        hunter.setPassword("123");
         return hunter;
     }
 

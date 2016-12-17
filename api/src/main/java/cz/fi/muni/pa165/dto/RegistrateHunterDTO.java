@@ -32,7 +32,7 @@ public class RegistrateHunterDTO {
 
     @NotNull
     @Size(min = 6)
-    private String unencryptedPassword;
+    private String password;
 
     public RegistrateHunterDTO() {
     }
@@ -67,12 +67,12 @@ public class RegistrateHunterDTO {
 
     public void setEmail(String email) { this.email = email; }
 
-    public String getUnencryptedPassword() {
-        return unencryptedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUnencryptedPassword(String unencryptedPassword) {
-        this.unencryptedPassword = unencryptedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Role getType() { return type; }

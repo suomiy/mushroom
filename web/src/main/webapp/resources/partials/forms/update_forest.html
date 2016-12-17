@@ -1,8 +1,15 @@
-<form name="form" novalidate class="form-horizontal">
+<form name="form" novalidate class="form-horizontal" ng-submit="form.$valid && updateForest(forest)">
 
     <div ng-include="'resources/partials/forms/form_partials/form_forest.html'"></div>
 
-    <a class="btn btn-danger" href="#/forests" role="button">Back</a>
-    <button ng-disabled="!form.$valid" class="btn btn-success" type="submit" ng-click="updateForest(forest)">Update Forest</button>
+
+    <div class="form-group">
+        <div class="col-sm-12">
+            <span class="pull-right">
+                <a class="btn btn-danger" href="#/forests" role="button">Back</a>
+                <button class="btn btn-success" type="submit">Update Forest</button>
+            </span>
+        </div>
+    </div>
 
 </form>

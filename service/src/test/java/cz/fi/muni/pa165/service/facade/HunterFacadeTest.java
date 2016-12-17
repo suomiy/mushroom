@@ -88,7 +88,7 @@ public class HunterFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void registerHunter() throws HunterAuthenticationException {
         hunterFacade.registerHunter(registrateHunterDTO);
-        verify(hunterService).registerHunter(hunter, registrateHunterDTO.getUnencryptedPassword());
+        verify(hunterService).registerHunter(hunter, registrateHunterDTO.getPassword());
     }
 
     @Test

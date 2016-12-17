@@ -9,7 +9,7 @@ import fr.xebia.extras.selma.Mapper;
  *
  * @author Erik Macej 433744
  */
-@Mapper(withIgnoreFields = {"passwordHash", "visits","unencryptedPassword","id"})
+@Mapper(withIgnoreFields = {"passwordHash", "visits", "password", "id"})
 public interface RegistrateHunterMapper extends EntityDTOMapper<Hunter, RegistrateHunterDTO> {
-    
+
 }

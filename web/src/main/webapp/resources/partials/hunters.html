@@ -1,14 +1,18 @@
 <h1>Administation of hunters</h1>
 
-<button class="btn btn-success" ng-click="findAllHunters()">Find All Hunters</button>
-<br>
-<br>
-<form name="form" novalidate class="form-inline">
+<div class="row col-sm-12 input-group">
+    <p>
+        <button class="btn btn-success" ng-click="findAllHunters()">Find All Hunters</button>
+    </p>
+</div>
 
-    <button ng-disabled="!form.$valid" class="btn btn-success" type="submit" ng-click="findHunterByEmail(email)">Find Hunter By Email</button>
+<form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findHunterByEmail(email)">
 
-    <div class="form-group" ng-class="{'has-error': !(form.email.$valid)}">
-        <div class="col-sm-10">
+    <div class="form-group" ng-class="{'has-error': form.$submitted && !(form.email.$valid)}">
+        <div class="col-sm-12 input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-success" type="submit">Find Hunter By Email</button>
+            </span>
             <input placeholder="email" id="email" type="text" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" name="email" class="form-control" ng-model="email" required/>
         </div>
     </div>

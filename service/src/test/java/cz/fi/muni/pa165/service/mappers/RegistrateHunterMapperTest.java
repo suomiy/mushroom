@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.service.mappers;
 
-import cz.fi.muni.pa165.dto.HunterDTO;
 import cz.fi.muni.pa165.dto.RegistrateHunterDTO;
 import cz.fi.muni.pa165.entity.Hunter;
 import cz.fi.muni.pa165.service.config.ServiceConfig;
@@ -41,7 +40,7 @@ public class RegistrateHunterMapperTest extends AbstractTestNGSpringContextTests
     @Test
     public void mapDto() {
         RegistrateHunterDTO result = registrateHunterMapperService.asDto(entity);
-        result.setUnencryptedPassword(dto.getUnencryptedPassword());
+        result.setPassword(dto.getPassword());
         assertThat(result).isEqualToComparingFieldByField(dto);
     }
 
