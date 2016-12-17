@@ -63,12 +63,17 @@ portalControllers.controller('HunterUpdateCtrl',
                 function error(response) {
                     console.log("error when updating hunter");
                     console.log(response);
-                    switch (response.data.code) {
+                    switch (response.status) {
+                        case 409:
+                            $rootScope.errorAlert = 'Account with this nick or email already exists';
+                            break;
                         default:
-                            angular.forEach(response.data.errors, function(value) {
-                                $rootScope.errorAlert = 'Cannot update hunter - ' + value;
-                            });
-                        break;
+                            if (response.data.errors) {
+                                angular.forEach(response.data.errors, function (value) {
+                                    $rootScope.errorAlert = 'Could not update hunter, please try latter';
+                                });
+                            }
+                            break;
                     }
                 }
             )

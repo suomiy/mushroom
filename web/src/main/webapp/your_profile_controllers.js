@@ -14,24 +14,29 @@ portalControllers.controller('YourProfileUpdateCtrl',
         $scope.showRanksAndRoles = false;
 
         $scope.updateHunter = function (hunter) {
-            console.log("updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
+            console.log("Updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
             $http({
                 method: 'POST',
                 url: '/rest/hunter/update',
                 data: hunter
             }).then(function success(response) {
-                    console.log('updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
+                    console.log('Updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
                     $rootScope.successAlert = 'Your profile was updated';
                     $location.path("/yourprofile");
                 },
                 function error(response) {
-                    console.log("error when updating hunter");
+                    console.log("Error when updating hunter");
                     console.log(response);
-                    switch (response.data.code) {
+                    switch (response.status) {
+                        case 409:
+                            $rootScope.errorAlert = 'Account with this nick or email already exists';
+                            break;
                         default:
-                            angular.forEach(response.data.errors, function(value) {
-                                $rootScope.errorAlert = 'Cannot update hunter - ' + value;
-                            });
+                            if (response.data.errors) {
+                                angular.forEach(response.data.errors, function (value) {
+                                    $rootScope.errorAlert = 'Could not update account, please try latter';
+                                });
+                            }
                             break;
                     }
                 }
