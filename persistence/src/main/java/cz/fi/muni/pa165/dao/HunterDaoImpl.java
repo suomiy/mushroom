@@ -43,7 +43,8 @@ public class HunterDaoImpl implements HunterDao {
 
     @Override
     public Hunter findByEmail(String email) {
-        List<Hunter> hunters = em.createQuery("SELECT h FROM Hunter h WHERE email = :email", Hunter.class)
+        List<Hunter> hunters = em.createQuery("SELECT h FROM Hunter h WHERE lower(email) like CONCAT('%', lower(:email), '%')",
+                Hunter.class)
                 .setMaxResults(1)
                 .setParameter("email", email)
                 .getResultList();

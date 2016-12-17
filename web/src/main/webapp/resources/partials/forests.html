@@ -2,7 +2,7 @@
 
 <div class="row col-sm-12 input-group">
     <p>
-        <button class="btn btn-success" ng-click="findAllForests()">Find All Forests</button>
+        <button class="btn btn-success" ng-click="findAllForests()">All Forests</button>
         <span class="pull-right " ng-show="user.role == 'ADMIN'" >
             <a class="btn btn-success" href="#/forests/newforest"
                role="button">New Forest</a>
@@ -12,10 +12,10 @@
 
 <form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findForestByName(name)">
 
-    <div class="form-group" ng-class="{'has-error': form.$submitted && !(form.name.$valid)}">
+    <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button class="btn btn-success" type="submit">Find Forest By Name</button>
+                <button ng-disabled="!form.$valid" class="btn btn-success" type="submit">Show First With Name</button>
             </span>
             <input placeholder="name" id="name" type="text" name="name" class="form-control" ng-model="name" required/>
         </div>

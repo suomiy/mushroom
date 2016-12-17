@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.dao;
 
+import cz.fi.muni.pa165.entity.Forest;
 import cz.fi.muni.pa165.entity.Mushroom;
 import cz.fi.muni.pa165.enums.MushroomType;
 import cz.fi.muni.pa165.utils.DateIntervalUtils;
@@ -52,12 +53,12 @@ public class MushroomDaoImpl implements MushroomDao {
 
     @Override
     public Mushroom findByName(String name) {
-        try {
-            return em.createQuery("select m from Mushroom m where name = :name",
-                    Mushroom.class).setParameter("name", name).getSingleResult();
-        } catch (NoResultException nrf) {
-            return null;
-        }
+        List<Mushroom> mushrooms = em.createQuery("select m from Mushroom m WHERE lower(name) like CONCAT('%', lower(:name), '%')",
+                Mushroom.class)
+                .setMaxResults(1)
+                .setParameter("name", name)
+                .getResultList();
+        return mushrooms.isEmpty() ? null : mushrooms.get(0);
     }
 
     @Override

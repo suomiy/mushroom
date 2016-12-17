@@ -1,13 +1,45 @@
 <h1>Your Profile</h1>
-
-<div class="row">
-    <div class="col-xs-6">
-        First Name: <p>{{hunter.firstName}}</p>
-        Surname:    <p>{{hunter.surname}}</p>
-        Nick:       <p>{{hunter.nick}}</p>
-        Email:      <p>{{hunter.email}}</p>
-        Rank:       <p>{{hunter.rank}}</p>
+<p>
+    <div class="row">
+        <div class="col-sm-2">
+            First Name
+        </div>
+        <div class="col-sm-10">
+            {{hunter.firstName}}
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-sm-2">
+            Surname
+        </div>
+        <div class="col-sm-10">
+            {{hunter.surname}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Nick
+        </div>
+        <div class="col-sm-10">
+            {{hunter.nick}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Email
+        </div>
+        <div class="col-sm-10">
+            {{hunter.email}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Rank
+        </div>
+        <div class="col-sm-10">
+            {{hunter.rank}}
+        </div>
+    </div>
+</p>
 
-<a class="btn btn-success" href="#/yourprofile/update" role="button">Update</a>
+<a class="btn btn-success" href="#/yourprofile/update" role="button">Change</a>

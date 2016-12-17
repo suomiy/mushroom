@@ -2,18 +2,18 @@
 
 <div class="row col-sm-12 input-group">
     <p>
-        <button class="btn btn-success" ng-click="findAllHunters()">Find All Hunters</button>
+        <button class="btn btn-success" ng-click="findAllHunters()">All Hunters</button>
     </p>
 </div>
 
 <form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findHunterByEmail(email)">
 
-    <div class="form-group" ng-class="{'has-error': form.$submitted && !(form.email.$valid)}">
+    <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button class="btn btn-success" type="submit">Find Hunter By Email</button>
+                <button ng-disabled="!form.$valid" class="btn btn-success" type="submit">Show First With Email</button>
             </span>
-            <input placeholder="email" id="email" type="text" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" name="email" class="form-control" ng-model="email" required/>
+            <input placeholder="email" id="email" type="text"  name="email" class="form-control" ng-model="email" required/>
         </div>
     </div>
 

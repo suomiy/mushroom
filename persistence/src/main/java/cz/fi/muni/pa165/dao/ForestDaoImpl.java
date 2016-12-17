@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.Forest;
+import cz.fi.muni.pa165.entity.Hunter;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -48,11 +49,11 @@ public class ForestDaoImpl implements ForestDao {
 
     @Override
     public Forest findByName(String name) {
-        try {
-            return em.createQuery("select f from Forest f where name = :name",
-                    Forest.class).setParameter("name", name).getSingleResult();
-        } catch (NoResultException nrf) {
-            return null;
-        }
+        List<Forest> forests = em.createQuery("select f from Forest f WHERE lower(name) like CONCAT('%', lower(:name), '%')",
+                Forest.class)
+                .setMaxResults(1)
+                .setParameter("name", name)
+                .getResultList();
+        return forests.isEmpty() ? null : forests.get(0);
     }
 }

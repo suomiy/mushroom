@@ -3,14 +3,14 @@
  */
 
 
-portalControllers.controller('YourProfileCtrl', function ($rootScope,$scope, $http) {
-    findHunterById($rootScope.user.id,$scope, $http);
+portalControllers.controller('YourProfileCtrl', function ($rootScope, $scope, $http) {
+    findHunterById($rootScope.user.id, $scope, $http);
 });
 
 portalControllers.controller('YourProfileUpdateCtrl',
     function ($scope, $routeParams, $http, $rootScope, $location) {
 
-        findHunterById($rootScope.user.id,$scope, $http);
+        findHunterById($rootScope.user.id, $scope, $http);
         $scope.showRanksAndRoles = false;
 
         $scope.updateHunter = function (hunter) {
@@ -20,9 +20,14 @@ portalControllers.controller('YourProfileUpdateCtrl',
                 url: '/rest/hunter/update',
                 data: hunter
             }).then(function success(response) {
-                    console.log('Updated hunter ' + hunter.id + ' (' + hunter.email + ')  on server');
-                    $rootScope.successAlert = 'Your profile was updated';
-                    $location.path("/yourprofile");
+                    if ($rootScope.user.isEmailOfThisUserAltered(hunter)) {
+                        $rootScope.user.logout();
+                        $location.path('/login');
+                        $rootScope.successAlert = 'Your Email was updated. Please login again.';
+                    } else {
+                        $rootScope.successAlert = 'Your profile was updated';
+                        $location.path("/yourprofile");
+                    }
                 },
                 function error(response) {
                     console.log("Error when updating hunter");
@@ -43,4 +48,4 @@ portalControllers.controller('YourProfileUpdateCtrl',
             )
         }
 
-});
+    });
