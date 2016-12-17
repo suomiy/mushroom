@@ -18,11 +18,16 @@ portalControllers.controller('ForestsCtrl',
                 function error(response) {
                     console.log("error when deleting forest");
                     console.log(response);
-                    switch (response.data.code) {
+                    switch (response.status) {
+                        case 409:
+                            $rootScope.errorAlert = 'You can not delete this forest because visit have reference to forest';
+                            break;
                         default:
-                            angular.forEach(response.data.errors, function(value) {
-                                $rootScope.errorAlert = 'Cannot delete forest - ' + value;
-                            });
+                            if (response.data.errors) {
+                                angular.forEach(response.data.errors, function (value) {
+                                    $rootScope.errorAlert = 'Could not delete forest';
+                                });
+                            }
                             break;
                     }
                 }
@@ -60,13 +65,18 @@ portalControllers.controller('CreateForestCtrl',
                     $location.path("/forests");
                 },
                 function error(response) {
-                    console.log("error when creating forest");
+                    console.log("Error when creating forest");
                     console.log(response);
-                    switch (response.data.code) {
+                    switch (response.status) {
+                        case 409:
+                            $rootScope.errorAlert = 'Forest with this name already exists';
+                            break;
                         default:
-                            angular.forEach(response.data.errors, function(value) {
-                                $rootScope.errorAlert = 'Cannot create forest - ' + value;
-                            });
+                            if (response.data.errors) {
+                                angular.forEach(response.data.errors, function (value) {
+                                    $rootScope.errorAlert = 'Could not create forest';
+                                });
+                            }
                             break;
                     }
                 }
@@ -94,13 +104,18 @@ portalControllers.controller('UpdateForestCtrl',
                     $location.path("/forests");
                 },
                 function error(response) {
-                    console.log("error when updating forest");
+                    console.log("Error when updating forest");
                     console.log(response);
-                    switch (response.data.code) {
+                    switch (response.status) {
+                        case 409:
+                            $rootScope.errorAlert = 'Forest with this name already exists';
+                            break;
                         default:
-                            angular.forEach(response.data.errors, function(value) {
-                                $rootScope.errorAlert = 'Cannot update forest - ' + value;
-                            });
+                            if (response.data.errors) {
+                                angular.forEach(response.data.errors, function (value) {
+                                    $rootScope.errorAlert = 'Could not update forest';
+                                });
+                            }
                             break;
                     }
                 }
