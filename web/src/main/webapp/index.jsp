@@ -20,6 +20,7 @@
     <script src="${pageContext.request.contextPath}/forest_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/your_profile_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/login_controllers.js"></script>
+    <script src="${pageContext.request.contextPath}/mushroom_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/admin_mushroom_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/register_controllers.js"></script>
     <style>

@@ -20,18 +20,19 @@ mushroomHunterApp.config(['$routeProvider',
         adminMushroomConfig($routeProvider);
         forestConfig($routeProvider);
         hunterConfig($routeProvider);
+        mushroomConfig($routeProvider);
 
         $routeProvider.
         when('/yourvisits', { templateUrl: 'resources/partials/your_visits.html', controller: 'YourVisitsCtrl' }).
         when('/yourcatches', { templateUrl: 'resources/partials/your_catches.html', controller: 'YourCatchesCtrl'}).
         when('/catches', { templateUrl: 'resources/partials/catches.html', controller: 'CatchesCtrl'}).
         when('/visits', { templateUrl: 'resources/partials/visits.html', controller: 'VisitsCtrl'}).
-        when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'}).
         when('/admin/visits', { templateUrl: 'resources/partials/admin/admin_visits.html', controller: 'AdminVisitsCtrl'}).
         when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
         otherwise({redirectTo: '/visits'});
 
-    }]);
+    }
+ ]);
 
 function hunterConfig($routeProvider) {
     $routeProvider.when('/yourprofile', {
@@ -47,13 +48,6 @@ function hunterConfig($routeProvider) {
         templateUrl: 'resources/partials/forms/update_hunter.html',
         controller: 'HunterUpdateCtrl'
     });
-}
-
-function adminMushroomConfig($routeProvider) {
-    $routeProvider.when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'});
-    $routeProvider.when('/admin/mushrooms/newmushroom', { templateUrl: 'resources/partials/forms/create_mushroom.html', controller: 'AdminCreateMushroomCtrl'});
-    $routeProvider.when('/admin/mushrooms/update/:mushroomId', { templateUrl: 'resources/partials/forms/update_mushroom.html', controller: 'AdminUpdateMushroomCtrl'});
-
 }
 
 function loginConfig($routeProvider) {
@@ -221,10 +215,6 @@ portalControllers.controller('VisitsCtrl', function ($scope, $http) {
 
 });
 
-portalControllers.controller('MushroomsCtrl', function ($scope, $http) {
-
-});
-
 portalControllers.controller('AdminMushroomCountsCtrl', function ($scope, $http) {
 
 });
@@ -297,5 +287,130 @@ function findForestByName($name, $scope, $http) {
     });
 }
 
+/*************
+*  MUSHROOMS *
+**************/
 
+function adminMushroomConfig($routeProvider) {
+    console.log("provider routes to AdminMushroomsCtrl+create+update");
+    $routeProvider.when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'});
+    $routeProvider.when('/admin/mushrooms/newmushroom', { templateUrl: 'resources/partials/forms/create_mushroom.html', controller: 'AdminCreateMushroomCtrl'});
+    $routeProvider.when('/admin/mushrooms/update/:mushroomId', { templateUrl: 'resources/partials/forms/update_mushroom.html', controller: 'AdminUpdateMushroomCtrl'});
+
+}
+
+function mushroomConfig($routeProvider) {
+    console.log("provider routes to MushroomsCtrl");
+    $routeProvider.when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'});
+}
+
+function parseDates($scope) {
+    var date;
+
+    for (var i = 0, len = $scope.mushrooms.length; i < len; i++) {
+        console.log($scope.mushrooms[i].fromDate);
+        console.log($scope.mushrooms[i].toDate)
+
+        if(!$scope.mushrooms[i].fromDate || !$scope.mushrooms[i].toDate) continue;
+
+        date = $scope.mushrooms[i].fromDate;
+        $scope.mushrooms[i].fromDate = date.replace("-","/").substring(5,10);
+
+        date = $scope.mushrooms[i].toDate;
+        $scope.mushrooms[i].toDate = date.replace("-","/").substring(5,10);
+    }
+}
+
+function loadMushrooms($http, $scope) {
+    $http.get('rest/mushroom/findall').then(function (response) {
+        $scope.mushrooms = response.data;
+        parseDates($scope);
+        console.log("Getting all mushrooms");
+    });
+}
+
+function findMushroomById($mushroomId, $scope, $http) {
+    $http.get('rest/mushroom/' + $mushroomId).then(function (response) {
+        $scope.mushroom = response.data;
+        console.log($scope.mushroom);
+        console.log('mushroom with name' + $scope.mushroom.name + 'loaded');
+    })
+
+};
+
+function findMushroomByName($name, $scope, $http) {
+    var m;
+
+    $http.get('rest/mushroom/find?name=' + $name).then(function (response) {
+        m = response.data;
+
+        if(response.data) {
+            $scope.mushrooms = m;
+            parseDates($scope);
+        }else{
+            $scope.mushrooms = [];
+        }
+        parseDates($scope);
+    });
+}
+
+function findMushroomByType($type, $scope, $http) {
+    var m;
+
+    $http.get('rest/mushroom/findbytype?type=' + $type).then(function (response) {
+        m = response.data;
+
+        if(response.data) {
+            $scope.mushrooms = m;
+            parseDates($scope);
+        }else{
+            $scope.mushrooms = null;
+        }
+    });
+}
+
+function findMushroomByDate($date, $scope, $http) {
+    var m;
+    var data = {};
+
+    data.date = $date;
+    $http({
+        method: 'POST',
+        url: 'rest/mushroom/findbydate',
+        data: data
+    }).then(function (response){
+        m = response.data;
+
+        if(response.data) {
+            $scope.mushrooms = m;
+            parseDates($scope);
+        }else{
+            $scope.mushrooms = [];
+        }
+    })
+}
+
+function findMushroomByDateInterval($fromDate, $toDate, $scope, $http) {
+    var m;
+    var data = {};
+
+    data.from = $fromDate.value;
+    data.to = $toDate.value;
+    $http({
+        method: 'POST',
+        url: 'rest/mushroom/findbydateinterval',
+        data: data
+    }).then(function (response){
+        m = response.data;
+
+        if(response.data) {
+            $scope.mushrooms = m;
+            parseDates($scope);
+        }else{
+            $scope.mushrooms = [];
+        }
+    })
+}
+
+/*************************************/
 
