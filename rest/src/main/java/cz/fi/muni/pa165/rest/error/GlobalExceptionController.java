@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.exception.HunterAuthenticationException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static cz.fi.muni.pa165.rest.error.ConstraintViolation.SQL_STATE_23505;
+
 /**
  * @author Filip Krepinsky (410022) on 12/10/16
  */
@@ -24,9 +27,8 @@ import java.util.stream.Collectors;
 public class GlobalExceptionController {
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    ApiError handleException(JpaSystemException x) {
+    ResponseEntity<ApiError> handleException(JpaSystemException x) {
         ApiError apiError = new ApiError();
         List<String> errors = new ArrayList<>();
         for (Throwable cause = x.getCause(); cause != null; cause = cause.getCause()) {
@@ -36,12 +38,18 @@ public class GlobalExceptionController {
                 ConstraintViolation violation = ConstraintViolation.fromErrorCode(errorCode);
                 if (violation != null) {
                     errors.add(violation.getMessage());
+                    switch (violation){
+                        case SQL_STATE_23503:
+                        case SQL_STATE_23505:
+                            apiError.setErrors(errors);
+                            return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+                    }
                 }
             }
         }
 
         apiError.setErrors(errors);
-        return apiError;
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
@@ -77,8 +85,8 @@ public class GlobalExceptionController {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     ApiError handleException(RuntimeException x) {
         String error = "Internal Error occurred";
         ApiError apiError = new ApiError();

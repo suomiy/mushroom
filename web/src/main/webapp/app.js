@@ -16,6 +16,7 @@ mushroomHunterApp.config(['$routeProvider',
         loginConfig($routeProvider);
         forestConfig($routeProvider);
         hunterConfig($routeProvider);
+        registerConfig($routeProvider);
 
         $routeProvider.
         when('/yourvisits', { templateUrl: 'resources/partials/your_visits.html', controller: 'YourVisitsCtrl' }).
@@ -41,6 +42,9 @@ function loginConfig($routeProvider) {
     $routeProvider.when('/login', {templateUrl: resourceUrl + 'partials/login.html', controller: 'LoginCtrl'})
 }
 
+function registerConfig($routeProvider) {
+    $routeProvider.when('/signup', {templateUrl: resourceUrl + 'partials/register.html', controller: 'RegisterCtrl'})
+}
 
 function forestConfig($routeProvider) {
     $routeProvider.when('/forests', { templateUrl: 'resources/partials/forests.html', controller: 'ForestsCtrl'});
@@ -148,10 +152,14 @@ mushroomHunterApp.run(function ($rootScope) {
                     $rootScope.user.role = response.data.role;
                     $rootScope.user.accessToken = response.data.access_token;
                 }
-                successHandler(response);
+                if (typeof errorHandler === "function") {
+                    successHandler(response);
+                }
             },
             function error(response) {
-                errorHandler(response);
+                if (typeof errorHandler === "function") {
+                    errorHandler(response);
+                }
             }
         )
     };
@@ -220,10 +228,10 @@ function findHunterByEmail($email, $scope, $http) {
     $http.get('rest/hunter/findbyemail?email=' + $email).then(function (response) {
         hunter = response.data;
 
-        if(response.data) {
+        if (response.data) {
             $scope.hunters = [hunter];
             console.log('Hunter with email' + hunter.email + 'loaded');
-        }else{
+        } else {
             $scope.hunters = [];
             console.log('Hunter with email doesn t exists');
         }
@@ -252,10 +260,10 @@ function findForestByName($name, $scope, $http) {
     $http.get('rest/forest/find?name=' + $name).then(function (response) {
         forest = response.data;
 
-        if(response.data) {
+        if (response.data) {
             $scope.forests = [forest];
             console.log('Forest with name' + forest.name + 'loaded');
-        }else{
+        } else {
             $scope.forests = [];
             console.log('Forest with name doesn t exists');
         }

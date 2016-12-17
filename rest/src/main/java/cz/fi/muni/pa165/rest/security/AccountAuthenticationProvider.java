@@ -40,7 +40,7 @@ public class AccountAuthenticationProvider implements AuthenticationProvider {
             throw new HunterAuthenticationException(INVALID_CREDENTIALS);
         }
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-        grantedAuthorityList.add(new SimpleGrantedAuthority(hunter.getType().name()));
+        grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_" + hunter.getType().name()));
 
         return new UsernamePasswordAuthenticationToken(hunter, password, grantedAuthorityList);
     }

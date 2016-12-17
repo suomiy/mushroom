@@ -19,20 +19,32 @@ public class ForestServiceImpl implements ForestService {
     private ForestDao forestDao;
 
     @Override
-    public void create(Forest forest) { forestDao.create(forest); }
+    public void create(Forest forest) {
+        forestDao.create(forest);
+    }
 
     @Override
-    public Forest update(Forest forest) { return forestDao.update(forest); }
+    public Forest update(Forest forest) {
+        return forestDao.update(forest);
+    }
 
     @Override
-    public Forest findById(Long id) { return forestDao.findById(id); }
+    public Forest findById(Long id) {
+        return forestDao.findById(id);
+    }
 
     @Override
-    public void delete(Forest forest) { forestDao.delete(forest); }
+    public void delete(Forest forest) {
+        forestDao.delete(forest);
+    }
 
     @Override
-    public List<Forest> findAll() { return forestDao.findAll(); }
+    public List<Forest> findAll() {
+        return forestDao.findAll();
+    }
 
     @Override
-    public Forest findByName(String name) { return forestDao.findByName(name); }
+    public Forest findByName(String name) {
+        return forestDao.findByName(name);
+    }
 }

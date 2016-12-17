@@ -31,7 +31,7 @@ public class HunterController {
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public void registerHunter(@Valid @RequestBody RegistrateHunterDTO registrateHunterDTO)
             throws HunterAuthenticationException {
-
+        ResourceAccess.verify(registrateHunterDTO);
         hunterFacade.registerHunter(registrateHunterDTO);
     }
 
