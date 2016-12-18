@@ -119,7 +119,7 @@ portalControllers.controller('UpdateVisitCtrl',
             }).then(function success(response) {
                     console.log('Updated visit ' + visit.id + '  on server');
                     $rootScope.successAlert = 'Visit ' + visit.id + ' updated';
-                    $location.path("/visits");
+                    $location.path("/yourvisits");
                 },
                 function error(response) {
                     console.log("error when updating visit");

@@ -1,5 +1,15 @@
 <form name="form" novalidate class="form-horizontal" ng-submit="form.$valid && updateVisit(visit)">
 
+    <div class="form-group">
+        <label for="hunterId" class="col-sm-2 control-label">Hunter Id</label>
+        <div class="col-sm-10">
+            <select id="hunterId" name="hunterId" class="form-control" ng-model="visit.hunterId">
+                <option ng-selected="hunter.id == visit.hunterId" ng-repeat="hunter in hunters" value="{{hunter.id}}">{{hunter.nick}} (id:{{hunter.id}})</option>
+            </select>
+            <p class="help-block" ng-show="form.hunterId.$error.required">Hunter Id is required</p>
+        </div>
+    </div>
+
     <div ng-include="'resources/partials/forms/form_partials/form_visit.html'"></div>
 
 
@@ -16,7 +26,7 @@
 </form>
 
 <span class="pull-right " ng-show="user.role == 'ADMIN'" >
-    <a class="btn btn-success" href="#/mushroomscount/newmushroomscount" role="button">New Catch</a>
+    <a class="btn btn-success" href="#/yourmushroomscount/newmushroomscount" role="button">New Catch</a>
 </span>
 
 <div ng-include="'resources/partials/list/list_mushroomscount.html'"></div>

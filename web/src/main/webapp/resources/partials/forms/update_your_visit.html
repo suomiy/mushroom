@@ -1,0 +1,22 @@
+<form name="form" novalidate class="form-horizontal" ng-submit="form.$valid && updateVisit(visit)">
+
+    <div ng-include="'resources/partials/forms/form_partials/form_visit.html'"></div>
+
+
+    <div class="form-group">
+        <div class="col-sm-12">
+            <span class="pull-right">
+                <a class="btn btn-danger" href="#/yourvisits" role="button">Back</a>
+                <button class="btn btn-success" type="submit">Update Visit</button>
+            </span>
+        </div>
+    </div>
+
+
+</form>
+
+<span class="pull-right ">
+    <a class="btn btn-success" href="#/yourmushroomscount/newmushroomscount" role="button">New Catch</a>
+</span>
+
+<div ng-include="'resources/partials/list/list_your_mushroomscount.html'"></div>

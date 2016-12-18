@@ -3,7 +3,7 @@
 <div class="row col-sm-12 input-group">
     <p>
         <button class="btn btn-success" ng-click="findAllForests()">All Forests</button>
-        <span class="pull-right " ng-show="user.role == 'ADMIN'" >
+        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
             <a class="btn btn-success" href="#/forests/newforest"
                role="button">New Forest</a>
         </span>

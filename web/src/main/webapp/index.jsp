@@ -24,6 +24,7 @@
     <script src="${pageContext.request.contextPath}/register_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/visit_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/mushroomscount_controllers.js"></script>
+    <script src="${pageContext.request.contextPath}/your_visits_controller.js"></script>
     <style>
         .navbar-nav.navbar-right .btn {
             position: relative;
