@@ -1,0 +1,21 @@
+<table class="table">
+    <thead>
+    <h3>Catches</h3>
+    <tr>
+        <th>Id</th>
+        <th>Quantity</th>
+        <th>Mushroom Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="mushroomscount in visits[0].mushroomsCount track by $index">
+        <td>{{mushroomscount.id}}</td>
+        <td>{{mushroomscount.count}}</td>
+        <td>{{mushroomscount.mushroom.name}} (id:{{mushroomscount.mushroomId}})</td>
+        <td>
+            <button ng-show="user.role == 'ADMIN'" ng-click="deleteMushroomsCount(mushroomscount)" class="btn btn-danger">Delete</button>
+            <a class="btn btn-success" ng-show="user.role == 'ADMIN'" href="#/mushroomscount/update/{{mushroomscount.id}}" role="button">Update</a>
+        </td>
+    </tr>
+    </tbody>
+</table>

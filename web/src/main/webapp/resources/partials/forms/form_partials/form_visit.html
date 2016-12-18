@@ -1,0 +1,45 @@
+<div class="form-group">
+    <label for="hunterId" class="col-sm-2 control-label">Hunter Id</label>
+    <div class="col-sm-10">
+        <select id="hunterId" name="hunterId" class="form-control" ng-model="visit.hunterId">
+            <option ng-selected="hunter.id == visit.hunterId" ng-repeat="hunter in hunters" value="{{hunter.id}}">{{hunter.nick}} (id:{{hunter.id}})</option>
+        </select>
+        <p class="help-block" ng-show="form.hunterId.$error.required">Hunter Id is required</p>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="forest" class="col-sm-2 control-label">Forest Id</label>
+    <div class="col-sm-10">
+        <select id="forest" name="forest" class="form-control" ng-model="visit.forestId">
+            <option ng-selected="forest.id == visit.forestId" ng-repeat="forest in forests" value="{{forest.id}}">{{forest.name}} (id:{{forest.id}})</option>
+        </select>
+        <p class="help-block" ng-show="form.forest.$error.required">Forest Id is required</p>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fromDate" class="col-sm-2 control-label">Visited from</label>
+    <div class="col-sm-10">
+        <input placeholder="from YYYY-MM-DD hh:mm" id="fromDate" name="fromDate" type="text" class="form-control" ng-model="visit.fromDate"/>
+        <p class="help-block" ng-show="form.fromDate.$error.required">Date is required</p>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="toDate" class="col-sm-2 control-label">Visited to</label>
+    <div class="col-sm-10">
+        <input placeholder="to YYYY-MM-DD hh:mm" id="toDate" type="text" name="toDate" class="form-control" ng-model="visit.toDate"/>
+        <p class="help-block" ng-show="form.toDate.$error.required">Date is required</p>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="toDate" class="col-sm-2 control-label">Note</label>
+    <div class="col-sm-10">
+        <input placeholder="note" id="note" type="text" name="note" class="form-control" ng-model="visit.note"/>
+    </div>
+</div>
+
+
+

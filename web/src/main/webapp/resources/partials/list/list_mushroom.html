@@ -18,8 +18,8 @@
         <td>{{mushroom.toDate}}</td>
         <td>{{mushroom.type}}</td>
         <td>
-            <button ng-click="deleteMushroom(mushroom)" type="submit" class="btn btn-danger">Delete</button>
-            <a class="btn btn-success" href="#/admin/mushrooms/update/{{mushroom.id}}" role="button">Update</a>
+            <button ng-show="user.role == 'ADMIN'" ng-click="deleteMushroom(mushroom)" type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-success"  ng-show="user.role == 'ADMIN'" href="#/mushrooms/update/{{mushroom.id}}" role="button">Update</a>
         </td>
     </tr>
     </tbody>

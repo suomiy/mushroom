@@ -1,1 +1,53 @@
 <h1>Visits</h1>
+
+<div class="row col-sm-12 input-group" style="margin-bottom: 5px">
+    <p>
+        <button class="btn btn-success" ng-click="findAllVisits()">All Visits</button>
+        <span class="pull-right " ng-show="user.role == 'ADMIN'" >
+            <a class="btn btn-success" href="#/visits/newvisit" role="button">New Visit</a>
+        </span>
+    </p>
+</div>
+<form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findVisitByHunter(hunter)">
+    <div class="form-group">
+        <div class="col-sm-12 input-group">
+            <span class="input-group-btn">
+                <button ng-disabled="!form.$valid" class="btn btn-success" type="submit">Show Visits of Hunter</button>
+            </span>
+            <input placeholder="hunter id" id="hunter" type="text" name="hunter" class="form-control" ng-model="hunter" required/>
+        </div>
+    </div>
+</form>
+<form name="form2" novalidate class="form-horizontal input-group" ng-submit="form2.$valid && findVisitByForest(forest)">
+    <div class="form-group">
+        <div class="col-sm-12 input-group">
+            <span class="input-group-btn">
+                <button ng-disabled="!form2.$valid" class="btn btn-success" type="submit">Show Visits of Forest</button>
+            </span>
+            <input placeholder="forest id" id="forest" type="text" name="forest" class="form-control" ng-model="forest" required/>
+        </div>
+    </div>
+</form>
+<form name="form3" novalidate class="form-horizontal input-group" ng-submit="form3.$valid && findVisitByMushroom(mushroom)">
+    <div class="form-group">
+        <div class="col-sm-12 input-group">
+            <span class="input-group-btn">
+                <button ng-disabled="!form3.$valid" class="btn btn-success" type="submit">Show Visits With Mushroom</button>
+            </span>
+            <input placeholder="mushroom id" id="mushroom" type="text" name="mushroom" class="form-control" ng-model="mushroom" required/>
+        </div>
+    </div>
+</form>
+<form name="form4" novalidate class="form-horizontal input-group" ng-submit="form4.$valid && findVisitByDate(date)">
+    <div class="form-group">
+        <div class="col-sm-12 input-group">
+            <span class="input-group-btn">
+                <button ng-disabled="!form4.$valid" class="btn btn-success" type="submit">Show Visits Within Date</button>
+            </span>
+            <input placeholder="YYYY-MM-DD hh:mm" id="date" type="text" name="date" class="form-control" ng-model="date" required/>
+        </div>
+    </div>
+</form>
+
+
+<div ng-include="'resources/partials/list/list_visit.html'"></div></h1>

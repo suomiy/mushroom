@@ -11,24 +11,69 @@ var roles = [ 'ADMIN', 'USER'];
 var types = [ 'EDIBLE', 'POISONOUS', 'NONEDIBLE', 'PSYCHEDELIC' ];
 var resourceUrl = 'resources/';
 
+mushroomHunterApp.service('sharedData', function() {
+    var visitId;
+    var hunters = [];
+    var mushrooms = [];
+    var forests = [];
+
+    var setForests = function(o) {
+        forests = o;
+    }
+
+    var getForests = function(o) {
+        return forests;
+    }
+
+    var setHunters = function(o) {
+        hunters = o;
+    }
+
+    var getHunters = function(o) {
+        return hunters;
+    }
+
+    var setMushrooms = function(o) {
+        mushrooms = o;
+    }
+
+    var getMushrooms = function(o) {
+        return mushrooms;
+    }
+    var setVisitId = function(o) {
+        visitId = o;
+    };
+
+    var getVisitId = function(){
+        return visitId;
+    };
+
+    return {
+        setForests: setForests,
+        getForests: getForests,
+        setHunters: setHunters,
+        getHunters: getHunters,
+        setMushrooms: setMushrooms,
+        getMushrooms: getMushrooms,
+        setVisitId: setVisitId,
+        getVisitId: getVisitId
+    };
+
+});
+
 mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
 
         loginConfig($routeProvider);
-        adminHunterConfig($routeProvider);
-        adminForestConfig($routeProvider);
-        adminMushroomConfig($routeProvider);
         forestConfig($routeProvider);
         hunterConfig($routeProvider);
         mushroomConfig($routeProvider);
+        visitConfig($routeProvider);
+        mushroomsCountConfig($routeProvider);
 
         $routeProvider.
         when('/yourvisits', { templateUrl: 'resources/partials/your_visits.html', controller: 'YourVisitsCtrl' }).
         when('/yourcatches', { templateUrl: 'resources/partials/your_catches.html', controller: 'YourCatchesCtrl'}).
-        when('/catches', { templateUrl: 'resources/partials/catches.html', controller: 'CatchesCtrl'}).
-        when('/visits', { templateUrl: 'resources/partials/visits.html', controller: 'VisitsCtrl'}).
-        when('/admin/visits', { templateUrl: 'resources/partials/admin/admin_visits.html', controller: 'AdminVisitsCtrl'}).
-        when('/admin/mushroomcounts', { templateUrl: 'resources/partials/admin/admin_mushroomcounts.html', controller: 'AdminMushroomCountsCtrl'}).
         otherwise({redirectTo: '/visits'});
 
     }
@@ -207,22 +252,6 @@ portalControllers.controller('YourCatchesCtrl', function ($scope, $http) {
 
 });
 
-portalControllers.controller('CatchesCtrl', function ($scope, $http) {
-
-});
-
-portalControllers.controller('VisitsCtrl', function ($scope, $http) {
-
-});
-
-portalControllers.controller('AdminMushroomCountsCtrl', function ($scope, $http) {
-
-});
-
-portalControllers.controller('AdminVisitsCtrl', function ($scope, $http) {
-
-});
-
 function findHunterById($hunterId, $scope, $http) {
     $http.get('rest/hunter/' + $hunterId).then(function (response) {
         $scope.hunter = response.data;
@@ -287,45 +316,47 @@ function findForestByName($name, $scope, $http) {
     });
 }
 
-/*************
-*  MUSHROOMS *
-**************/
-
-function adminMushroomConfig($routeProvider) {
-    console.log("provider routes to AdminMushroomsCtrl+create+update");
-    $routeProvider.when('/admin/mushrooms', { templateUrl: 'resources/partials/admin/admin_mushrooms.html', controller: 'AdminMushroomsCtrl'});
-    $routeProvider.when('/admin/mushrooms/newmushroom', { templateUrl: 'resources/partials/forms/create_mushroom.html', controller: 'AdminCreateMushroomCtrl'});
-    $routeProvider.when('/admin/mushrooms/update/:mushroomId', { templateUrl: 'resources/partials/forms/update_mushroom.html', controller: 'AdminUpdateMushroomCtrl'});
-
-}
+/**************
+*  MUSHROOMS  *
+***************/
 
 function mushroomConfig($routeProvider) {
     console.log("provider routes to MushroomsCtrl");
-    $routeProvider.when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'});
+    $routeProvider.when('/mushrooms', { templateUrl: 'resources/partials/mushrooms.html', controller: 'MushroomsCtrl'}).
+    when('/mushrooms/newmushroom', { templateUrl: 'resources/partials/forms/create_mushroom.html', controller: 'CreateMushroomCtrl'}).
+    when('/mushrooms/update/:mushroomId', { templateUrl: 'resources/partials/forms/update_mushroom.html', controller: 'UpdateMushroomCtrl'});
 }
 
-function parseDates($scope) {
+function parseDates(mushroom_list) {
     var date;
 
-    for (var i = 0, len = $scope.mushrooms.length; i < len; i++) {
-        console.log($scope.mushrooms[i].fromDate);
-        console.log($scope.mushrooms[i].toDate)
+    for (var i = 0, len = mushroom_list.length; i < len; i++) {
 
-        if(!$scope.mushrooms[i].fromDate || !$scope.mushrooms[i].toDate) continue;
+        if(!mushroom_list[i].fromDate) continue;
 
-        date = $scope.mushrooms[i].fromDate;
-        $scope.mushrooms[i].fromDate = date.replace("-","/").substring(5,10);
+        date = mushroom_list[i].fromDate;
+        mushroom_list[i].fromDate = date.replace("-","/").substring(5,10);
 
-        date = $scope.mushrooms[i].toDate;
-        $scope.mushrooms[i].toDate = date.replace("-","/").substring(5,10);
+        if(!mushroom_list[i].toDate) continue;
+
+        date = mushroom_list[i].toDate;
+        mushroom_list[i].toDate = date.replace("-","/").substring(5,10);
     }
+
+    return mushroom_list;
 }
 
 function loadMushrooms($http, $scope) {
+    var mushroom_list;
+
     $http.get('rest/mushroom/findall').then(function (response) {
-        $scope.mushrooms = response.data;
-        parseDates($scope);
-        console.log("Getting all mushrooms");
+        mushroom_list = parseDates(response.data);
+        if(response.data) {
+            $scope.mushrooms = mushroom_list;
+
+        }else{
+            $scope.mushrooms = [];
+        }
     });
 }
 
@@ -339,30 +370,29 @@ function findMushroomById($mushroomId, $scope, $http) {
 };
 
 function findMushroomByName($name, $scope, $http) {
-    var m;
+    var mushroom_list;
 
     $http.get('rest/mushroom/find?name=' + $name).then(function (response) {
-        m = response.data;
-
+        mushroom_list = [response.data];
+        mushroom_list = parseDates(mushroom_list);
         if(response.data) {
-            $scope.mushrooms = m;
-            parseDates($scope);
+            $scope.mushrooms = mushroom_list;
+
         }else{
             $scope.mushrooms = [];
         }
-        parseDates($scope);
     });
 }
 
 function findMushroomByType($type, $scope, $http) {
-    var m;
+    var mushroom_list;
 
     $http.get('rest/mushroom/findbytype?type=' + $type).then(function (response) {
-        m = response.data;
-
+        mushroom_list = response.data;
+        mushroom_list = parseDates(response.data);
         if(response.data) {
-            $scope.mushrooms = m;
-            parseDates($scope);
+            $scope.mushrooms = mushroom_list;
+
         }else{
             $scope.mushrooms = null;
         }
@@ -370,7 +400,7 @@ function findMushroomByType($type, $scope, $http) {
 }
 
 function findMushroomByDate($date, $scope, $http) {
-    var m;
+    var mushroom_list;
     var data = {};
 
     data.date = $date;
@@ -379,11 +409,9 @@ function findMushroomByDate($date, $scope, $http) {
         url: 'rest/mushroom/findbydate',
         data: data
     }).then(function (response){
-        m = response.data;
-
+        mushroom_list = parseDates(response.data);
         if(response.data) {
-            $scope.mushrooms = m;
-            parseDates($scope);
+            $scope.mushrooms = mushroom_list;
         }else{
             $scope.mushrooms = [];
         }
@@ -391,7 +419,7 @@ function findMushroomByDate($date, $scope, $http) {
 }
 
 function findMushroomByDateInterval($fromDate, $toDate, $scope, $http) {
-    var m;
+    var mushroom_list;
     var data = {};
 
     data.from = $fromDate.value;
@@ -401,16 +429,201 @@ function findMushroomByDateInterval($fromDate, $toDate, $scope, $http) {
         url: 'rest/mushroom/findbydateinterval',
         data: data
     }).then(function (response){
-        m = response.data;
-
+        mushroom_list = parseDates(response.data);
         if(response.data) {
-            $scope.mushrooms = m;
-            parseDates($scope);
+            $scope.mushrooms = mushroom_list;
         }else{
             $scope.mushrooms = [];
         }
     })
 }
 
-/*************************************/
+/*************
+*   VISITS   *
+**************/
 
+
+function visitConfig($routeProvider) {
+    console.log("provider routes to VisitCtrl");
+    $routeProvider.when('/visits', { templateUrl: 'resources/partials/visits.html', controller: 'VisitCtrl'}).
+    when('/visits/newvisit', { templateUrl: 'resources/partials/forms/create_visit.html', controller: 'CreateVisitCtrl'}).
+    when('/visits/update/:visitId', { templateUrl: 'resources/partials/forms/update_visit.html', controller: 'UpdateVisitCtrl'});
+}
+
+function loadVisits($http, $scope, updateVisitId=false, sharedData) {
+
+    var completed_requests = 0;
+    $http.get('rest/visit/findall').then(function (response) {
+        if(response.data) {
+            $scope.visits = response.data;
+        }else{
+            $scope.visits = [];
+        }
+        completed_requests++;
+        if(completed_requests == 4){
+            if(updateVisitId)  findVisitById(updateVisitId, $scope, $http);
+            else completeVisits($scope);
+        }
+    });
+
+    $http.get('rest/hunter/findall').then(function (response) {
+        if(response.data) {
+            $scope.hunters = response.data;
+        }else{
+            $scope.hunters = [];
+        }
+        completed_requests++;
+        if(completed_requests == 4){
+            if(updateVisitId)  findVisitById(updateVisitId, $scope, $http);
+            else completeVisits($scope);
+        }
+    });
+
+    $http.get('rest/forest/findall').then(function (response) {
+        if(response.data) {
+            $scope.forests = response.data;
+
+        }else{
+            $scope.forests = [];
+        }
+        completed_requests++;
+        if(completed_requests == 4){
+            if(updateVisitId)  findVisitById(updateVisitId, $scope, $http);
+            else completeVisits($scope);
+        }
+    });
+
+    $http.get('rest/mushroom/findall').then(function (response) {
+        if(response.data) {
+            $scope.mushrooms = parseDates(response.data);
+        }else{
+            $scope.mushrooms = [];
+        }
+        completed_requests++;
+        if(completed_requests == 4){
+            if(updateVisitId)  {
+                if(sharedData) sharedData.setMushrooms($scope.mushrooms);
+                findVisitById(updateVisitId, $scope, $http);
+            } else completeVisits($scope);
+        }
+    });
+
+}
+
+function completeVisits($scope){
+
+    for(var i=0, len = $scope.visits.length; i < len; i++){
+        for(var j=0, leng= $scope.hunters.length; j < leng; j++){
+            if($scope.visits[i].hunterId == $scope.hunters[j].id){
+                $scope.visits[i].hunter = $scope.hunters[j];
+            }
+        }
+
+        for(var j=0, leng= $scope.forests.length; j < leng; j++){
+            if($scope.visits[i].forestId == $scope.forests[j].id){
+                $scope.visits[i].forest = $scope.forests[j];
+            }
+        }
+
+        for(var j=0, leng= $scope.visits[i].mushroomsCount.length; j < leng; j++){
+            for(var k=0, lengt= $scope.mushrooms.length; k < lengt; k++){
+                if($scope.visits[i].mushroomsCount[j].mushroomId == $scope.mushrooms[k].id){
+                    $scope.visits[i].mushroomsCount[j].mushroom = $scope.mushrooms[k];
+                }
+            }
+        }
+    }
+    console.log("Visit information complete:", $scope.visits);
+}
+
+function findVisitById(visitId, $scope, $http) {
+    $http.get('rest/visit/' + visitId).then(function (response) {
+        if(response.data) {
+            $scope.visits = [response.data];
+            $scope.visit = response.data
+            completeVisits($scope);
+            console.log('visit with id ' + visitId + ' loaded');
+        }else{
+            $scope.visit = [];
+        }
+    })
+};
+
+function findVisitByHunter($hunter, $scope, $http) {
+    $http.get('rest/visit/findbyhunter?id=' + $hunter).then(function (response) {
+        if(response.data) {
+            $scope.visits = response.data;
+            completeVisits($scope);
+            console.log("Visits of hunter with id: "+$hunter+" loaded.");
+        }else{
+            $scope.visits = [];
+        }
+    })
+};
+
+function findVisitByForest($forest, $scope, $http) {
+    $http.get('rest/visit/findbyforest?id=' + $forest).then(function (response) {
+        if(response.data) {
+            $scope.visits = response.data;
+            completeVisits($scope);
+            console.log("Visits of forest with id: "+$forest+" loaded.");
+        }else{
+            $scope.visits = [];
+        }
+    })
+};
+
+function findVisitByMushroom($mushroom, $scope, $http) {
+    $http.get('rest/visit/findbymushroom?id=' + $mushroom).then(function (response) {
+        if(response.data) {
+            $scope.visits = response.data;
+            completeVisits($scope);
+            console.log("Visits where mushroom with id: "+$mushroom+" was found loaded.");
+        }else{
+            $scope.visits = [];
+        }
+    })
+};
+
+function findVisitByDate($date, $scope, $http) {
+    var data = {};
+
+    data.date = $date;
+    $http({
+        method: 'POST',
+        url: 'rest/visit/findbydate',
+        data: data
+    }).then(function (response){
+        if(response.data) {
+            $scope.visits = response.data;
+            completeVisits($scope);
+            console.log("Visits from date: "+$date+" loaded.");
+        }else{
+            $scope.visits = [];
+        }
+    })
+}
+
+
+/*********************
+*   MUSHROOMSCOUNT   *
+**********************/
+
+function mushroomsCountConfig($routeProvider) {
+    console.log("provider routes to MushroomsCountCtrl");
+    $routeProvider.when('/mushroomscount/newmushroomscount', { templateUrl: 'resources/partials/forms/create_mushroomscount.html', controller: 'CreateMushroomsCountCtrl'}).
+    when('/mushroomscount/update/:mushroomsCountId', { templateUrl: 'resources/partials/forms/update_mushroomscount.html', controller: 'UpdateMushroomsCountCtrl'});
+}
+
+function findMushroomsCountById(mushroomscountId, $scope, $http) {
+    $http.get('rest/mushroomcount/' + mushroomscountId).then(function (response) {
+        if(response.data) {
+            $scope.mushroomsCounts = [response.data];
+            $scope.mushroomscount = response.data;
+            //completeVisits($scope);
+            console.log('mushroomsCount with id ' + mushroomscountId + ' loaded');
+        }else{
+            $scope.mushroomsCounts = [];
+        }
+    })
+};
