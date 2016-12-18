@@ -89,7 +89,7 @@
                 <configuration>
                     <uriEncoding>utf-8</uriEncoding>
                     <path>/pa165</path>
-                    <port>8081</port>
+                    <port>8080</port>
                 </configuration>
             </plugin>
         </plugins>
