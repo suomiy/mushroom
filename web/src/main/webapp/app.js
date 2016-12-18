@@ -462,6 +462,9 @@ function loadVisits($http, $scope, updateVisitId = false, sharedData) {
         }
         completed_requests++;
         if(completed_requests == 4){
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if(updateVisitId)  findVisitById(updateVisitId, $scope, $http);
             else completeVisits($scope);
         }
@@ -475,6 +478,9 @@ function loadVisits($http, $scope, updateVisitId = false, sharedData) {
         }
         completed_requests++;
         if(completed_requests == 4){
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if(updateVisitId)  findVisitById(updateVisitId, $scope, $http);
             else completeVisits($scope);
         }
@@ -489,6 +495,9 @@ function loadVisits($http, $scope, updateVisitId = false, sharedData) {
         }
         completed_requests++;
         if(completed_requests == 4){
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if(updateVisitId)  findVisitById(updateVisitId, $scope, $http);
             else completeVisits($scope);
         }
@@ -502,8 +511,10 @@ function loadVisits($http, $scope, updateVisitId = false, sharedData) {
         }
         completed_requests++;
         if(completed_requests == 4){
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if(updateVisitId)  {
-                if(sharedData) sharedData.setMushrooms($scope.mushrooms);
                 findVisitById(updateVisitId, $scope, $http);
             } else completeVisits($scope);
         }
@@ -642,7 +653,7 @@ function findMushroomsCountById(mushroomscountId, $scope, $http) {
  *   YOUR_VISITS   *
  *******************/
 
-function loadVisitsByHunter($http, $scope, $rootScope, updateVisitId = false, sharedData) {
+function loadVisitsByHunter($http, $scope, $rootScope, updateVisitId, sharedData) {
 
     var completed_requests = 0;
     $http.get('rest/visit//findbyhunter?id=' + $rootScope.user.id).then(function (response) {
@@ -653,6 +664,9 @@ function loadVisitsByHunter($http, $scope, $rootScope, updateVisitId = false, sh
         }
         completed_requests++;
         if (completed_requests == 4) {
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if (updateVisitId)  findVisitById(updateVisitId, $scope, $http);
             else completeVisits($scope);
         }
@@ -666,6 +680,9 @@ function loadVisitsByHunter($http, $scope, $rootScope, updateVisitId = false, sh
         }
         completed_requests++;
         if (completed_requests == 4) {
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if (updateVisitId)  findVisitById(updateVisitId, $scope, $http);
             else completeVisits($scope);
         }
@@ -680,6 +697,9 @@ function loadVisitsByHunter($http, $scope, $rootScope, updateVisitId = false, sh
         }
         completed_requests++;
         if (completed_requests == 4) {
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if (updateVisitId)  findVisitById(updateVisitId, $scope, $http);
             else completeVisits($scope);
         }
@@ -693,8 +713,10 @@ function loadVisitsByHunter($http, $scope, $rootScope, updateVisitId = false, sh
         }
         completed_requests++;
         if (completed_requests == 4) {
+            if (typeof sharedData !== 'undefined') {
+                sharedData.setMushrooms($scope.mushrooms);
+            }
             if (updateVisitId) {
-                if (sharedData) sharedData.setMushrooms($scope.mushrooms);
                 findVisitById(updateVisitId, $scope, $http);
             } else completeVisits($scope);
         }

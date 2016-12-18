@@ -3,8 +3,8 @@
  */
 
 
-portalControllers.controller('YourVisitsCtrl', function ($rootScope,$scope, $http) {
-    loadVisitsByHunter($http, $scope, $rootScope);
+portalControllers.controller('YourVisitsCtrl', function ($rootScope,$scope, $http, sharedData) {
+    loadVisitsByHunter($http, $scope, $rootScope, false, sharedData);
 
     $scope.deleteVisit = function (visit) {
         console.log("deleting visit with id=" + visit.id );
