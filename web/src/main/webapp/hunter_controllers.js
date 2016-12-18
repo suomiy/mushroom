@@ -50,7 +50,7 @@ portalControllers.controller('HunterUpdateCtrl',
         var hunterId = $routeParams.hunterId;
         $scope.showRanksAndRoles = true;
         $scope.ranks = ranks;
-        $scope.types = roles;
+        $scope.types = createRoles;
 
         findHunterById(hunterId, $scope, $http);
 

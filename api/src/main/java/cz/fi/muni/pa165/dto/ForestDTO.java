@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.dto;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Erik Macej 433744 , on 20.11.16.
@@ -12,6 +13,7 @@ public class ForestDTO {
     private Long id;
 
     @NotNull
+    @Size(min = 2)
     private String name;
 
     private String localityDescription;

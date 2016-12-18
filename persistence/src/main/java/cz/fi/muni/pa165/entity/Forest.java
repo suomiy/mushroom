@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Erik Macej 433744 , on 23.10.16.
@@ -17,6 +18,7 @@ public class Forest {
     private Long id;
 
     @NotNull
+    @Size(min = 2)
     @Column(nullable = false, unique = true)
     private String name;
 

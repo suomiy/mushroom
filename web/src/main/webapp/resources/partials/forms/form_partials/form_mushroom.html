@@ -1,29 +1,36 @@
-<div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+<div class="form-group" ng-class="{'has-error': form.$submitted && !(form.name.$valid)}">
     <label for="name" class="col-sm-2 control-label">Name</label>
     <div class="col-sm-10">
-        <input placeholder="name" id="name" type="text" name="name" class="form-control" ng-model="mushroom.name"/>
-        <p class="help-block" ng-show="form.name.$error.required">Name is required</p>
+        <input placeholder="name" id="name" type="text" name="name" ng-minlength="2" class="form-control"
+               ng-model="mushroom.name"/>
+        <div ng-show="form.$submitted">
+            <p class="help-block" ng-show="form.name.$error.required">Name is required</p>
+            <p class="help-block" ng-show="form.nick.$error.minlength">Nick must be at least 2 characters</p>
+        </div>
     </div>
 </div>
 
 <div class="form-group">
     <label for="description" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-10">
-        <input placeholder="description" id="description" type="text" name="description" class="form-control" ng-model="mushroom.description"/>
+        <input placeholder="description" id="description" type="text" name="description" class="form-control"
+               ng-model="mushroom.description"/>
     </div>
 </div>
 
 <div class="form-group">
     <label for="fromDate" class="col-sm-2 control-label">Grows since</label>
     <div class="col-sm-10">
-        <input placeholder="from YYYY-MM-DD hh:mm" id="fromDate" name="fromDate" type="text" class="form-control" ng-model="mushroom.fromDate"/>
+        <input placeholder="from YYYY-MM-DD hh:mm" id="fromDate" name="fromDate" type="text" class="form-control"
+               ng-model="mushroom.fromDate"/>
     </div>
 </div>
 
 <div class="form-group">
     <label for="toDate" class="col-sm-2 control-label">Grows until</label>
     <div class="col-sm-10">
-        <input placeholder="to YYYY-MM-DD hh:mm" id="toDate" type="text" name="toDate" class="form-control" ng-model="mushroom.toDate"/>
+        <input placeholder="to YYYY-MM-DD hh:mm" id="toDate" type="text" name="toDate" class="form-control"
+               ng-model="mushroom.toDate"/>
     </div>
 </div>
 
@@ -33,6 +40,8 @@
         <select id="type" name="type" class="form-control" ng-model="mushroom.type">
             <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
         </select>
-        <p class="help-block" ng-show="form.type.$error.required">Type is required</p>
+        <div ng-show="form.$submitted">
+            <p class="help-block" ng-show="form.type.$error.required">Type is required</p>
+        </div>
     </div>
 </div>

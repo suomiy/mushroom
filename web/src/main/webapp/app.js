@@ -7,7 +7,8 @@
 var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute', 'portalControllers']);
 var portalControllers = angular.module('portalControllers', []);
 var ranks = [ 'BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
-var roles = [ 'ADMIN', 'USER'];
+var roles = [ 'ANONYMOUS', 'ADMIN', 'USER'];
+var createRoles = ['ADMIN', 'USER'];
 var types = [ 'EDIBLE', 'POISONOUS', 'NONEDIBLE', 'PSYCHEDELIC' ];
 var resourceUrl = 'resources/';
 
@@ -73,7 +74,6 @@ mushroomHunterApp.config(['$routeProvider',
 
         $routeProvider.
         when('/yourvisits', { templateUrl: 'resources/partials/your_visits.html', controller: 'YourVisitsCtrl' }).
-        when('/yourcatches', { templateUrl: 'resources/partials/your_catches.html', controller: 'YourCatchesCtrl'}).
         otherwise({redirectTo: '/visits'});
 
     }

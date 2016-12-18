@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.utils.DateIntervalUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -21,6 +22,7 @@ public class Mushroom implements Comparable<Mushroom> {
     private Long id;
 
     @NotNull
+    @Size(min = 2)
     @Column(nullable = false, unique = true)
     private String name;
 

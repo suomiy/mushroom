@@ -51,14 +51,9 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li ng-hide="user.role == 'ANONYMOUS'"><a href="#/yourprofile">Your Profile</a></li>
-                <li class="dropdown" ng-hide="user.role == 'ANONYMOUS'">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Your Catches And Visits<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#/yourvisits">Your Visits</a></li>
-                        <li><a href="#/yourcatches">Your Catches</a></li>
-                    </ul>
+                <li ng-hide="user.role == 'ANONYMOUS'">
+                    <a href="#/yourvisits">Your Visits</a>
                 </li>
-                <li><a href="#/catches">Catches</a></li>
                 <li><a href="#/visits">Visits</a></li>
                 <li><a href="#/mushrooms">Mushrooms</a></li>
                 <li><a href="#/forests">Forests</a></li>

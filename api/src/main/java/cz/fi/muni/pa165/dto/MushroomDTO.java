@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.dto;
 import cz.fi.muni.pa165.enums.MushroomType;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -16,6 +17,7 @@ public class MushroomDTO {
     private Long id;
 
     @NotNull
+    @Size(min = 2)
     private String name;
 
     @NotNull
