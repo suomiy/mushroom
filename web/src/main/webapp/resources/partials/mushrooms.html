@@ -3,7 +3,7 @@
 <div class="row col-sm-12 input-group" style="margin-bottom: 5px">
     <p>
         <button class="btn btn-success" ng-click="findAllMushrooms()">All Mushrooms</button>
-        <span class="pull-right " ng-show="user.role == 'ADMIN'" >
+        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
             <a class="btn btn-success" href="#/mushrooms/newmushroom" role="button">New Mushroom</a>
         </span>
     </p>
