@@ -1,11 +1,5 @@
-<div class="row col-sm-12 input-group" style="margin-bottom: 5px">
-    <p>
-        <button class="btn btn-success" ng-click="findAllVisits()">All Your Visits</button>
-        <span class="pull-right">
-            <a class="btn btn-success" href="#/visits/yournewvisit" role="button">New Visit</a>
-        </span>
-    </p>
-</div>
+<h1>Your Visits</h1>
+
 <form name="form2" novalidate class="form-horizontal input-group" ng-submit="form2.$valid && findVisitByForest(forest)">
     <div class="form-group">
         <div class="col-sm-12 input-group">
@@ -32,10 +26,19 @@
             <span class="input-group-btn">
                 <button ng-disabled="!form4.$valid" class="btn btn-success" type="submit">Show Visits Within Date</button>
             </span>
-            <input placeholder="YYYY-MM-DD hh:mm" id="date" type="text" name="date" class="form-control" ng-model="date" required/>
+            <input id="date" type="text" name="date" class="form-control" autocomplete="off"
+                   ng-model="date" moment-picker="date" required/>
         </div>
     </div>
 </form>
 
+<div class="row col-sm-12 input-group">
+    <p>
+        <button class="btn btn-danger" type="button" ng-click='resetForm()'>Reset</button>
+        <span class="pull-right" >
+            <a class="btn btn-success" href="#/visits/yournewvisit" role="button">New Visit</a>
+        </span>
+    </p>
+</div>
 
 <div ng-include="'resources/partials/list/list_your_visit.html'"></div></h1>

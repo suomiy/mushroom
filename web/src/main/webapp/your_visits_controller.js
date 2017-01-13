@@ -31,7 +31,12 @@ portalControllers.controller('YourVisitsCtrl', function ($rootScope,$scope, $htt
         );
     };
 
-    $scope.findAllVisits = function () {
+    $scope.resetForm = function(){
+        $scope.date = null;
+        $scope.hunter = null;
+        $scope.forest = null;
+        $scope.mushroom = null;
+
         loadVisitsByHunter($http, $scope, $rootScope);
     };
 
@@ -40,7 +45,7 @@ portalControllers.controller('YourVisitsCtrl', function ($rootScope,$scope, $htt
     };
 
     $scope.findVisitByDate = function(date){
-        findVisitByDate(date, $scope, $http ,true , $rootScope);
+        findVisitByDate(date, $scope, $http, $rootScope, true);
     };
 
     $scope.findVisitByForest = function(forest) {
@@ -106,6 +111,7 @@ portalControllers.controller('UpdateYourVisitCtrl',
         loadVisits($http, $scope, visitId, sharedData);
 
         $scope.updateVisit = function (visit) {
+
             console.log("Updating visit with id=" + visit.id);
             $http({
                 method: 'POST',

@@ -25,6 +25,10 @@
     <script src="${pageContext.request.contextPath}/visit_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/mushroomscount_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/your_visits_controller.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+    <script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
+    <link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
     <style>
         .navbar-nav.navbar-right .btn {
             position: relative;

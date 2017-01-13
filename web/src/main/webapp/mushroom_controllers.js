@@ -33,7 +33,13 @@ portalControllers.controller('MushroomsCtrl',
             );
         };
 
-        $scope.findAllMushrooms = function () {
+        $scope.resetForm = function(){
+            $scope.name = null;
+            $scope.type = null;
+            $scope.date = null;
+            $scope.fromDate = null;
+            $scope.toDate = null;
+
             loadMushrooms($http,$scope);
         };
 
@@ -42,15 +48,15 @@ portalControllers.controller('MushroomsCtrl',
         };
 
         $scope.findMushroomByDate = function(date){
-            findMushroomByDate(date, $scope, $http);
+            findMushroomByDate(date, $scope, $http, $rootScope);
         };
 
         $scope.findMushroomByType = function(type){
             findMushroomByType(type, $scope, $http);
         };
 
-        $scope.findMushroomByDateInterval = function(type){
-            findMushroomByDateInterval(fromDate, toDate, $scope, $http);
+        $scope.findMushroomByDateInterval = function(fromDate, toDate){
+            findMushroomByDateInterval(fromDate, toDate, $scope, $http, $rootScope);
         };
 
     }

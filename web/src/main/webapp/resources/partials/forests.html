@@ -1,17 +1,6 @@
 <h1>Forests</h1>
 
-<div class="row col-sm-12 input-group">
-    <p>
-        <button class="btn btn-success" ng-click="findAllForests()">All Forests</button>
-        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
-            <a class="btn btn-success" href="#/forests/newforest"
-               role="button">New Forest</a>
-        </span>
-    </p>
-</div>
-
 <form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findForestByName(name)">
-
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
@@ -20,7 +9,16 @@
             <input placeholder="name" id="name" type="text" name="name" class="form-control" ng-model="name" required/>
         </div>
     </div>
-
 </form>
+
+<div class="row col-sm-12 input-group">
+    <p>
+        <button class="btn btn-danger" type="button" ng-click='resetForm()'>Reset</button>
+        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
+            <a class="btn btn-success" href="#/forests/newforest"
+               role="button">New Forest</a>
+        </span>
+    </p>
+</div>
 
 <div ng-include="'resources/partials/list/list_forest.html'"></div>

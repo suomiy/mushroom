@@ -34,6 +34,13 @@ portalControllers.controller('HuntersCtrl',
             );
         };
 
+
+        $scope.resetForm = function(){
+            $scope.email = null;
+
+            loadHunters($http,$scope);
+        };
+
         $scope.findAllHunters = function () {
             loadHunters($http, $scope);
         };

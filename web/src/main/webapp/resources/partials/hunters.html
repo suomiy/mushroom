@@ -1,13 +1,6 @@
 <h1>Administation of hunters</h1>
 
-<div class="row col-sm-12 input-group">
-    <p>
-        <button class="btn btn-success" ng-click="findAllHunters()">All Hunters</button>
-    </p>
-</div>
-
 <form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findHunterByEmail(email)">
-
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
@@ -16,7 +9,13 @@
             <input placeholder="email" id="email" type="text"  name="email" class="form-control" ng-model="email" required/>
         </div>
     </div>
-
 </form>
+
+
+<div class="row col-sm-12 input-group">
+    <p>
+        <button class="btn btn-danger" type="button" ng-click='resetForm()'>Reset</button>
+    </p>
+</div>
 
 <div ng-include="'resources/partials/list/list_hunter.html'"></div>

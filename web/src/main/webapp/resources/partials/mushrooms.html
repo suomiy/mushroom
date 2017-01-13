@@ -1,13 +1,5 @@
 <h1>Mushrooms</h1>
 
-<div class="row col-sm-12 input-group" style="margin-bottom: 5px">
-    <p>
-        <button class="btn btn-success" ng-click="findAllMushrooms()">All Mushrooms</button>
-        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
-            <a class="btn btn-success" href="#/mushrooms/newmushroom" role="button">New Mushroom</a>
-        </span>
-    </p>
-</div>
 <form name="form" novalidate class="form-horizontal input-group" ng-submit="form.$valid && findMushroomByName(name)">
     <div class="form-group">
         <div class="col-sm-12 input-group">
@@ -34,7 +26,8 @@
             <span class="input-group-btn">
                 <button ng-disabled="!form3.$valid" class="btn btn-success" type="submit">Show Mushroom Within Date</button>
             </span>
-            <input placeholder="YYYY-MM-DD hh:mm" id="date" type="text" name="date" class="form-control" ng-model="date" required/>
+            <input id="date" type="text" name="date" class="form-control" autocomplete="off"
+                   ng-model="date" moment-picker="date" required/>
         </div>
     </div>
 </form>
@@ -44,12 +37,23 @@
             <span class="input-group-btn">
                 <button ng-disabled="!form4.$valid" class="btn btn-success" type="submit">Show Mushrooms Within Date Interval</button>
             </span>
-            <input placeholder="from YYYY-MM-DD hh:mm" id="fromDate" type="text" name="fromDate" class="form-control" ng-model="fromDate" required/>
+            <input id="fromDate" type="text" name="fromDate" class="form-control" autocomplete="off"
+                   ng-model="fromDate" moment-picker="fromDate" required/>
             <span class="input-group-btn" style="width:0px;"></span> <!-- workaround -->
-            <input placeholder="to YYYY-MM-DD hh:mm" id="toDate" type="text" name="toDate" class="form-control" ng-model="toDate" required/>
+            <input id="toDate" type="text" name="toDate" class="form-control" autocomplete="off"
+                   ng-model="toDate" moment-picker="toDate" required/>
             </div>
         </div>
     </div>
 </form>
+
+<div class="row col-sm-12 input-group">
+    <p>
+        <button class="btn btn-danger" type="button" ng-click='resetForm()'>Reset</button>
+        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
+            <a class="btn btn-success" href="#/mushrooms/newmushroom" role="button">New Mushroom</a>
+        </span>
+    </p>
+</div>
 
 <div ng-include="'resources/partials/list/list_mushroom.html'"></div></h1>

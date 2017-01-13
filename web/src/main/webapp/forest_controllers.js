@@ -34,7 +34,14 @@ portalControllers.controller('ForestsCtrl',
             );
         };
 
-        $scope.findAllForests = function () {
+
+        $scope.resetForm = function(){
+            $scope.name = null;
+            $scope.type = null;
+            $scope.date = null;
+            $scope.fromDate = null;
+            $scope.toDate = null;
+
             loadForests($http,$scope);
         };
 

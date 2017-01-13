@@ -4,7 +4,7 @@
  * Created by Erik Macej on 14.12.16.
  */
 
-var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute', 'portalControllers']);
+var mushroomHunterApp = angular.module('mushroomHunterApp', ['ngRoute', 'portalControllers', 'moment-picker']);
 var portalControllers = angular.module('portalControllers', []);
 var ranks = [ 'BEGINNER', 'SKILLED', 'EXPERT', 'GURU'];
 var roles = [ 'ANONYMOUS', 'ADMIN', 'USER'];
@@ -20,27 +20,27 @@ mushroomHunterApp.service('sharedData', function() {
 
     var setForests = function(o) {
         forests = o;
-    }
+    };
 
     var getForests = function(o) {
         return forests;
-    }
+    };
 
     var setHunters = function(o) {
         hunters = o;
-    }
+    };
 
     var getHunters = function(o) {
         return hunters;
-    }
+    };
 
     var setMushrooms = function(o) {
         mushrooms = o;
-    }
+    };
 
     var getMushrooms = function(o) {
         return mushrooms;
-    }
+    };
     var setVisitId = function(o) {
         visitId = o;
     };
@@ -61,6 +61,18 @@ mushroomHunterApp.service('sharedData', function() {
     };
 
 });
+
+
+
+mushroomHunterApp.config(['momentPickerProvider', function (momentPickerProvider) {
+    momentPickerProvider.options({
+        format: "YYYY-MM-DD",
+        "min-view": "year",
+        "max-view": "month",
+        autoclose: true
+    });
+}]);
+
 
 mushroomHunterApp.config(['$routeProvider',
     function ($routeProvider) {
@@ -242,6 +254,30 @@ mushroomHunterApp.run(function ($rootScope) {
         )
     };
 
+    $rootScope.prepareDate = function(date) {
+        return date._i + " 00:00";
+    };
+
+    $rootScope.setDate = function(date) {
+        return date.substr(0, date.length - 6);
+    };
+
+    $rootScope.preparedFromToDates = function(object) {
+        object.fromDate = $rootScope.prepareDate(object.fromDate);
+        object.toDate = $rootScope.prepareDate(object.toDate);
+    };
+
+    $rootScope.setFromToDates = function(object) {
+        object.fromDate = $rootScope.setDate(object.fromDate);
+        object.toDate = $rootScope.setDate(object.toDate);
+    };
+
+    $rootScope.$on('$locationChangeStart', function() {
+        $rootScope.hideSuccessAlert();
+        $rootScope.hideWarningAlert();
+        $rootScope.hideErrorAlert();
+    });
+
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -389,7 +425,6 @@ function findMushroomByType($type, $scope, $http) {
     var mushroom_list;
 
     $http.get('rest/mushroom/findbytype?type=' + $type).then(function (response) {
-        mushroom_list = response.data;
         mushroom_list = parseDates(response.data);
         if(response.data) {
             $scope.mushrooms = mushroom_list;
@@ -400,11 +435,11 @@ function findMushroomByType($type, $scope, $http) {
     });
 }
 
-function findMushroomByDate($date, $scope, $http) {
+function findMushroomByDate($date, $scope, $http, $rootScope) {
     var mushroom_list;
     var data = {};
 
-    data.date = $date;
+    data.date = $rootScope.prepareDate($date);
     $http({
         method: 'POST',
         url: 'rest/mushroom/findbydate',
@@ -419,12 +454,12 @@ function findMushroomByDate($date, $scope, $http) {
     })
 }
 
-function findMushroomByDateInterval($fromDate, $toDate, $scope, $http) {
+function findMushroomByDateInterval($fromDate, $toDate, $scope, $http, $rootScope) {
     var mushroom_list;
     var data = {};
 
-    data.from = $fromDate.value;
-    data.to = $toDate.value;
+    data.from = $rootScope.prepareDate($fromDate);
+    data.to = $rootScope.prepareDate($toDate);
     $http({
         method: 'POST',
         url: 'rest/mushroom/findbydateinterval',
@@ -548,7 +583,7 @@ function completeVisits($scope){
     console.log("Visit information complete:", $scope.visits);
 }
 
-function findVisitById(visitId, $scope, $http) {
+function findVisitById(visitId, $scope, $http, $rootScope) {
     $http.get('rest/visit/' + visitId).then(function (response) {
         if(response.data) {
             $scope.visits = [response.data];
@@ -603,10 +638,10 @@ function findVisitByMushroom($mushroom, $scope, $http,callFilterVisits = false, 
     })
 };
 
-function findVisitByDate($date, $scope, $http,callFilterVisits = false, $rootScope) {
+function findVisitByDate($date, $scope, $http, $rootScope, callFilterVisits = false) {
     var data = {};
 
-    data.date = $date;
+    data.date = $rootScope.prepareDate($date);
     $http({
         method: 'POST',
         url: 'rest/visit/findbydate',
