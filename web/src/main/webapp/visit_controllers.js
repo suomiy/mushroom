@@ -6,6 +6,9 @@ portalControllers.controller('VisitCtrl',
     function ($scope, $rootScope, $http ) {
 
         loadVisits($http, $scope);
+        loadHunters($http,$scope);
+        loadMushrooms($http,$scope);
+        loadForests($http,$scope);
 
         $scope.deleteVisit = function (visit) {
             console.log("deleting visit with id=" + visit.id );
@@ -41,20 +44,20 @@ portalControllers.controller('VisitCtrl',
             loadVisits($http,$scope);
         };
 
-        $scope.findVisitByMushroom = function (mushroom) {
-            findVisitByMushroom(mushroom, $scope, $http);
+        $scope.findVisitByMushroom = function (mushroomId) {
+            findVisitByMushroom(mushroomId, $scope, $http);
         };
 
         $scope.findVisitByDate = function(date){
             findVisitByDate(date, $scope, $http, $rootScope);
         };
 
-        $scope.findVisitByForest = function(forest){
-            findVisitByForest(forest, $scope, $http);
+        $scope.findVisitByForest = function(forestId){
+            findVisitByForest(forestId, $scope, $http);
         };
 
-        $scope.findVisitByHunter = function(hunter){
-            findVisitByHunter(hunter, $scope, $http);
+        $scope.findVisitByHunter = function(hunterId){
+            findVisitByHunter(hunterId, $scope, $http);
         };
 
     }

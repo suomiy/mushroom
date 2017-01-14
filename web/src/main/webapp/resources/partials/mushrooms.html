@@ -16,7 +16,9 @@
             <span class="input-group-btn">
                 <button ng-disabled="!form2.$valid" class="btn btn-success" type="submit">Show Mushroom With Type</button>
             </span>
-            <input placeholder="type" id="type" type="text" name="type" class="form-control" ng-model="type" required/>
+            <select placeholder="type" id="type" name="type" class="form-control" ng-model="type" required>
+                <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
+            </select>
         </div>
     </div>
 </form>
