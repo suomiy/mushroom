@@ -6,6 +6,9 @@
 portalControllers.controller('YourVisitsCtrl', function ($rootScope,$scope, $http, sharedData) {
     loadVisitsByHunter($http, $scope, $rootScope, false, sharedData);
 
+    loadForests($http,$scope);
+    loadMushrooms($http,$scope);
+
     $scope.deleteVisit = function (visit) {
         console.log("deleting visit with id=" + visit.id );
         $http.delete('rest/visit/' + visit.id ).then(
@@ -40,16 +43,16 @@ portalControllers.controller('YourVisitsCtrl', function ($rootScope,$scope, $htt
         loadVisitsByHunter($http, $scope, $rootScope);
     };
 
-    $scope.findVisitByMushroom = function (mushroom) {
-        findVisitByMushroom(mushroom, $scope, $http,true , $rootScope);
+    $scope.findVisitByMushroom = function (mushroomId) {
+        findVisitByMushroom(mushroomId, $scope, $http,true , $rootScope);
     };
 
     $scope.findVisitByDate = function(date){
         findVisitByDate(date, $scope, $http, $rootScope, true);
     };
 
-    $scope.findVisitByForest = function(forest) {
-        findVisitByForest(forest, $scope,$http ,true , $rootScope);
+    $scope.findVisitByForest = function(forestId) {
+        findVisitByForest(forestId, $scope,$http ,true , $rootScope);
     }
 });
 
@@ -63,7 +66,7 @@ portalControllers.controller('CreateYourVisitCtrl',
             'fromDate': '',
             'toDate': '',
             'hunterId': $rootScope.user.id,
-            'forest_id': ''
+            'forestId': ''
         };
 
         loadVisits($http, $scope, false, sharedData);
@@ -71,6 +74,9 @@ portalControllers.controller('CreateYourVisitCtrl',
         $scope.createVisit = function (visit) {
             console.log("Creating visit." );
             console.log(visit);
+
+            // $scope.visit.fromDate = $rootScope.prepareDate($scope.visit.fromDate);
+            // $scope.visit.toDate = $rootScope.prepareDate($scope.visit.toDate);
 
             $http({
                 method: 'POST',

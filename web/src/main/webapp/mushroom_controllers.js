@@ -6,6 +6,7 @@ portalControllers.controller('MushroomsCtrl',
     function ($scope, $rootScope, $http ) {
 
         loadMushrooms($http, $scope);
+        $scope.types = types;
 
         $scope.deleteMushroom = function (mushroom) {
             console.log("deleting mushroom with id=" + mushroom.id + ' (' + mushroom.name + ')');
