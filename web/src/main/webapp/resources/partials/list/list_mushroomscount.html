@@ -11,8 +11,11 @@
         <td>{{count.mushroom.name}}</td>
         <td>{{count.count}}</td>
         <td>
-            <button ng-show="user.role == 'ADMIN'" ng-click="deleteMushroomsCount(count.id)" class="btn btn-danger">Delete</button>
-            <a class="btn btn-success" ng-show="user.role == 'ADMIN'" href="#/mushroomscount/update/{{count.id}}" role="button">Update</a>
+            <button ng-show="user.role == 'ADMIN'" ng-click="deleteMushroomsCount(count.id)" class="btn btn-danger">
+                Delete
+            </button>
+            <a class="btn btn-success" ng-show="user.role == 'ADMIN'" href="#/mushroomscount/update/{{count.id}}"
+               role="button">Update</a>
         </td>
     </tr>
     </tbody>

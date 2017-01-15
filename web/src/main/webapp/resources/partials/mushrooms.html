@@ -4,7 +4,8 @@
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button ng-disabled="!form.$valid" class="btn btn-success" type="submit">Show Mushroom With Name</button>
+                <button ng-disabled="!form.$valid" class="btn btn-success"
+                        type="submit">Show Mushroom With Name</button>
             </span>
             <input placeholder="name" id="name" type="text" name="name" class="form-control" ng-model="name" required/>
         </div>
@@ -14,7 +15,8 @@
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button ng-disabled="!form2.$valid" class="btn btn-success" type="submit">Show Mushroom With Type</button>
+                <button ng-disabled="!form2.$valid" class="btn btn-success"
+                        type="submit">Show Mushroom With Type</button>
             </span>
             <select placeholder="type" id="type" name="type" class="form-control" ng-model="type" required>
                 <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
@@ -26,14 +28,16 @@
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button ng-disabled="!form3.$valid" class="btn btn-success" type="submit">Show Mushroom Within Date</button>
+                <button ng-disabled="!form3.$valid" class="btn btn-success"
+                        type="submit">Show Mushroom Within Date</button>
             </span>
             <input id="date" type="text" name="date" class="form-control" autocomplete="off"
                    ng-model="date" moment-picker="date" required/>
         </div>
     </div>
 </form>
-<form name="form4" novalidate class="form-horizontal input-group" ng-submit="form4.$valid && findMushroomByDateInterval(fromDate,toDate)">
+<form name="form4" novalidate class="form-horizontal input-group"
+      ng-submit="form4.$valid && findMushroomByDateInterval(fromDate,toDate)">
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-btn">
@@ -44,15 +48,15 @@
             <span class="input-group-btn" style="width:0px;"></span> <!-- workaround -->
             <input id="toDate" type="text" name="toDate" class="form-control" autocomplete="off"
                    ng-model="toDate" moment-picker="toDate" required/>
-            </div>
         </div>
+    </div>
     </div>
 </form>
 
 <div class="row col-sm-12 input-group">
     <p>
         <button class="btn btn-danger" type="button" ng-click='resetForm()'>Reset</button>
-        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')" >
+        <span class="pull-right " ng-show="!(user.role == 'ANONYMOUS')">
             <a class="btn btn-success" href="#/mushrooms/newmushroom" role="button">New Mushroom</a>
         </span>
     </p>

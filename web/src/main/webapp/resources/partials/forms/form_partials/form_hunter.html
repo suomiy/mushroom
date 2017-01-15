@@ -30,7 +30,8 @@
 <div class="form-group" ng-class="{'has-error': form.$submitted && !(form.email.$valid)}">
     <label for="email" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-10">
-        <input autocomplete="off" placeholder="email" id="email" type="text" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" name="email"
+        <input autocomplete="off" placeholder="email" id="email" type="text"
+               ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" name="email"
                class="form-control" ng-model="hunter.email" required/>
         <div ng-show="form.$submitted">
             <p class="help-block" ng-show="form.email.$error.required">Nick is required</p>

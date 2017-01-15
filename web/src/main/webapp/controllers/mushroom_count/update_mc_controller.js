@@ -1,5 +1,5 @@
 portalControllers.controller('UpdateMushroomsCountCtrl',
-    function ($scope, $routeParams, $http, $rootScope, $location, isYourCatch, RestErrorHandlers, CombinedRestService, MushroomCountRestService, Utils) {
+    function ($scope, $routeParams, $rootScope, $location, isYourCatch, RestErrorHandlers, Utils, CombinedRestService, MushroomCountRestService) {
         var mushroomsCountId = $routeParams.mushroomsCountId;
 
         var updateMCCallback = function () {

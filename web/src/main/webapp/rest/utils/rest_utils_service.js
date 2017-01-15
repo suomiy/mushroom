@@ -1,4 +1,5 @@
-mushroomHunterApp.service('RestUtils', function ($rootScope) {
+mushroomHunterApp.service('RestUtils', function ($rootScope, Utils) {
+    var that = this;
 
     this.getData = function (result, index) {
         return index == undefined ? result.data : result[index].data;
@@ -43,4 +44,13 @@ mushroomHunterApp.service('RestUtils', function ($rootScope) {
         object.fromDate = this.convertDateToMoment(object.fromDate);
         object.toDate = this.convertDateToMoment(object.toDate);
     };
+
+    this.setMushroomDatesFromRest = function (mushrooms) {
+        mushrooms.forEach(function (mushroom) {
+            that.setFromToDateFromRest(mushroom);
+            Utils.setShorterFromToDate(mushroom);
+        });
+        return mushrooms;
+    };
+
 });

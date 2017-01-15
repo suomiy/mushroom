@@ -1,24 +1,29 @@
 <h1>Your Visits</h1>
 
-<form name="form2" novalidate class="form-horizontal input-group" ng-submit="form2.$valid && findVisitByForest(forestId)">
+<form name="form2" novalidate class="form-horizontal input-group"
+      ng-submit="form2.$valid && findVisitByForest(forestId)">
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
                 <button ng-disabled="!form2.$valid" class="btn btn-success" type="submit">Show Visits of Forest</button>
             </span>
-            <select placeholder="forestId" id="forestId" name="forestId" class="form-control" ng-model="forestId" required>
+            <select placeholder="forestId" id="forestId" name="forestId" class="form-control" ng-model="forestId"
+                    required>
                 <option ng-repeat="forest in forests" value="{{forest.id}}">{{forest.name}}</option>
             </select>
         </div>
     </div>
 </form>
-<form name="form3" novalidate class="form-horizontal input-group" ng-submit="form3.$valid && findVisitByMushroom(mushroomId)">
+<form name="form3" novalidate class="form-horizontal input-group"
+      ng-submit="form3.$valid && findVisitByMushroom(mushroomId)">
     <div class="form-group">
         <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button ng-disabled="!form3.$valid" class="btn btn-success" type="submit">Show Visits With Mushroom</button>
+                <button ng-disabled="!form3.$valid" class="btn btn-success"
+                        type="submit">Show Visits With Mushroom</button>
             </span>
-            <select placeholder="mushroomId" id="mushroomId" name="mushroomId" class="form-control" ng-model="mushroomId" required>
+            <select placeholder="mushroomId" id="mushroomId" name="mushroomId" class="form-control"
+                    ng-model="mushroomId" required>
                 <option ng-repeat="mushroom in mushrooms" value="{{mushroom.id}}">{{mushroom.name}}</option>
             </select>
         </div>
@@ -26,9 +31,10 @@
 </form>
 <form name="form4" novalidate class="form-horizontal input-group" ng-submit="form4.$valid && findVisitByDate(date)">
     <div class="form-group">
-        <div class="col-sm-12 input-group" >
+        <div class="col-sm-12 input-group">
             <span class="input-group-btn">
-                <button ng-disabled="!form4.$valid" class="btn btn-success" type="submit">Show Visits Within Date</button>
+                <button ng-disabled="!form4.$valid" class="btn btn-success"
+                        type="submit">Show Visits Within Date</button>
             </span>
             <input id="date" type="text" name="date" class="form-control" autocomplete="off"
                    ng-model="date" moment-picker="date" required/>
@@ -39,7 +45,7 @@
 <div class="row col-sm-12 input-group">
     <p>
         <button class="btn btn-danger" type="button" ng-click='resetForm()'>Reset</button>
-        <span class="pull-right" >
+        <span class="pull-right">
             <a class="btn btn-success" href="#/visits/yournewvisit" role="button">New Visit</a>
         </span>
     </p>

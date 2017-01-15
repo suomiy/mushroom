@@ -16,19 +16,37 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
     <script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
-    <link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
+    <link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css"
+          rel="stylesheet">
     <script> var contextPath = "${pageContext.request.contextPath}"</script>
     <script src="${pageContext.request.contextPath}/app.js"></script>
-    <script src="${pageContext.request.contextPath}/hunter_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/forest_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/your_profile_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/login_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/mushroom_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/register_controllers.js"></script>
-
     <script src="${pageContext.request.contextPath}/utils_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/utils/rest_utils_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/utils/rest_error_handlers_service.js"></script>
+
+    <script src="${pageContext.request.contextPath}/auth/login_service.js"></script>
+    <script src="${pageContext.request.contextPath}/auth/authentication_service.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/forest/create_forest_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/forest/update_forest_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/forest/forests_controller.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/hunter/register_hunter_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/hunter/update_hunter_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/hunter/hunters_controller.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/mushroom/create_mushroom_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/mushroom/update_mushroom_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/mushroom/mushrooms_controller.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/update_mc_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/create_mc_controller.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/visit/create_visit_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/visit/update_visit_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/visit/visits_controller.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/login_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/your_profile_controllers.js"></script>
+
 
     <script src="${pageContext.request.contextPath}/rest/visit_rest_service.js"></script>
     <script src="${pageContext.request.contextPath}/rest/hunter_rest_service.js"></script>
@@ -37,11 +55,9 @@
     <script src="${pageContext.request.contextPath}/rest/mushroom_count_rest_service.js"></script>
     <script src="${pageContext.request.contextPath}/rest/combined_rest_service.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/visit/update_visit_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/visit/create_visit_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/visit/visits_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/update_mc_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/create_mc_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/utils/rest_utils_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/utils/rest_error_handlers_service.js"></script>
+
     <style>
         .navbar-nav.navbar-right .btn {
             position: relative;
@@ -57,7 +73,8 @@
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -78,7 +95,8 @@
                 <li ng-hide="user.role == 'ANONYMOUS'"><a href="#/hunters">Hunters</a></li>
                 <li>
                     <a class="btn btn-default" href="#/login" ng-show="!user.isLogged()" role="button">Login</a>
-                    <a class="btn btn-default" href="#/visits" ng-show="user.isLogged()" ng-click="user.logout()" role="button">Logout</a>
+                    <a class="btn btn-default" href="#/visits" ng-show="user.isLogged()" ng-click="user.logout()"
+                       role="button">Logout</a>
                 </li>
                 <li>
                     <a class="btn btn-default" href="#/signup" ng-show="!user.isLogged()" role="button">Sign Up</a>

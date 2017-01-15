@@ -1,5 +1,5 @@
 portalControllers.controller('UpdateVisitCtrl',
-    function ($scope, $routeParams, $http, $rootScope, $location, isYourVisit,RestErrorHandlers,
+    function ($scope, $routeParams, $rootScope, $location, isYourVisit, RestErrorHandlers,
               CombinedRestService, VisitRestService, MushroomCountRestService, RestUtils, Utils) {
         var visitId = $routeParams.visitId;
         if (visitId == null) {
@@ -27,7 +27,7 @@ portalControllers.controller('UpdateVisitCtrl',
             }
             visit.forestId = visit.forest.id;
 
-            VisitRestService.getUpdateVisitPromise(visit).then(function success(response) {
+            VisitRestService.getUpdatePromise(visit).then(function success(response) {
                     $location.path(isYourVisit ? "/yourvisits" : '/visits');
                     Utils.showSuccessOnLocationChange('Visit updated!');
                 },

@@ -1,6 +1,6 @@
 portalControllers.controller('VisitCtrl',
-    function ($scope, $routeParams, $http, $rootScope, $location, isYourVisit, RestErrorHandlers,
-              CombinedRestService, VisitRestService, MushroomCountRestService, RestUtils, Utils) {
+    function ($scope, $routeParams, $rootScope, $location, isYourVisit, RestErrorHandlers, RestUtils, Utils,
+              CombinedRestService, VisitRestService) {
 
         var userId = isYourVisit ? $rootScope.user.id : undefined;
         $scope.resetForm = function () {
@@ -28,15 +28,15 @@ portalControllers.controller('VisitCtrl',
             CombinedRestService.setFindByMushroomsVisits($scope, userId, mushroomId);
         };
 
-        $scope.findVisitByDate = function(date){
+        $scope.findVisitByDate = function (date) {
             CombinedRestService.setFindByDateVisits($scope, userId, date);
         };
 
-        $scope.findVisitByForest = function(forestId){
+        $scope.findVisitByForest = function (forestId) {
             CombinedRestService.setFindByForestVisits($scope, userId, forestId);
         };
 
-        $scope.findVisitByHunter = function(hunterId){
+        $scope.findVisitByHunter = function (hunterId) {
             CombinedRestService.setFindByHunterVisits($scope, userId, hunterId);
         };
     }

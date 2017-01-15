@@ -12,7 +12,7 @@ mushroomHunterApp.service('VisitRestService', function ($http) {
         return $http.delete('rest/visit/' + id);
     };
 
-    this.getUpdateVisitPromise = function (visit) {
+    this.getUpdatePromise = function (visit) {
         return $http({
             method: 'POST',
             url: 'rest/visit/update',
@@ -63,7 +63,7 @@ mushroomHunterApp.service('VisitRestService', function ($http) {
             method: 'POST',
             url: 'rest/visit/findbydate',
             data: {
-                date : date
+                date: date
             }
         });
     };

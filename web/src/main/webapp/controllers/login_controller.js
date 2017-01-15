@@ -1,9 +1,5 @@
-/**
- * Created by suomiy on 16.12.16.
- */
-
 portalControllers.controller('LoginCtrl',
-    function ($scope, $http, $rootScope, $location) {
+    function ($scope, $rootScope, $location, LoginService) {
 
         $scope.login = function (credentials) {
             if (credentials.email) {
@@ -14,9 +10,9 @@ portalControllers.controller('LoginCtrl',
                 $rootScope.user.password = credentials.password;
             }
 
-            $rootScope.login($http, function (result) {
+            LoginService.login(function () {
                 $location.path('/yourvisits');
-            },function (result) {
+            }, function () {
                 $rootScope.errorAlert = 'Incorrect credentials';
             });
         }

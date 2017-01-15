@@ -54,4 +54,22 @@ mushroomHunterApp.service('Utils', function ($timeout, $rootScope) {
         $rootScope.warningAlert = message;
     };
 
+    this.initalizeMessageHandlers = function () {
+        $rootScope.$on('$locationChangeStart', function () {
+            $rootScope.hideSuccessAlert();
+            $rootScope.hideWarningAlert();
+            $rootScope.hideErrorAlert();
+        });
+
+        $rootScope.hideSuccessAlert = function () {
+            $rootScope.successAlert = undefined;
+        };
+        $rootScope.hideWarningAlert = function () {
+            $rootScope.warningAlert = undefined;
+        };
+        $rootScope.hideErrorAlert = function () {
+            $rootScope.errorAlert = undefined;
+        };
+    }
+
 });

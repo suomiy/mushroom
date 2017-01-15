@@ -17,10 +17,13 @@
         <td>{{visit.toDate}}</td>
         <td>{{visit.note}}</td>
         <td>{{visit.totalMushroomCount}}</td>
-        <td><span ng-repeat="mushroomscount in visit.mushroomsCount track by $index">{{mushroomscount.count}} x {{mushroomscount.mushroom.name}}<span ng-hide="{{$last}}">, </span></span></td>
+        <td><span ng-repeat="mushroomscount in visit.mushroomsCount track by $index">{{mushroomscount.count}} x {{mushroomscount.mushroom.name}}<span
+                ng-hide="{{$last}}">, </span></span></td>
         <td>
-            <button ng-show="user.role == 'ADMIN'" ng-click="deleteVisit(visit.id)" type="submit" class="btn btn-danger">Delete</button>
-            <a class="btn btn-success"  ng-show="user.role == 'ADMIN'" href="#/visits/update/{{visit.id}}" role="button">Update</a>
+            <button ng-show="user.role == 'ADMIN'" ng-click="deleteVisit(visit.id)" type="submit"
+                    class="btn btn-danger">Delete
+            </button>
+            <a class="btn btn-success" ng-show="user.role == 'ADMIN'" href="#/visits/update/{{visit.id}}" role="button">Update</a>
         </td>
     </tr>
     </tbody>

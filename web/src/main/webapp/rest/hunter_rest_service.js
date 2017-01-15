@@ -1,5 +1,26 @@
 mushroomHunterApp.service('HunterRestService', function ($http, RestUtils, RestErrorHandlers) {
 
+    this.getRegisterPromise = function (hunter) {
+        return $http({
+            method: 'POST',
+            url: 'rest/hunter/register',
+            data: hunter
+        });
+    };
+
+    this.getDeletePromise = function (id) {
+        return $http.delete('rest/hunter/' + id);
+    };
+
+    this.getUpdatePromise = function (hunter) {
+        return $http({
+            method: 'POST',
+            url: 'rest/hunter/update',
+            data: hunter
+        });
+    };
+
+
     this.getFindAllPromise = function () {
         return $http.get('rest/hunter/findall');
     };
@@ -29,6 +50,13 @@ mushroomHunterApp.service('HunterRestService', function ($http, RestUtils, RestE
         this.getFindByEmailPromise(email).then(function (values) {
                 $scope.hunters = [RestUtils.getData(values)];
             }, RestErrorHandlers.makeRetrieveErrorHandler('hunters')
+        );
+    };
+
+    this.setFindById = function ($scope, id) {
+        this.getFindByIdPromise(id).then(function (values) {
+                $scope.hunter = RestUtils.getData(values);
+            }, RestErrorHandlers.makeRetrieveErrorHandler('hunter')
         );
     };
 });

@@ -1,6 +1,6 @@
 portalControllers.controller('CreateVisitCtrl',
-    function ($scope, $routeParams, $http, $rootScope, $location, isYourVisit, RestErrorHandlers,
-              CombinedRestService, VisitRestService, MushroomCountRestService, RestUtils, Utils) {
+    function ($scope, $routeParams, $rootScope, $location, isYourVisit, RestErrorHandlers, RestUtils, Utils,
+              CombinedRestService, VisitRestService) {
         $scope.visit = {
             'id': null,
             'note': null,

@@ -1,5 +1,5 @@
 portalControllers.controller('CreateMushroomsCountCtrl',
-    function ($scope, $http, $routeParams, $rootScope, isYourCatch, $location, RestErrorHandlers, MushroomRestService, MushroomCountRestService, Utils) {
+    function ($scope, $routeParams, $rootScope, $location, isYourCatch, RestErrorHandlers, Utils, MushroomRestService, MushroomCountRestService) {
         $scope.mushroomCount = {
             visitId: $routeParams.visitId
         };

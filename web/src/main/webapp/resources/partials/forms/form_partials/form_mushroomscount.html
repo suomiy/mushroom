@@ -1,7 +1,8 @@
 <div class="form-group" ng-class="{'has-error': form.$submitted && !(form.quantity.$valid)}">
     <label for="quantity" class="col-sm-2 control-label">Quantity</label>
     <div class="col-sm-10">
-        <input placeholder="quantity" id="quantity" type="number" min="1" name="quantity" class="form-control" ng-model="mushroomCount.count" required/>
+        <input placeholder="quantity" id="quantity" type="number" min="1" name="quantity" class="form-control"
+               ng-model="mushroomCount.count" required/>
         <div ng-show="form.$submitted">
             <p class="help-block" ng-show="form.quantity.$error.required">Quantity is required</p>
         </div>

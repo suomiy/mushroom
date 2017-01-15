@@ -1,20 +1,12 @@
-/**
- * Created by suomiy on 16.12.16.
- */
-
 portalControllers.controller('RegisterCtrl',
-    function ($scope, $http, $rootScope, $location) {
+    function ($scope, $rootScope, $location, HunterRestService, LoginService) {
         $scope.hunter = {};
 
         $scope.register = function (hunter) {
-            $http({
-                method: 'POST',
-                url: 'rest/hunter/register',
-                data: hunter
-            }).then(function success(response) {
+            HunterRestService.getRegisterPromise(hunter).then(function success() {
                     $rootScope.user.email = hunter.email;
                     $rootScope.user.password = hunter.password;
-                    $rootScope.login($http, function () {
+                    LoginService.login(function () {
                         $location.path('/yourvisits');
                     }, function () {
                         $location.path('/login');
@@ -33,5 +25,4 @@ portalControllers.controller('RegisterCtrl',
             )
         }
     }
-)
-;
+);
