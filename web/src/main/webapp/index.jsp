@@ -10,10 +10,13 @@
           crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/css/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+    <script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
+    <link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
     <script> var contextPath = "${pageContext.request.contextPath}"</script>
     <script src="${pageContext.request.contextPath}/app.js"></script>
     <script src="${pageContext.request.contextPath}/hunter_controllers.js"></script>
@@ -22,13 +25,23 @@
     <script src="${pageContext.request.contextPath}/login_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/mushroom_controllers.js"></script>
     <script src="${pageContext.request.contextPath}/register_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/visit_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/mushroomscount_controllers.js"></script>
-    <script src="${pageContext.request.contextPath}/your_visits_controller.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
-    <script src="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
-    <link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css" rel="stylesheet">
+
+    <script src="${pageContext.request.contextPath}/utils_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/utils/rest_utils_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/utils/rest_error_handlers_service.js"></script>
+
+    <script src="${pageContext.request.contextPath}/rest/visit_rest_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/hunter_rest_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/forest_rest_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/mushroom_rest_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/mushroom_count_rest_service.js"></script>
+    <script src="${pageContext.request.contextPath}/rest/combined_rest_service.js"></script>
+
+    <script src="${pageContext.request.contextPath}/controllers/visit/update_visit_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/visit/create_visit_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/visit/visits_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/update_mc_controller.js"></script>
+    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/create_mc_controller.js"></script>
     <style>
         .navbar-nav.navbar-right .btn {
             position: relative;

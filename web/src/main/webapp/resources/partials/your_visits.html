@@ -7,7 +7,7 @@
                 <button ng-disabled="!form2.$valid" class="btn btn-success" type="submit">Show Visits of Forest</button>
             </span>
             <select placeholder="forestId" id="forestId" name="forestId" class="form-control" ng-model="forestId" required>
-                <option ng-repeat="forest in forests" value="{{forest.id}}">{{forest.name}} (id:{{forest.id}})</option>
+                <option ng-repeat="forest in forests" value="{{forest.id}}">{{forest.name}}</option>
             </select>
         </div>
     </div>
@@ -19,7 +19,7 @@
                 <button ng-disabled="!form3.$valid" class="btn btn-success" type="submit">Show Visits With Mushroom</button>
             </span>
             <select placeholder="mushroomId" id="mushroomId" name="mushroomId" class="form-control" ng-model="mushroomId" required>
-                <option ng-repeat="mushroom in mushrooms" value="{{mushroom.id}}">{{mushroom.name}} (id:{{mushroom.id}})</option>
+                <option ng-repeat="mushroom in mushrooms" value="{{mushroom.id}}">{{mushroom.name}}</option>
             </select>
         </div>
     </div>

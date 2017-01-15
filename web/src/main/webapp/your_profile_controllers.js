@@ -14,7 +14,6 @@ portalControllers.controller('YourProfileUpdateCtrl',
         $scope.showRanksAndRoles = false;
 
         $scope.updateHunter = function (hunter) {
-            console.log("Updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
             $http({
                 method: 'POST',
                 url: '/rest/hunter/update',
@@ -30,8 +29,6 @@ portalControllers.controller('YourProfileUpdateCtrl',
                     }
                 },
                 function error(response) {
-                    console.log("Error when updating hunter");
-                    console.log(response);
                     switch (response.status) {
                         case 409:
                             $rootScope.errorAlert = 'Account with this nick or email already exists';

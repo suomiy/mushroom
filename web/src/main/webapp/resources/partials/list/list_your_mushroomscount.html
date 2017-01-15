@@ -2,19 +2,17 @@
     <thead>
     <h3>Catches</h3>
     <tr>
-        <th>Id</th>
-        <th>Quantity</th>
         <th>Mushroom Name</th>
+        <th>Quantity</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="mushroomscount in visits[0].mushroomsCount track by $index">
-        <td>{{mushroomscount.id}}</td>
-        <td>{{mushroomscount.count}}</td>
-        <td>{{mushroomscount.mushroom.name}} (id:{{mushroomscount.mushroomId}})</td>
+    <tr ng-repeat="count in visit.mushroomsCount track by $index">
+        <td>{{count.mushroom.name}}</td>
+        <td>{{count.count}}</td>
         <td>
-            <button ng-click="deleteMushroomsCount(mushroomscount)" class="btn btn-danger">Delete</button>
-            <a class="btn btn-success" href="#/yourmushroomscount/update/{{mushroomscount.id}}" role="button">Update</a>
+            <button ng-click="deleteMushroomsCount(count.id)" class="btn btn-danger">Delete</button>
+            <a class="btn btn-success" href="#/yourmushroomscount/update/{{count.id}}" role="button">Update</a>
         </td>
     </tr>
     </tbody>

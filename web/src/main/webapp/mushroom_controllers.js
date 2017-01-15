@@ -3,21 +3,18 @@
  */
 
 portalControllers.controller('MushroomsCtrl',
-    function ($scope, $rootScope, $http ) {
+    function ($scope, $rootScope, $http, MushroomRestService ) {
 
-        loadMushrooms($http, $scope);
+        MushroomRestService.setAll($scope);
         $scope.types = types;
 
         $scope.deleteMushroom = function (mushroom) {
-            console.log("deleting mushroom with id=" + mushroom.id + ' (' + mushroom.name + ')');
             $http.delete('rest/mushroom/' + mushroom.id ).then(
                 function success(response) {
-                    console.log('deleted mushroom ' + mushroom.id + ' (' + mushroom.name + ')  on server');
                     $rootScope.successAlert = 'Deleted mushroom "' + mushroom.name + '"';
                     loadMushrooms($http, $scope);
                 },
                 function error(response) {
-                    console.log("error when deleting mushroom");
 
                     if(!response) return;
                     switch (response.data.code) {
@@ -78,19 +75,15 @@ portalControllers.controller('CreateMushroomCtrl',
         };
 
         $scope.createMushroom = function (mushroom) {
-            console.log("Creating mushroom with name=" + mushroom.name);
             $http({
                 method: 'POST',
                 url: 'rest/mushroom/create',
                 data: mushroom
             }).then(function success(response) {
-                    console.log('Created mushroom ' + mushroom.name + '  on server');
                     $rootScope.successAlert = 'Created "' + mushroom.name + '"';
                     $location.path("/mushrooms");
                 },
                 function error(response) {
-                    console.log("error when creating mushroom");
-                    console.log(response);
                     switch (response.data.code) {
                         case 409:
                             $rootScope.errorAlert = 'A Mushroom with this name already exists.';
@@ -118,19 +111,15 @@ portalControllers.controller('UpdateMushroomCtrl',
         findMushroomById(mushroomId, $scope, $http);
 
         $scope.updateMushroom = function (mushroom) {
-            console.log("Updating mushroom with id=" + mushroom.id);
             $http({
                 method: 'POST',
                 url: 'rest/mushroom/update',
                 data: mushroom
             }).then(function success(response) {
-                    console.log('Updated mushroom ' + mushroom.id + '  on server');
                     $rootScope.successAlert = 'Updated "' + mushroom.name + '"';
                     $location.path("/mushrooms");
                 },
                 function error(response) {
-                    console.log("error when updating mushroom");
-                    console.log(response);
                     switch (response.data.code) {
                         case 409:
                             $rootScope.errorAlert = 'A Mushroom with this name already exists.';

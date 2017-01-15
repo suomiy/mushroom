@@ -1,52 +1,36 @@
 <div class="form-group" ng-class="{'has-error': form.$submitted && !(form.forest.$valid)}">
-    <label for="forest" class="col-sm-2 control-label">Forest Id</label>
+    <label for="forest" class="col-sm-2 control-label">Forest</label>
     <div class="col-sm-10">
-        <select id="forest" name="forest" class="form-control" ng-model="visit.forestId" required>
-            <option ng-selected="forest.id == visit.forestId" ng-repeat="forest in forests" value="{{forest.id}}">{{forest.name}} (id:{{forest.id}})</option>
-        </select>
+        <select id="forest" name="forest" class="form-control" ng-model="visit.forest"
+                ng-options="forest.name for forest in forests track by forest.id" required></select>
         <div ng-show="form.$submitted">
-            <p class="help-block" ng-show="form.forest.$error.required">Forest Id is required</p>
+            <p class="help-block" ng-show="form.forest.$error.required">Forest is required</p>
         </div>
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group" ng-class="{'has-error': form.$submitted && !(form.fromDate.$valid)}">
     <label for="fromDate" class="col-sm-2 control-label">Visited from</label>
     <div class="col-sm-10">
-        <input placeholder="from YYYY-MM-DD hh:mm" id="fromDate" name="fromDate" type="text" class="form-control" ng-model="visit.fromDate"/>
-        <p class="help-block" ng-show="form.fromDate.$error.required">Date is required</p>
+        <input id="fromDate" type="text" name="fromDate" class="form-control" autocomplete="off"
+               ng-model="visit.fromDate" moment-picker="" required/>
+        <div ng-show="form.$submitted">
+            <p class="help-block" ng-show="form.fromDate.$error.required">From date is required</p>
+        </div>
+
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group" ng-class="{'has-error': form.$submitted && !(form.toDate.$valid)}">
     <label for="toDate" class="col-sm-2 control-label">Visited to</label>
     <div class="col-sm-10">
-        <input placeholder="to YYYY-MM-DD hh:mm" id="toDate" type="text" name="toDate" class="form-control" ng-model="visit.toDate"/>
-        <p class="help-block" ng-show="form.toDate.$error.required">Date is required</p>
+        <input id="toDate" type="text" name="toDate" class="form-control" autocomplete="off"
+               ng-model="visit.toDate"  moment-picker="" required/>
+        <div ng-show="form.$submitted">
+            <p class="help-block" ng-show="form.fromDate.$error.required">To date is required</p>
+        </div>
     </div>
 </div>
-
-<!--<div class="form-group" ng-class="{'has-error': form.$submitted && !(form.fromDate.$valid)}">-->
-    <!--<label for="fromDate" class="col-sm-2 control-label">Visited from</label>-->
-    <!--<div class="col-sm-10">-->
-        <!--<input id="fromDate" type="text" name="fromDate" class="form-control" autocomplete="off"-->
-               <!--ng-model="visit.fromDate" moment-picker="formDate" required/>-->
-        <!--<div ng-show="form.$submitted">-->
-            <!--<p class="help-block" ng-show="form.fromDate.$error.required">Date is required</p>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="form-group" ng-class="{'has-error': form.$submitted && !(form.toDate.$valid)}">-->
-    <!--<label for="toDate" class="col-sm-2 control-label">Visited to</label>-->
-    <!--<div class="col-sm-10">-->
-        <!--<input id="toDate" type="text" name="toDate" class="form-control" autocomplete="off"-->
-                <!--ng-model="visit.toDate" moment-picker="toDate" required/>-->
-        <!--<div ng-show="form.$submitted">-->
-            <!--<p class="help-block" ng-show="form.toDate.$error.required">Date is required</p>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
 
 <div class="form-group">
     <label for="note" class="col-sm-2 control-label">Note</label>

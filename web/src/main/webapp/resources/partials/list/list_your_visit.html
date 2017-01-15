@@ -1,26 +1,22 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Id</th>
-        <th>Hunter</th>
         <th>Forest</th>
         <th>Visited From</th>
         <th>Visited To</th>
         <th>Note</th>
-        <th>Hunted Mushrooms</th>
+        <th>Total Mushrooms Picked</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="visit in visits track by $index">
-        <td>{{visit.id}}</td>
-        <td>{{visit.hunter.nick}} (id:{{visit.hunter.id}})</td>
-        <td>{{visit.forest.name}} (id:{{visit.forest.id}})</td>
+        <td>{{visit.forest.name}}</td>
         <td>{{visit.fromDate}}</td>
         <td>{{visit.toDate}}</td>
         <td>{{visit.note}}</td>
-        <td><span ng-repeat="mushroomscount in visit.mushroomsCount track by $index">{{mushroomscount.count}}x {{mushroomscount.mushroom.name}}<span ng-hide="{{$last}}">, </span></span></td>
+        <td>{{visit.totalMushroomCount}}</td>
         <td>
-            <button ng-click="deleteVisit(visit)" type="submit" class="btn btn-danger">Delete</button>
+            <button ng-click="deleteVisit(visit.id)" type="submit" class="btn btn-danger">Delete</button>
             <a class="btn btn-success" href="#/yourvisits/update/{{visit.id}}" role="button">Update</a>
         </td>
     </tr>

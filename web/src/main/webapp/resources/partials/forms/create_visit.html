@@ -1,12 +1,13 @@
 <form name="form" novalidate class="form-horizontal" ng-submit="form.$valid && createVisit(visit)">
 
     <div class="form-group">
-        <label for="hunterId" class="col-sm-2 control-label">Hunter Id</label>
+        <label for="hunter" class="col-sm-2 control-label">Hunter</label>
         <div class="col-sm-10">
-            <select id="hunterId" name="hunterId" class="form-control" ng-model="visit.hunterId">
-                <option ng-selected="hunter.id == visit.hunterId" ng-repeat="hunter in hunters" value="{{hunter.id}}">{{hunter.nick}} (id:{{hunter.id}})</option>
-            </select>
-            <p class="help-block" ng-show="form.hunterId.$error.required">Hunter Id is required</p>
+            <select id="hunter" name="hunter" class="form-control" ng-model="visit.hunter"
+                    ng-options="hunter.nick for hunter in hunters track by hunter.id" required></select>
+            <div ng-show="form.$submitted">
+                <p class="help-block" ng-show="form.hunter.$error.required">Hunter is required</p>
+            </div>
         </div>
     </div>
 

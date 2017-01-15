@@ -3,12 +3,11 @@
  */
 
 portalControllers.controller('HuntersCtrl',
-    function ($scope, $rootScope, $http, $location) {
+    function ($scope, $rootScope, $http, $location, HunterRestService) {
 
-        loadHunters($http, $scope);
+        HunterRestService.setAll($scope);
 
         $scope.deleteHunter = function (hunter) {
-            console.log("deleting hunter with id=" + hunter.id + ' (' + hunter.email + ')');
             $http.delete('rest/hunter/' + hunter.id).then(
                 function success(response) {
                     if ($rootScope.user.isDeleted(hunter)) {
@@ -17,12 +16,10 @@ portalControllers.controller('HuntersCtrl',
                         $rootScope.successAlert = 'Your Account was deleted. Have a nice day.';
                     } else {
                         $rootScope.successAlert = 'Deleted hunter "' + hunter.email + '"';
-                        loadHunters($http, $scope);
+                        HunterRestService.setAll($scope);
                     }
                 },
                 function error(response) {
-                    console.log("error when deleting hunter");
-                    console.log(response);
                     switch (response.data.code) {
                         default:
                             angular.forEach(response.data.errors, function (value) {
@@ -37,18 +34,12 @@ portalControllers.controller('HuntersCtrl',
 
         $scope.resetForm = function(){
             $scope.email = null;
-
-            loadHunters($http,$scope);
-        };
-
-        $scope.findAllHunters = function () {
-            loadHunters($http, $scope);
+            HunterRestService.setAll($scope);
         };
 
         $scope.findHunterByEmail = function (email) {
-            findHunterByEmail(email, $scope, $http);
+            HunterRestService.setFindByEmail( $scope, email);
         };
-
     });
 
 portalControllers.controller('HunterUpdateCtrl',
@@ -62,7 +53,6 @@ portalControllers.controller('HunterUpdateCtrl',
         findHunterById(hunterId, $scope, $http);
 
         $scope.updateHunter = function (hunter) {
-            console.log("updating hunter with id=" + hunter.id + ' (' + hunter.email + ')');
             $http({
                 method: 'POST',
                 url: 'rest/hunter/update',
@@ -78,8 +68,6 @@ portalControllers.controller('HunterUpdateCtrl',
                     }
                 },
                 function error(response) {
-                    console.log("error when updating hunter");
-                    console.log(response);
                     switch (response.status) {
                         case 409:
                             $rootScope.errorAlert = 'Account with this nick or email already exists';
