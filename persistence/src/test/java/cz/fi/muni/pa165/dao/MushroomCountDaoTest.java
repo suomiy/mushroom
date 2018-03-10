@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,8 +116,10 @@ public class MushroomCountDaoTest extends AbstractTestNGSpringContextTests {
 
     private void prepareVisit() {
         visit = new Visit();
-        visit.setFromDate(new Date(1, 1, 1994));
-        visit.setToDate(new Date(1, 1, 1994));
+        Calendar cal = Calendar.getInstance();
+        cal.set(1994,1, 1);
+        visit.setFromDate(cal.getTime());
+        visit.setToDate(cal.getTime());
         visit.setForest(forest);
         visit.setHunter(hunter);
         visit.addMushroomCount(mushroomCount1);

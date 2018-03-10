@@ -8,11 +8,12 @@ function initializeHttpInterceptors($httpProvider) {
                         config.headers['Authorization'] = 'Bearer ' + token;
                     }
                 }
-                // if interceptors caused the request to be fired again
-                if (typeof config.alreadySetContextPath == 'undefined') {
-                    config.alreadySetContextPath = true;
-                    config.url = contextPath + "/" + config.url;
-                }
+                // // use when custom path is selected in pom.xml
+                // // if interceptors caused the request to be fired again
+                // if (typeof config.alreadySetContextPath == 'undefined') {
+                //     config.alreadySetContextPath = true;
+                //     config.url = contextPath + "/" + config.url;
+                // }
 
                 return config;
             }

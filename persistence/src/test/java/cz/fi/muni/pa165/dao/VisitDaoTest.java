@@ -100,7 +100,7 @@ public class VisitDaoTest extends AbstractTestNGSpringContextTests {
         visit.setHunter(hunter);
         visit.setForest(forest);
         visit.addMushroomCount(mc);
-        
+
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
         from.set(2016, Calendar.FEBRUARY, 1);

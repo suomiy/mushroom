@@ -5,7 +5,7 @@ portalControllers.controller('HuntersCtrl',
 
         $scope.deleteHunter = function (hunter) {
             HunterRestService.getDeletePromise(hunter.id).then(
-                function success(response) {
+                function success() {
                     if ($rootScope.user.isDeleted(hunter)) {
                         $rootScope.user.logout();
                         $location.path('/login');

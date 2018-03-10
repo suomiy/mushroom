@@ -8,7 +8,7 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.min.js"></script>
@@ -19,44 +19,44 @@
     <link href="//cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css"
           rel="stylesheet">
     <script> var contextPath = "${pageContext.request.contextPath}"</script>
-    <script src="${pageContext.request.contextPath}/app.js"></script>
-    <script src="${pageContext.request.contextPath}/utils_service.js"></script>
+    <script src="/app.js"></script>
+    <script src="/utils_service.js"></script>
 
-    <script src="${pageContext.request.contextPath}/auth/login_service.js"></script>
-    <script src="${pageContext.request.contextPath}/auth/authentication_service.js"></script>
+    <script src="/auth/login_service.js"></script>
+    <script src="/auth/authentication_service.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/forest/create_forest_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/forest/update_forest_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/forest/forests_controller.js"></script>
+    <script src="/controllers/forest/create_forest_controller.js"></script>
+    <script src="/controllers/forest/update_forest_controller.js"></script>
+    <script src="/controllers/forest/forests_controller.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/hunter/register_hunter_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/hunter/update_hunter_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/hunter/hunters_controller.js"></script>
+    <script src="/controllers/hunter/register_hunter_controller.js"></script>
+    <script src="/controllers/hunter/update_hunter_controller.js"></script>
+    <script src="/controllers/hunter/hunters_controller.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/mushroom/create_mushroom_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/mushroom/update_mushroom_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/mushroom/mushrooms_controller.js"></script>
+    <script src="/controllers/mushroom/create_mushroom_controller.js"></script>
+    <script src="/controllers/mushroom/update_mushroom_controller.js"></script>
+    <script src="/controllers/mushroom/mushrooms_controller.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/update_mc_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/mushroom_count/create_mc_controller.js"></script>
+    <script src="/controllers/mushroom_count/update_mc_controller.js"></script>
+    <script src="/controllers/mushroom_count/create_mc_controller.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/visit/create_visit_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/visit/update_visit_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/visit/visits_controller.js"></script>
+    <script src="/controllers/visit/create_visit_controller.js"></script>
+    <script src="/controllers/visit/update_visit_controller.js"></script>
+    <script src="/controllers/visit/visits_controller.js"></script>
 
-    <script src="${pageContext.request.contextPath}/controllers/login_controller.js"></script>
-    <script src="${pageContext.request.contextPath}/controllers/your_profile_controllers.js"></script>
+    <script src="/controllers/login_controller.js"></script>
+    <script src="/controllers/your_profile_controllers.js"></script>
 
 
-    <script src="${pageContext.request.contextPath}/rest/visit_rest_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/hunter_rest_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/forest_rest_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/mushroom_rest_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/mushroom_count_rest_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/combined_rest_service.js"></script>
+    <script src="/rest/visit_rest_service.js"></script>
+    <script src="/rest/hunter_rest_service.js"></script>
+    <script src="/rest/forest_rest_service.js"></script>
+    <script src="/rest/mushroom_rest_service.js"></script>
+    <script src="/rest/mushroom_count_rest_service.js"></script>
+    <script src="/rest/combined_rest_service.js"></script>
 
-    <script src="${pageContext.request.contextPath}/rest/utils/rest_utils_service.js"></script>
-    <script src="${pageContext.request.contextPath}/rest/utils/rest_error_handlers_service.js"></script>
+    <script src="/rest/utils/rest_utils_service.js"></script>
+    <script src="/rest/utils/rest_error_handlers_service.js"></script>
 
     <style>
         .navbar-nav.navbar-right .btn {
@@ -80,7 +80,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${pageContext.request.contextPath}/">Mushroom hunter portal</a>
+                <a class="navbar-brand" href="/">Mushroom hunter portal</a>
             </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
